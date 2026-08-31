@@ -1,0 +1,56 @@
+package br.com.vitrinebauru.plataforma.mensageria;
+
+import br.com.vitrinebauru.contratos.Evento;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.stereotype.Component;
+
+/**
+ * Converte evento em JSON e de volta.
+ *
+ * <p>Usa um {@code ObjectMapper} proprio, e nao o do Spring, por um motivo de
+ * compatibilidade: quem configura o mapeador da aplicacao mexe no formato da
+ * API REST, e mexer no formato da API nao pode reescrever o formato das
+ * mensagens que ja estao gravadas no outbox esperando para sair.
+ *
+ * <p>{@code FAIL_ON_UNKNOWN_PROPERTIES} desligado de proposito: durante uma
+ * implantacao os servicos ficam alguns minutos em versoes diferentes, e o
+ * servico antigo precisa conseguir ler um evento que ganhou campo novo. Campo
+ * novo pode ser ignorado; campo removido, nao, e por isso a regra do projeto e
+ * so acrescentar campo em evento.
+ */
+@Component
+public class MapeadorDeEventos {
+
+    private final ObjectMapper mapeador;
+
+    public MapeadorDeEventos() {
+        this.mapeador = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
+    public String paraJson(Evento evento) {
+        try {
+            return mapeador.writeValueAsString(evento);
+        } catch (Exception e) {
+            throw new EventoIlegivel("Nao foi possivel serializar o evento " + evento.tipoDoEvento(), e);
+        }
+    }
+
+    public Evento deJson(String json) {
+        try {
+            return mapeador.readValue(json, Evento.class);
+        } catch (Exception e) {
+            throw new EventoIlegivel("Nao foi possivel ler o evento recebido", e);
+        }
+    }
+
+    public static class EventoIlegivel extends RuntimeException {
+        public EventoIlegivel(String mensagem, Throwable causa) {
+            super(mensagem, causa);
+        }
+    }
+}
