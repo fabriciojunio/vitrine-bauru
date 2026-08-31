@@ -36,7 +36,7 @@ export function Foto({
   if (!url) {
     return (
       <div
-        className={`${alturaSemFoto} sem-foto w-full border-b-2 border-tinta`}
+        className={`${alturaSemFoto} sem-foto w-full border-b border-borda`}
         style={{ backgroundColor: corDaCategoria(categoria) }}
         role="img"
         aria-label={`${nome}: foto ainda não enviada`}
@@ -52,7 +52,7 @@ export function Foto({
       alt={nome}
       loading="lazy"
       decoding="async"
-      className={`${proporcao} w-full object-cover border-b-2 border-tinta bg-faixa`}
+      className={`${proporcao} w-full object-cover border-b border-borda bg-faixa`}
     />
   );
 }

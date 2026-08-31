@@ -82,7 +82,7 @@ export function Indicadores() {
                       é uma barra, e uma dependência a mais pesaria mais que o
                       problema que resolve. */}
                   <span
-                    className="h-4 bg-sinal border-2 border-tinta"
+                    className="h-4 bg-sinal border border-borda-forte"
                     style={{ width: `${Math.round((quantidade / maiorBairro) * 70)}%` }}
                     aria-hidden="true"
                   />

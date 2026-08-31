@@ -35,9 +35,9 @@ export function Cabecalho() {
   };
 
   return (
-    <header className="bg-selo text-fundo border-b-4 border-tinta relative z-30">
+    <header className="bg-selo text-fundo border-b-2 border-borda-forte relative z-30">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2.5 shrink-0 text-sinal">
+        <Link to="/" className="flex items-center gap-2.5 shrink-0 text-sinal py-2">
           <Arco />
           <span className="font-display text-xl sm:text-2xl font-bold leading-none text-chapa">
             Vitrine Bauru
@@ -98,10 +98,13 @@ export function Cabecalho() {
 
 export function Rodape() {
   return (
-    <footer className="mt-16 bg-selo-escuro text-fundo border-t-4 border-tinta">
+    <footer className="mt-16 bg-selo-escuro text-fundo border-t-2 border-borda-forte">
       <div className="arcada-faixa h-14" aria-hidden="true" />
 
-      <div className="max-w-6xl mx-auto px-4 pb-10 grid gap-8 sm:grid-cols-3 text-sm">
+      {/* O espaço de cima é o dobro do de baixo de propósito: as colunas da
+          arcada descem até a borda da faixa, e sem folga o texto encosta
+          nelas. */}
+      <div className="max-w-6xl mx-auto px-4 pt-10 pb-10 grid gap-8 sm:grid-cols-3 text-sm">
         <div>
           <div className="flex items-center gap-2 text-sinal mb-2">
             <Arco />
@@ -132,24 +135,24 @@ export function Rodape() {
           <p className="font-semibold text-sinal uppercase tracking-wide text-xs mb-2">
             A plataforma
           </p>
-          <ul className="space-y-1.5 text-fundo/90">
+          <ul className="text-fundo/90">
             <li>
-              <Link to="/privacidade" className="underline underline-offset-2 hover:text-sinal">
+              <Link to="/privacidade" className="link-do-rodape">
                 Privacidade e seus dados
               </Link>
             </li>
             <li>
-              <Link to="/cadastrar" className="underline underline-offset-2 hover:text-sinal">
+              <Link to="/cadastrar" className="link-do-rodape">
                 Cadastrar meu negócio
               </Link>
             </li>
             <li>
-              <Link to="/lojas" className="underline underline-offset-2 hover:text-sinal">
+              <Link to="/lojas" className="link-do-rodape">
                 Todas as lojas
               </Link>
             </li>
             <li>
-              <Link to="/sobre" className="underline underline-offset-2 hover:text-sinal">
+              <Link to="/sobre" className="link-do-rodape">
                 Sobre o projeto
               </Link>
             </li>
@@ -158,7 +161,7 @@ export function Rodape() {
       </div>
 
       <div className="border-t border-fundo/20">
-        <p className="max-w-6xl mx-auto text-center text-xs text-fundo/70 py-4 px-4">
+        <p className="max-w-6xl mx-auto text-center text-xs text-fundo/70 py-5 px-4">
           Projeto de extensão universitária do Unisagrado em parceria com a SEDECON. A negociação
           e a entrega acontecem direto entre consumidor e empreendedor.
         </p>
@@ -180,7 +183,7 @@ export function FaixaDeDemonstracao({ ativa }: { ativa: boolean }) {
   }
 
   return (
-    <div className="bg-sinal border-b-2 border-tinta px-4 py-1.5 text-center text-sm font-semibold">
+    <div className="bg-sinal border-b border-borda px-4 py-1.5 text-center text-sm font-semibold">
       Ambiente de demonstração: as lojas, os produtos e os telefones desta página são fictícios.
     </div>
   );

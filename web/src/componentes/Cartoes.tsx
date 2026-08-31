@@ -39,11 +39,11 @@ export function CartaoDeProduto({ produto }: { produto: ProdutoNaVitrine }) {
           {produto.precoFormatado}
         </p>
 
-        <div className="pt-2.5 mt-1 border-t-2 border-dashed border-linha flex items-baseline justify-between gap-2">
+        <div className="pt-2.5 mt-1 border-t border-dashed border-linha flex items-baseline justify-between gap-2">
           {produto.lojaApelido ? (
             <Link
               to={`/loja/${produto.lojaApelido}`}
-              className="text-sm font-semibold underline underline-offset-2 truncate"
+              className="text-sm font-semibold underline underline-offset-2 truncate py-2"
             >
               {produto.lojaNome}
             </Link>

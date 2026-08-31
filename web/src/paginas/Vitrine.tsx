@@ -94,7 +94,7 @@ export function Vitrine() {
         baixo. É o que faz a página ler como serviço da prefeitura no primeiro
         segundo, antes de qualquer texto.
       */}
-      <section className="bg-selo text-chapa border-b-4 border-tinta relative overflow-hidden">
+      <section className="bg-selo text-chapa border-b-2 border-borda-forte relative overflow-hidden">
         <div className="arcada absolute inset-x-0 bottom-0 h-28" aria-hidden="true" />
 
         <div className="max-w-6xl mx-auto px-4 py-10 sm:py-14 relative">
@@ -136,7 +136,7 @@ export function Vitrine() {
         {/* Os números ficam numa faixa própria, embaixo da arcada. Antes eles
             passavam por baixo dos arcos e não dava para ler nenhum dos dois. */}
         {resumo && (
-          <div className="relative bg-selo-escuro border-t-2 border-tinta">
+          <div className="relative bg-selo-escuro border-t border-borda">
             <div className="max-w-6xl mx-auto px-4 py-4">
               <dl className="flex flex-wrap gap-x-12 gap-y-3">
                 <Numero rotulo="Lojas no ar" valor={resumo.lojas} />
@@ -152,12 +152,14 @@ export function Vitrine() {
           um ponto de partida, e não de um campo de busca vazio. */}
       {resumo && resumo.categorias.length > 0 && (
         <nav
-          className="bg-faixa border-b-2 border-linha"
+          className="bg-faixa border-b border-linha"
           aria-label="Categorias em destaque"
         >
           <div className="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto sm:flex-wrap sm:overflow-x-visible">
             <button
-              className={`selo-categoria py-1.5 ${categoria === '' ? 'bg-sinal' : ''}`}
+              className={`selo-categoria inline-flex items-center min-h-11 ${
+                categoria === '' ? 'bg-sinal' : ''
+              }`}
               onClick={() => trocarFiltro('categoria', '')}
             >
               Tudo
@@ -165,7 +167,9 @@ export function Vitrine() {
             {resumo.categorias.map((nome) => (
               <button
                 key={nome}
-                className={`selo-categoria py-1.5 ${categoria === nome ? 'bg-sinal' : ''}`}
+                className={`selo-categoria inline-flex items-center min-h-11 ${
+                  categoria === nome ? 'bg-sinal' : ''
+                }`}
                 onClick={() => trocarFiltro('categoria', nome)}
               >
                 {nome}
