@@ -1,0 +1,277 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/archivo';
+
+/*
+ * Identidade da Vitrine Bauru
+ * ---------------------------
+ * A referência é o Calçadão da Batista de Carvalho: sete quadras fechadas ao
+ * trânsito em 1992, cobertas por setenta arcos de ferro. É o lugar onde o
+ * comércio de rua de Bauru acontece há décadas, e o arco virou o desenho que
+ * se repete na interface, no lugar do cartão retangular de sempre.
+ *
+ * O verde vem da identidade institucional da SEDECON, escurecido até passar em
+ * contraste AA sobre papel. O terracota e o mostarda vêm de feira: caixote,
+ * toldo, papel pardo. Nada de gradiente roxo-azul, vidro fosco ou sombra
+ * flutuante, que é o visual padrão de ferramenta gerada por IA e não tem nada
+ * a ver com quem vende bolo de pote na Vila Cardia.
+ */
+@theme {
+  --color-papel: #f6f1e7;
+  --color-papel-fundo: #ece2d0;
+  --color-papel-claro: #fdfbf6;
+
+  --color-tinta: #1b1a17;
+  --color-tinta-suave: #4f4a42;
+  --color-concreto: #736d63;
+  --color-linha: #d9cdb6;
+
+  /* Verde institucional da SEDECON, escurecido para contraste AA no papel. */
+  --color-selo: #00693c;
+  --color-selo-claro: #e2efe6;
+
+  /* Terracota de caixote de feira: é a cor de toda ação principal. */
+  --color-terracota: #b4471f;
+  --color-terracota-claro: #f8e6de;
+
+  --color-mostarda: #d99a2b;
+  --color-mostarda-claro: #fbf0d9;
+
+  --color-alerta: #9a2b18;
+
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-corpo: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Cantos quase retos: arredondamento total em tudo é a cara de template. */
+  --radius-caixa: 2px;
+  --radius-arco: 999px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-corpo);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+
+    /*
+     * Textura de papel em SVG embutido: alguns bytes, nenhuma requisição, e
+     * tira o aspecto de fundo chapado sem pesar no celular.
+     */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23r)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+    font-variation-settings: 'SOFT' 20, 'WONK' 1;
+  }
+
+  /* O foco visível não é enfeite: parte do público navega por teclado. */
+  :focus-visible {
+    outline: 3px solid var(--color-terracota);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-mostarda);
+    color: var(--color-tinta);
+  }
+}
+
+@layer components {
+  /*
+   * O arco do calçadão. Aparece no topo da foto do produto e nos títulos de
+   * seção. É o único elemento decorativo do sistema, e é o que faz a página
+   * não parecer um catálogo genérico.
+   */
+  .arco {
+    border-radius: var(--radius-arco) var(--radius-arco) var(--radius-caixa) var(--radius-caixa);
+  }
+
+  .quadro {
+    border: 2px solid var(--color-tinta);
+    background: var(--color-papel-claro);
+    border-radius: var(--radius-caixa);
+  }
+
+  /*
+   * Sombra sólida deslocada, como carimbo de tinta fora de registro. Substitui
+   * a sombra difusa, que é o que dá aspecto de interface flutuante.
+   */
+  .carimbo {
+    box-shadow: 4px 4px 0 var(--color-tinta);
+  }
+
+  .carimbo-leve {
+    box-shadow: 3px 3px 0 var(--color-linha);
+  }
+
+  .botao {
+    font-family: var(--font-corpo);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--radius-caixa);
+    padding: 0.7rem 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition:
+      transform 90ms ease,
+      box-shadow 90ms ease;
+    box-shadow: 3px 3px 0 var(--color-tinta);
+    /* Alvo de toque de 44px: parte do público usa celular antigo. */
+    min-height: 44px;
+  }
+
+  .botao:hover:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--color-tinta);
+  }
+
+  .botao:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--color-tinta);
+  }
+
+  .botao:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .botao-principal {
+    background: var(--color-terracota);
+    color: #fff;
+  }
+
+  .botao-selo {
+    background: var(--color-selo);
+    color: #fff;
+  }
+
+  .botao-neutro {
+    background: var(--color-papel-claro);
+    color: var(--color-tinta);
+  }
+
+  .botao-texto {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--color-tinta);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .campo {
+    width: 100%;
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--radius-caixa);
+    background: var(--color-papel-claro);
+    padding: 0.7rem 0.85rem;
+    font-family: var(--font-corpo);
+    font-size: 1rem;
+    min-height: 46px;
+  }
+
+  .campo:focus {
+    background: #fff;
+  }
+
+  .campo[aria-invalid='true'] {
+    border-color: var(--color-alerta);
+    background: #fdf3f1;
+  }
+
+  .etiqueta {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  /* Preço com cara de etiqueta de banca, e não de e-commerce. */
+  .preco {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    background: var(--color-mostarda-claro);
+    border: 2px solid var(--color-tinta);
+    padding: 0.1rem 0.5rem;
+    display: inline-block;
+    border-radius: var(--radius-caixa);
+  }
+
+  .selo-categoria {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 1.5px solid var(--color-tinta);
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-caixa);
+    background: var(--color-papel-fundo);
+    white-space: nowrap;
+  }
+
+  .aviso {
+    border: 2px solid var(--color-tinta);
+    border-left-width: 8px;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-caixa);
+  }
+
+  .aviso-erro {
+    background: #fdf3f1;
+    border-left-color: var(--color-alerta);
+  }
+
+  .aviso-certo {
+    background: var(--color-selo-claro);
+    border-left-color: var(--color-selo);
+  }
+
+  .aviso-atencao {
+    background: var(--color-mostarda-claro);
+    border-left-color: var(--color-mostarda);
+  }
+
+  /* Faixa de arcos: a assinatura visual, usada no topo e no rodapé. */
+  .faixa-de-arcos {
+    height: 14px;
+    background-image: radial-gradient(
+      circle at 10px -2px,
+      transparent 10px,
+      var(--color-tinta) 10px,
+      var(--color-tinta) 12px,
+      transparent 12px
+    );
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

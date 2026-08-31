@@ -1,0 +1,29 @@
+# A vitrine existe para ser encontrada: buscador entra.
+User-agent: *
+Allow: /
+Disallow: /painel
+Disallow: /sedecon
+Disallow: /privacidade
+
+# Coletores de treino de modelo de linguagem, não. O conteúdo aqui é o
+# trabalho de pequenos empreendedores, e não material de treinamento.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
