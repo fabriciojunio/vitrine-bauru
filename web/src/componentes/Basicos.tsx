@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
 
 /**
@@ -194,11 +195,38 @@ export function Aviso({ tipo = 'atencao', titulo, children, className = '' }: Pr
   );
 }
 
+/**
+ * A espera, com explicação quando ela passa do normal.
+ *
+ * A API roda em camada gratuita e hiberna depois de quinze minutos sem acesso.
+ * A primeira visita do dia espera de trinta a noventa segundos até o serviço
+ * subir de novo, e nesse tempo uma linha escrita "Carregando" faz a pessoa
+ * concluir que quebrou. Passados quatro segundos, a tela passa a contar o que
+ * está acontecendo.
+ *
+ * O aviso não aparece de cara de propósito: na maioria das visitas a resposta
+ * chega antes disso, e explicar hibernação para quem esperou meio segundo só
+ * cria dúvida onde não havia.
+ */
 export function Carregando({ texto = 'Carregando…' }: { texto?: string }) {
+  const [demorando, definirDemorando] = useState(false);
+
+  useEffect(() => {
+    const relogio = setTimeout(() => definirDemorando(true), 4000);
+    return () => clearTimeout(relogio);
+  }, []);
+
   return (
-    <p className="text-concreto py-8 text-center" role="status">
-      {texto}
-    </p>
+    <div className="py-8 text-center" role="status" aria-live="polite">
+      <p className="text-concreto">{texto}</p>
+      {demorando && (
+        <p className="text-sm text-tinta-suave mt-3 max-w-md mx-auto leading-relaxed">
+          O servidor hiberna depois de quinze minutos sem acesso, e a primeira
+          visita espera até um minuto enquanto ele acorda. Já está a caminho, não
+          precisa recarregar.
+        </p>
+      )}
+    </div>
   );
 }
 

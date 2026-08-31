@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Arco, AreaDeTexto, Aviso, Botao, Campo, Carregando, Selecao, TituloDeSecao } from './Basicos';
 
@@ -171,5 +171,31 @@ describe('elementos de identidade', () => {
     render(<Carregando texto="Procurando…" />);
 
     expect(screen.getByRole('status')).toHaveTextContent('Procurando…');
+  });
+
+  it('não explica a hibernação nos primeiros segundos', () => {
+    // Na maioria das visitas a resposta chega rápido, e falar de hibernação
+    // para quem esperou meio segundo cria dúvida onde não havia.
+    vi.useFakeTimers();
+    render(<Carregando texto="Procurando…" />);
+
+    expect(screen.queryByText(/hiberna/)).toBeNull();
+    vi.useRealTimers();
+  });
+
+  it('explica a espera quando ela passa de quatro segundos', async () => {
+    // Aconteceu em produção: a API em camada gratuita hiberna e a primeira
+    // visita esperou 91 segundos. A tela mostrava só "Procurando…", e quem
+    // abriu concluiu que estava quebrado.
+    vi.useFakeTimers();
+    render(<Carregando texto="Procurando…" />);
+
+    await act(async () => {
+      vi.advanceTimersByTime(4100);
+    });
+
+    expect(screen.getByText(/O servidor hiberna/)).toBeInTheDocument();
+    expect(screen.getByText(/não precisa recarregar/)).toBeInTheDocument();
+    vi.useRealTimers();
   });
 });
