@@ -73,8 +73,8 @@ export function Entrar() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 grid gap-8 md:grid-cols-2 items-start">
-      <div className="quadro carimbo p-6">
-        <Arco className="text-terracota mb-2" />
+      <div className="quadro placa p-6">
+        <Arco className="text-selo mb-2" />
         <h1 className="text-3xl">Entrar na sua loja</h1>
         <p className="text-tinta-suave mt-1">
           É a mesma conta que você criou no cadastro do seu negócio.
@@ -121,7 +121,7 @@ export function Entrar() {
       </div>
 
       {demonstracaoAtiva ? (
-        <div className="quadro carimbo p-6 bg-mostarda-claro">
+        <div className="quadro placa p-6 bg-sinal-claro">
           <h2 className="text-2xl">Conhecer sem cadastro</h2>
           <p className="text-tinta-suave mt-1">
             Este é um ambiente de demonstração, com lojas fictícias. Entre pelos dois lados para
@@ -160,7 +160,7 @@ export function Entrar() {
           </p>
         </div>
       ) : (
-        <div className="quadro p-6 bg-papel-fundo">
+        <div className="quadro p-6 bg-faixa">
           <h2 className="text-2xl">Primeira vez por aqui?</h2>
           <p className="text-tinta-suave mt-2">
             Se você tem um negócio em Bauru, pode cadastrar de graça. A SEDECON confere os dados
@@ -175,7 +175,7 @@ export function Entrar() {
       {/* Fecha a página com o que resolve o problema de quem não conseguiu
           entrar. Sem isto sobra um vazio embaixo dos dois cartões, e quem
           travou no login fica sem saída. */}
-      <div className="md:col-span-2 quadro carimbo-leve p-6 bg-selo-claro">
+      <div className="md:col-span-2 quadro placa-leve p-6 bg-selo-claro">
         <h2 className="text-xl">Não consegue entrar?</h2>
         <div className="grid gap-6 sm:grid-cols-3 mt-3 text-sm text-tinta-suave">
           <div>

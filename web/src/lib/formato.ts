@@ -152,21 +152,23 @@ export function tempoDesde(iso: string | null | undefined): string {
  * cuidada até a pessoa mandar a foto de verdade.
  */
 export function corDaCategoria(categoria: string | null | undefined): string {
+  // Tintas chapadas, no registro da placa esmaltada: cor cheia e sem
+  // degradê, clara o bastante para as iniciais escuras aparecerem por cima.
   const cores: Record<string, string> = {
-    Alimentação: '#f2d9a8',
-    Artesanato: '#e6c9b8',
-    'Beleza e bem-estar': '#e8cfd8',
-    'Casa e construção': '#d8d3c2',
-    'Moda e acessórios': '#d9d6e4',
-    'Serviços gerais': '#cfd9d3',
-    'Assistência técnica': '#cdd6de',
-    'Educação e aulas': '#dbe0c8',
-    Pet: '#e4d5c0',
-    Saúde: '#cfdcd8',
-    'Eventos e festas': '#f0d6c4',
-    Automotivo: '#d2d2cc',
+    Alimentação: '#e3cf87',
+    Artesanato: '#d9b48f',
+    'Beleza e bem-estar': '#d9aab8',
+    'Casa e construção': '#c2c8cc',
+    'Moda e acessórios': '#b9bcd6',
+    'Serviços gerais': '#aec4bb',
+    'Assistência técnica': '#a9bccd',
+    'Educação e aulas': '#c3ce9e',
+    Pet: '#d5bd9a',
+    Saúde: '#a8c8c2',
+    'Eventos e festas': '#e0b79c',
+    Automotivo: '#b8bcb8',
   };
-  return cores[categoria ?? ''] ?? '#e3dccd';
+  return cores[categoria ?? ''] ?? '#c8cec8';
 }
 
 /** Iniciais do nome, para a foto que falta ter alguma informação dentro. */

@@ -139,7 +139,7 @@ function Linha({ titulo, valor }: { titulo: string; valor: string }) {
 
 function Numero({ titulo, valor }: { titulo: string; valor: number }) {
   return (
-    <div className="quadro carimbo-leve p-4">
+    <div className="quadro placa-leve p-4">
       <p className="font-display text-4xl font-bold">{valor}</p>
       <p className="text-sm text-tinta-suave mt-1">{titulo}</p>
     </div>

@@ -134,7 +134,7 @@ export function Cadastrar() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <Arco className="text-terracota mb-2" />
+      <Arco className="text-selo mb-2" />
       <h1 className="text-3xl sm:text-4xl">Cadastre seu negócio</h1>
       <p className="text-tinta-suave mt-2">
         É de graça. A SEDECON confere os dados e sua loja entra na vitrine. Você recebe a resposta

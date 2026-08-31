@@ -125,7 +125,7 @@ export function MeusProdutos() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {produtos.map((produto) => (
-          <article key={produto.id} className="quadro carimbo-leve overflow-hidden flex flex-col">
+          <article key={produto.id} className="quadro overflow-hidden flex flex-col">
             <Foto url={produto.imagemUrl} nome={produto.nome} />
 
             <div className="p-3 flex flex-col gap-2 grow">

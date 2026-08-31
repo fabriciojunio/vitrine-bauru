@@ -6,57 +6,79 @@ conjunto. Tudo que decide cor, fonte e forma está em um arquivo só:
 
 ## De onde vem o visual
 
-São duas referências, nesta ordem.
+A referência é a **placa esmaltada de rua**: chapa branca com um filete fino
+desenhado alguns milímetros para dentro da borda, cor chapada sem degradê, canto
+reto e letra de serifa grossa. É o material das placas municipais, das fachadas
+pintadas à mão do comércio antigo e da estação ferroviária, que é o que fez
+Bauru existir como cidade. Nada aqui imita papel: é chapa pintada.
 
-A primeira é institucional. A plataforma leva o nome da SEDECON e pede o CPF de
-gente de verdade, então precisa parecer serviço público sério. O verde
-institucional é estrutura, não enfeite: barra de topo, rodapé e faixa do herói.
-É ele que faz a página ler como prefeitura no primeiro segundo, antes de
-qualquer texto.
+Dentro disso, três decisões fixas:
 
-A segunda é o Calçadão da Batista de Carvalho, sete quadras fechadas ao trânsito
-em 1992 e cobertas por setenta arcos de ferro. O arco aparece como arcada de
-verdade, com coluna e vão, desenhada em SVG por baixo do herói e do rodapé.
+1. **O verde institucional é estrutura, não enfeite.** Barra de topo, rodapé e
+   faixa do herói. É ele que faz a página ler como serviço da prefeitura no
+   primeiro segundo, antes de qualquer texto.
+2. **O amarelo de sinalização é a ação, e só ela.** Sempre com texto quase preto
+   por cima, que é como sinalização viária funciona, e por isso passa contraste
+   com folga.
+3. **A arcada do Calçadão é a assinatura.** Sete quadras fechadas ao trânsito em
+   1992 e cobertas por setenta arcos de ferro. Aparece desenhada com coluna e
+   vão, sob o herói e sobre o rodapé. É o único elemento que pode chamar
+   atenção; o resto fica quieto.
 
-O que ficou de fora de propósito: gradiente colorido, vidro fosco, sombra
-flutuante e canto totalmente arredondado. É o visual padrão de ferramenta gerada
-por IA e não tem nada a ver com quem vende bolo de pote na Vila Cardia.
+### O que ficou de fora, de propósito
+
+Fundo creme quente, serifada de alto contraste, acento terracota, gradiente,
+vidro fosco, sombra sólida deslocada e canto arredondado. A primeira versão
+deste projeto tinha as três primeiras juntas, que é exatamente um dos padrões
+que ferramenta de IA repete em qualquer briefing. Se você for mexer na paleta,
+não volte para lá.
 
 ## Trocar uma cor
 
 As cores são tokens do Tailwind 4 declarados no bloco `@theme`. Mudar o valor ali
-muda o site inteiro, porque cada classe (`bg-selo`, `text-terracota`,
-`border-linha`) lê o token.
+muda o site inteiro, porque cada classe (`bg-selo`, `text-tinta`, `border-linha`)
+lê o token.
 
 | Token | Valor | Onde aparece |
 | --- | --- | --- |
-| `--color-papel` | `#f7f3ea` | fundo da página |
-| `--color-papel-fundo` | `#efe7d6` | seções alternadas, fundo de campo |
-| `--color-papel-claro` | `#fffdf8` | fundo de cartão |
-| `--color-tinta` | `#1a1917` | texto e todas as bordas |
-| `--color-tinta-suave` | `#4b463f` | texto secundário |
-| `--color-concreto` | `#6f6960` | texto de apoio, contagem |
-| `--color-linha` | `#ddd2bd` | divisórias claras |
+| `--color-fundo` | `#e8ebe6` | fundo da página, concreto pintado |
+| `--color-faixa` | `#dbe0da` | seções alternadas, botão neutro no hover |
+| `--color-chapa` | `#ffffff` | fundo de painel e de cartão |
+| `--color-tinta` | `#15181a` | texto e todas as bordas |
+| `--color-tinta-suave` | `#454b4a` | texto secundário |
+| `--color-concreto` | `#5c625f` | texto de apoio, contagem |
+| `--color-linha` | `#c2cac2` | divisórias e o filete da placa |
 | `--color-selo` | `#0b5d3b` | verde SEDECON: topo, rodapé, herói |
-| `--color-selo-escuro` | `#084029` | rodapé e menu aberto no celular |
-| `--color-selo-claro` | `#e3efe7` | fundo de bloco informativo |
-| `--color-terracota` | `#b4471f` | ação principal, e só ela |
-| `--color-mostarda` | `#dda42c` | destaque, faixa de demonstração |
-| `--color-alerta` | `#99291a` | erro |
+| `--color-selo-escuro` | `#073d27` | rodapé, faixa de números, menu no celular |
+| `--color-selo-claro` | `#dbe9df` | fundo de bloco informativo |
+| `--color-sinal` | `#f2b705` | ação principal, e só ela |
+| `--color-sinal-claro` | `#fbf0d2` | fundo de destaque, etiqueta de preço |
+| `--color-alerta` | `#b3261e` | erro |
 
 Duas regras que valem a pena manter:
 
-1. **Terracota é ação.** Se aparecer em algo que não é botão principal, perde a
-   função de dizer onde clicar.
+1. **Amarelo nunca é texto sobre fundo claro.** `text-sinal` só existe sobre o
+   verde, no topo e no rodapé. Sobre branco ele fica em 1,9:1 e some.
 2. **Texto claro só sobre `selo` ou `selo-escuro`.** Os dois passam em AA com
-   `papel-claro`. Verde mais claro que isso não passa.
+   branco. Verde mais claro que isso não passa.
 
 ## Trocar a fonte
 
 ```css
---font-display: 'Fraunces Variable', ...;  /* títulos */
---font-corpo:   'Archivo Variable', ...;   /* texto */
+--font-display: 'Besley Variable', ...;   /* títulos */
+--font-corpo:   'Archivo Variable', ...;  /* texto, etiquetas e preços */
 ```
+
+Besley é uma Clarendon: serifa grossa, contraste baixo, letra de fachada
+pintada. Não confunda com a serifada editorial de alto contraste, que é outra
+coisa e puxa a página para o lado de revista.
+
+O Archivo entra por `@fontsource-variable/archivo/wdth.css`, e não pelo `index`,
+porque esse arquivo traz o eixo de largura junto com o de peso. É ele que
+permite as três vozes tipográficas com duas famílias só: título em Besley, texto
+em Archivo normal, etiqueta e preço em Archivo estreito (`font-stretch` entre 80%
+e 88%) e maiúsculo. Sistema de sinalização funciona assim: uma letra, várias
+larguras.
 
 As duas vêm do pacote `@fontsource-variable`, instaladas junto com o projeto e
 servidas do próprio domínio. Não há requisição para o Google Fonts, o que evita
@@ -71,13 +93,15 @@ combinação de utilitário solta:
 
 - `.arcada`, `.arcada-faixa`, `.arcada-tinta` — a arcada do calçadão. A primeira
   é a faixa alta do herói, a segunda a versão baixa do rodapé, a terceira o
-  contorno sobre fundo claro.
-- `.quadro` — cartão de borda preta, o recipiente padrão de tudo.
-- `.carimbo` e `.carimbo-leve` — o deslocamento de sombra sólida, forte e fraco.
-- `.botao` mais `.botao-principal` (terracota), `.botao-selo` (verde),
-  `.botao-neutro` (contorno) e `.botao-texto`.
+  contorno escuro para fundo claro.
+- `.quadro` — painel de borda preta, o recipiente padrão de tudo.
+- `.placa`, `.placa-leve`, `.placa-no-verde` — o filete interno da placa
+  esmaltada, desenhado por um `::before` inset. **Só em painel de texto**: em
+  cartão com foto encostada na borda o filete atravessa a imagem.
+- `.botao` mais `.botao-principal` (amarelo), `.botao-selo` (verde),
+  `.botao-neutro` (branco com contorno) e `.botao-texto`.
 - `.campo`, `.etiqueta` — entrada de formulário, com estado de erro por
-  `aria-invalid`.
+  `aria-invalid`. A etiqueta é maiúscula estreita, no registro da placa.
 - `.preco`, `.preco-sob-consulta` — o preço tem peso próprio na grade.
 - `.selo-categoria`, `.selo-no-verde` — a etiqueta de categoria, na versão
   normal e na que vai sobre o verde.
@@ -85,21 +109,42 @@ combinação de utilitário solta:
 - `.sem-foto`, `.iniciais-da-foto` — o lugar da foto que ainda não existe.
 - `.duas-linhas`, `.tres-linhas` — corte de texto por número de linhas.
 
+## O lugar da foto que não existe
+
+Vale explicar porque é o ajuste que mais mudou a página. A maioria das lojas se
+cadastra pelo celular, publica os produtos e só depois volta para fotografar.
+Numa cidade recém-cadastrada isso significa uma vitrine quase toda sem imagem.
+
+Com o vazio ocupando o tamanho de uma foto (240px), a home virava uma parede de
+retângulos coloridos e tinha 5529px de altura; no celular, 13473px. Com o vazio
+reduzido a uma faixa de 56px, caiu para 4108px e 9122px, e o que se lê ao rolar
+passou a ser nome e preço. Quando a foto existe, ela recebe o espaço inteiro,
+porque aí ela é a informação principal.
+
+O componente é `web/src/componentes/Foto.tsx`, e a altura da faixa é a prop
+`alturaSemFoto`. O cartão de loja usa `h-20` porque tem duas etiquetas em cima; a
+capa da página da loja usa `h-32`, porque ali o bloco é a identidade do negócio.
+
 ## Alterações comuns
 
 **Mudar o tom do verde para o da gestão atual.** Troque `--color-selo` e
 `--color-selo-escuro`. Confira o contraste com texto branco em qualquer
-verificador de WCAG antes de subir; abaixo de 4.5:1 o site fica ilegível no sol,
+verificador de WCAG antes de subir; abaixo de 4,5:1 o site fica ilegível no sol,
 que é onde metade do público usa.
+
+**Trocar a cor de ação.** `--color-sinal`. Se sair do amarelo, confira o
+contraste com `--color-tinta`, porque o botão principal é texto escuro sobre a
+cor, e não branco.
 
 **Aumentar o corpo do texto.** `font-size` do `body`, no `@layer base`. Está em
 16px porque parte do público é idosa.
 
-**Tirar a textura de papel.** Apague o `background-image` do `body`. É um SVG
-embutido de ruído com 4% de opacidade; sem ele o fundo fica chapado.
+**Deixar os cantos redondos.** `--radius-caixa`. Está em `0px` de propósito:
+placa de metal não tem canto arredondado.
 
-**Deixar os cantos redondos.** `--radius-caixa`. Está em `2px` de propósito:
-arredondamento total em tudo é a cara de template pronto.
+**Mudar as cores de categoria.** Ficam em `corDaCategoria`, em
+`web/src/lib/formato.ts`. São tintas chapadas, claras o bastante para as
+iniciais escuras aparecerem por cima.
 
 ## Antes de subir uma mudança visual
 

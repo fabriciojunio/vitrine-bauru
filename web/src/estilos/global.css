@@ -1,57 +1,66 @@
 @import 'tailwindcss';
 
-@import '@fontsource-variable/fraunces';
-@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/besley';
+/* O eixo de largura do Archivo vem deste arquivo, e não do index: a versão
+   estreita é usada nas etiquetas e nos preços. */
+@import '@fontsource-variable/archivo/wdth.css';
 
 /*
  * Identidade da Vitrine Bauru
  * ---------------------------
- * Duas referências, nesta ordem.
+ * A referência é a placa esmaltada: chapa branca com fio fino por dentro da
+ * borda, verde institucional, amarelo de sinalização e letra de serifa grossa.
+ * É o material das placas de rua, das fachadas pintadas à mão do comércio
+ * antigo e da estação ferroviária, que é o que fez Bauru existir como cidade.
+ * Nada aqui é imitação de papel: é chapa pintada.
  *
- * A primeira é institucional: a plataforma leva o nome da SEDECON e pede o CPF
- * de gente de verdade, então precisa parecer serviço público sério. O verde
- * institucional é estrutura, e não enfeite: barra de topo, rodapé e faixa do
- * herói. É ele que faz a página ler como prefeitura logo no primeiro segundo.
+ * O verde é estrutura, e não enfeite: barra de topo, rodapé e faixa do herói.
+ * É ele que faz a página ler como serviço da prefeitura no primeiro segundo.
  *
- * A segunda é o Calçadão da Batista de Carvalho, sete quadras fechadas ao
- * trânsito em 1992 e cobertas por setenta arcos de ferro. O arco aparece como
- * arcada de verdade, com coluna e vão, e não como meia-lua decorativa.
+ * O amarelo de sinal é a ação, e só ela. Com texto quase preto por cima, que é
+ * como sinalização viária funciona, e por isso passa contraste com folga.
  *
- * O que fica de fora, de propósito: gradiente colorido, vidro fosco, sombra
- * flutuante e canto totalmente arredondado. É o visual padrão de ferramenta
- * gerada por IA, e não tem nada a ver com quem vende bolo de pote na Vila
- * Cardia.
+ * A assinatura é a arcada do Calçadão da Batista de Carvalho: sete quadras
+ * fechadas ao trânsito em 1992 e cobertas por setenta arcos de ferro. Aparece
+ * com coluna e vão, desenhada de verdade, sob o herói e sobre o rodapé. É o
+ * único elemento que pode chamar atenção; o resto fica quieto.
+ *
+ * O que ficou de fora de propósito: fundo creme, serifada de alto contraste,
+ * acento terracota, gradiente, vidro fosco, sombra deslocada e canto
+ * arredondado. É a cara que ferramenta de IA repete, e não tem nada a ver com
+ * quem vende bolo de pote na Vila Cardia.
  */
 @theme {
-  --color-papel: #f7f3ea;
-  --color-papel-fundo: #efe7d6;
-  --color-papel-claro: #fffdf8;
+  /* Concreto pintado, frio de propósito: o creme quente é o fundo padrão de
+     todo site gerado, e puxa a página para o lado de revista. */
+  --color-fundo: #e8ebe6;
+  --color-faixa: #dbe0da;
+  --color-chapa: #ffffff;
 
-  --color-tinta: #1a1917;
-  --color-tinta-suave: #4b463f;
-  --color-concreto: #6f6960;
-  --color-linha: #ddd2bd;
+  --color-tinta: #15181a;
+  --color-tinta-suave: #454b4a;
+  --color-concreto: #5c625f;
+  --color-linha: #c2cac2;
 
   /* Verde institucional da SEDECON, escurecido para o texto branco passar em AA. */
   --color-selo: #0b5d3b;
-  --color-selo-escuro: #084029;
-  --color-selo-claro: #e3efe7;
+  --color-selo-escuro: #073d27;
+  --color-selo-claro: #dbe9df;
 
-  /* Terracota de caixote de feira: é a cor de toda ação principal. */
-  --color-terracota: #b4471f;
-  --color-terracota-escuro: #93380f;
-  --color-terracota-claro: #f9e7df;
+  /* Amarelo de placa de sinalização. Sempre com texto quase preto por cima. */
+  --color-sinal: #f2b705;
+  --color-sinal-escuro: #c99700;
+  --color-sinal-claro: #fbf0d2;
 
-  --color-mostarda: #dda42c;
-  --color-mostarda-claro: #fbf1da;
+  --color-alerta: #b3261e;
 
-  --color-alerta: #99291a;
-
-  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  /* Besley é uma Clarendon: serifa grossa, contraste baixo, letra de fachada
+     pintada. Não é a serifada editorial de alto contraste. */
+  --font-display: 'Besley Variable', 'Besley', Georgia, 'Times New Roman', serif;
   --font-corpo: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Cantos quase retos: arredondamento total em tudo é a cara de template. */
-  --radius-caixa: 2px;
+  /* Canto reto. Placa de metal não tem canto arredondado. */
+  --radius-caixa: 0px;
 }
 
 @layer base {
@@ -60,16 +69,12 @@
   }
 
   body {
-    background-color: var(--color-papel);
+    background-color: var(--color-fundo);
     color: var(--color-tinta);
     font-family: var(--font-corpo);
     font-size: 16px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
-
-    /* Textura de papel em SVG embutido: alguns bytes, nenhuma requisição, e
-       tira o aspecto de fundo chapado sem pesar no celular. */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23r)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
   h1,
@@ -77,106 +82,123 @@
   h3 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.018em;
-    line-height: 1.1;
-    font-variation-settings: 'SOFT' 20, 'WONK' 1;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
   }
 
   /* O foco visível não é enfeite: parte do público navega por teclado. */
   :focus-visible {
-    outline: 3px solid var(--color-mostarda);
+    outline: 3px solid var(--color-sinal);
     outline-offset: 2px;
   }
 
   ::selection {
-    background: var(--color-mostarda);
+    background: var(--color-sinal);
     color: var(--color-tinta);
   }
 }
 
 @layer components {
   /*
-   * A arcada do calçadão.
+   * A arcada do calçadão, em três tamanhos.
    *
-   * Arcos com coluna e vão, desenhados em SVG e repetidos na horizontal. Fica
-   * por baixo do conteúdo do herói e acima do rodapé, sempre discreta: é a
-   * assinatura da página, e assinatura que grita atrapalha quem está
-   * procurando bolo de pote.
+   * Arcos com coluna e vão, desenhados em SVG e repetidos na horizontal. A
+   * primeira é a faixa alta do herói, a segunda a versão baixa do rodapé, a
+   * terceira o contorno escuro para fundo claro.
    */
   .arcada {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='120' viewBox='0 0 96 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='3'%3E%3Cpath d='M6 120V56a42 42 0 0 1 84 0v64'/%3E%3Cpath d='M6 120V56' /%3E%3Cpath d='M90 120V56'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='120' viewBox='0 0 96 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.26' stroke-width='3.5'%3E%3Cpath d='M6 120V56a42 42 0 0 1 84 0v64'/%3E%3Cpath d='M6 120V56'/%3E%3Cpath d='M90 120V56'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: bottom center;
   }
 
-  /* Versão baixa da arcada, para faixas finas: o arco inteiro cabe em 56px. */
   .arcada-faixa {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='56' viewBox='0 0 72 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.22' stroke-width='3'%3E%3Cpath d='M5 56V32a31 31 0 0 1 62 0v24'/%3E%3Cpath d='M5 56V32'/%3E%3Cpath d='M67 56V32'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='56' viewBox='0 0 72 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.3' stroke-width='3'%3E%3Cpath d='M5 56V32a31 31 0 0 1 62 0v24'/%3E%3Cpath d='M5 56V32'/%3E%3Cpath d='M67 56V32'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: bottom center;
   }
 
   .arcada-tinta {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='120' viewBox='0 0 96 120'%3E%3Cg fill='none' stroke='%231a1917' stroke-opacity='0.12' stroke-width='3'%3E%3Cpath d='M6 120V56a42 42 0 0 1 84 0v64'/%3E%3Cpath d='M6 120V56'/%3E%3Cpath d='M90 120V56'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='120' viewBox='0 0 96 120'%3E%3Cg fill='none' stroke='%2315181a' stroke-opacity='0.1' stroke-width='3'%3E%3Cpath d='M6 120V56a42 42 0 0 1 84 0v64'/%3E%3Cpath d='M6 120V56'/%3E%3Cpath d='M90 120V56'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: bottom center;
   }
 
   .quadro {
     border: 2px solid var(--color-tinta);
-    background: var(--color-papel-claro);
+    background: var(--color-chapa);
     border-radius: var(--radius-caixa);
   }
 
-  /* Sombra sólida deslocada, como carimbo de tinta fora de registro.
-     Substitui a sombra difusa, que dá aspecto de interface flutuante. */
-  .carimbo {
-    box-shadow: 4px 4px 0 var(--color-tinta);
+  /*
+   * O fio interno da placa esmaltada.
+   *
+   * Placa de rua tem um filete fino desenhado alguns milímetros para dentro da
+   * borda. É o detalhe que separa placa de retângulo, e faz o trabalho que a
+   * sombra deslocada fazia antes, sem o ar de adesivo colado na tela.
+   *
+   * Vai só em painel de texto. Em cartão com foto encostada na borda o filete
+   * atravessaria a imagem, que é exatamente o efeito que ele existe para
+   * evitar.
+   */
+  .placa,
+  .placa-leve,
+  .placa-no-verde {
+    position: relative;
   }
 
-  .carimbo-leve {
-    box-shadow: 3px 3px 0 var(--color-linha);
+  .placa::before,
+  .placa-leve::before,
+  .placa-no-verde::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid var(--color-linha);
+    pointer-events: none;
+  }
+
+  .placa-leve::before {
+    inset: 4px;
+    border-color: var(--color-faixa);
+  }
+
+  /* Sobre o verde o filete precisa ser claro, senão some. */
+  .placa-no-verde::before {
+    border-color: rgba(255, 255, 255, 0.38);
   }
 
   .botao {
     font-family: var(--font-corpo);
-    font-weight: 600;
+    font-weight: 700;
+    font-stretch: 88%;
     letter-spacing: 0.01em;
     border: 2px solid var(--color-tinta);
     border-radius: var(--radius-caixa);
-    padding: 0.7rem 1.25rem;
+    padding: 0.7rem 1.3rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     cursor: pointer;
     transition:
-      transform 90ms ease,
-      box-shadow 90ms ease;
-    box-shadow: 3px 3px 0 var(--color-tinta);
+      background-color 110ms ease,
+      color 110ms ease;
     /* Alvo de toque de 44px: parte do público usa celular antigo. */
     min-height: 44px;
   }
 
-  .botao:hover:not(:disabled) {
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 var(--color-tinta);
-  }
-
-  .botao:active:not(:disabled) {
-    transform: translate(3px, 3px);
-    box-shadow: 0 0 0 var(--color-tinta);
-  }
-
   .botao:disabled {
-    opacity: 0.55;
+    opacity: 0.5;
     cursor: not-allowed;
-    box-shadow: none;
   }
 
   .botao-principal {
-    background: var(--color-terracota);
-    color: #fff;
+    background: var(--color-sinal);
+    color: var(--color-tinta);
+  }
+
+  .botao-principal:hover:not(:disabled) {
+    background: var(--color-sinal-escuro);
   }
 
   .botao-selo {
@@ -184,15 +206,22 @@
     color: #fff;
   }
 
+  .botao-selo:hover:not(:disabled) {
+    background: var(--color-selo-escuro);
+  }
+
   .botao-neutro {
-    background: var(--color-papel-claro);
+    background: var(--color-chapa);
     color: var(--color-tinta);
+  }
+
+  .botao-neutro:hover:not(:disabled) {
+    background: var(--color-faixa);
   }
 
   .botao-texto {
     background: transparent;
     border-color: transparent;
-    box-shadow: none;
     color: var(--color-tinta);
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -202,25 +231,22 @@
 
   /* Link do menu sobre o verde da barra de topo. */
   .link-do-menu {
-    color: #f4efe3;
+    color: #eef2ee;
     font-weight: 600;
     padding: 0.35rem 0.1rem;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
   }
 
-  .link-do-menu:hover {
-    border-bottom-color: var(--color-mostarda);
-  }
-
+  .link-do-menu:hover,
   .link-do-menu[aria-current='page'] {
-    border-bottom-color: var(--color-mostarda);
+    border-bottom-color: var(--color-sinal);
   }
 
   .campo {
     width: 100%;
     border: 2px solid var(--color-tinta);
     border-radius: var(--radius-caixa);
-    background: var(--color-papel-claro);
+    background: var(--color-chapa);
     padding: 0.7rem 0.85rem;
     font-family: var(--font-corpo);
     font-size: 1rem;
@@ -228,7 +254,7 @@
   }
 
   .campo::placeholder {
-    color: #8d867b;
+    color: #7d837f;
     opacity: 1;
   }
 
@@ -238,75 +264,85 @@
 
   .campo[aria-invalid='true'] {
     border-color: var(--color-alerta);
-    background: #fdf3f1;
+    background: #fdf2f1;
   }
 
   .etiqueta {
     display: block;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-stretch: 84%;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35rem;
   }
 
-  /* Preço com cara de etiqueta de banca, e não de e-commerce. */
+  /*
+   * Preço com cara de etiqueta de banca.
+   *
+   * Archivo estreito: é a mesma letra do resto da página, só que comprimida.
+   * Dizer número na fonte de título daria ar de cardápio de restaurante.
+   */
   .preco {
-    font-family: var(--font-display);
+    font-family: var(--font-corpo);
     font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--color-terracota-escuro);
-    background: var(--color-mostarda-claro);
+    font-stretch: 82%;
+    font-size: 1.15rem;
+    color: var(--color-tinta);
+    background: var(--color-sinal-claro);
     border: 2px solid var(--color-tinta);
-    padding: 0.05rem 0.5rem;
+    padding: 0.1rem 0.5rem;
     display: inline-block;
     border-radius: var(--radius-caixa);
     white-space: nowrap;
   }
 
   .preco-sob-consulta {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-stretch: 88%;
     color: var(--color-tinta-suave);
-    background: var(--color-papel-fundo);
+    background: var(--color-faixa);
   }
 
   .selo-categoria {
-    font-size: 0.7rem;
+    font-family: var(--font-corpo);
+    font-size: 0.72rem;
     font-weight: 700;
+    font-stretch: 80%;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-    border: 1.5px solid var(--color-tinta);
-    padding: 0.1rem 0.45rem;
+    letter-spacing: 0.08em;
+    border: 2px solid var(--color-tinta);
+    padding: 0.15rem 0.5rem;
     border-radius: var(--radius-caixa);
-    background: var(--color-papel-fundo);
+    background: var(--color-chapa);
     white-space: nowrap;
     display: inline-block;
   }
 
   .selo-no-verde {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.12);
-    color: #f4efe3;
+    border-color: rgba(255, 255, 255, 0.45);
+    background: transparent;
+    color: #eef2ee;
   }
 
   .aviso {
     border: 2px solid var(--color-tinta);
-    border-left-width: 8px;
+    border-left-width: 10px;
     padding: 0.85rem 1rem;
     border-radius: var(--radius-caixa);
+    background: var(--color-chapa);
   }
 
   .aviso-erro {
-    background: #fdf3f1;
     border-left-color: var(--color-alerta);
   }
 
   .aviso-certo {
-    background: var(--color-selo-claro);
     border-left-color: var(--color-selo);
   }
 
   .aviso-atencao {
-    background: var(--color-mostarda-claro);
-    border-left-color: var(--color-mostarda);
+    border-left-color: var(--color-sinal);
   }
 
   /*
@@ -314,14 +350,17 @@
    *
    * A maioria das lojas começa sem foto, e um retângulo vazio faria a vitrine
    * inteira parecer quebrada no dia da inauguração. Aqui vira um bloco na cor
-   * da categoria, com a arcada por cima e as iniciais discretas: fica óbvio
-   * que falta foto, sem parecer defeito.
+   * da categoria, com a arcada por cima e as iniciais no meio: fica óbvio que
+   * falta foto, sem parecer defeito.
    */
   .sem-foto {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* À direita, e não no centro: a etiqueta de categoria mora no canto de
+       cima à esquerda, e numa faixa de 56px as duas se atropelavam. */
+    justify-content: flex-end;
+    padding-right: 0.8rem;
     overflow: hidden;
   }
 
@@ -329,18 +368,19 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90' viewBox='0 0 72 90'%3E%3Cg fill='none' stroke='%231a1917' stroke-opacity='0.14' stroke-width='2.5'%3E%3Cpath d='M5 90V44a31 31 0 0 1 62 0v46'/%3E%3Cpath d='M5 90V44'/%3E%3Cpath d='M67 90V44'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90' viewBox='0 0 72 90'%3E%3Cg fill='none' stroke='%2315181a' stroke-opacity='0.16' stroke-width='2.5'%3E%3Cpath d='M5 90V44a31 31 0 0 1 62 0v46'/%3E%3Cpath d='M5 90V44'/%3E%3Cpath d='M67 90V44'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: bottom center;
     pointer-events: none;
   }
 
   .iniciais-da-foto {
-    font-family: var(--font-display);
+    font-family: var(--font-corpo);
     font-weight: 700;
-    font-size: 1.6rem;
-    letter-spacing: 0.08em;
-    color: rgba(26, 25, 23, 0.42);
+    font-stretch: 80%;
+    font-size: 1.35rem;
+    letter-spacing: 0.1em;
+    color: rgba(21, 24, 26, 0.4);
     position: relative;
     z-index: 1;
   }

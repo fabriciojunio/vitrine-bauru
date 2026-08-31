@@ -131,7 +131,7 @@ export function Privacidade() {
             </Botao>
           </div>
 
-          <div className="quadro p-5 bg-terracota-claro">
+          <div className="quadro p-5 bg-sinal-claro">
             <h3 className="font-display text-xl font-bold">Excluir minha conta</h3>
             <p className="text-tinta-suave mt-1 mb-3">
               Sua loja sai da vitrine na hora e todos os seus dados são apagados. Não dá para

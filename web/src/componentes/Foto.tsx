@@ -5,34 +5,38 @@ import { corDaCategoria, iniciais } from '@/lib/formato';
  * A foto do produto, ou o lugar dela.
  *
  * <p>A maioria das lojas começa sem foto: o empreendedor se cadastra pelo
- * celular, publica os produtos e só depois volta para fotografar. Um retângulo
- * cinza vazio faria a vitrine inteira parecer quebrada justamente no dia da
- * inauguração.
+ * celular, publica os produtos e só depois volta para fotografar. Numa cidade
+ * recém-cadastrada isso significa uma vitrine quase toda sem imagem.
  *
- * <p>A ausência de foto vira um bloco na cor da categoria, com a arcada do
- * calçadão desenhada por cima e as iniciais discretas no meio. Fica óbvio que
- * falta foto, sem parecer defeito, e a grade continua com aspecto de coisa
- * cuidada.
+ * <p>Por isso o lugar vazio não ocupa o tamanho de uma foto. Sem imagem, o
+ * bloco vira uma faixa fina na cor da categoria, com a arcada por cima e as
+ * iniciais no meio: o cartão continua reconhecível na grade, mas quem rola a
+ * página lê nome e preço em vez de atravessar dezenas de retângulos coloridos.
+ * Uma faixa de 56px no lugar de 240px é a diferença entre um catálogo e um
+ * mostruário de cores.
  *
- * <p>O tamanho é reservado por proporção e o carregamento é preguiçoso: sem
- * isso, a grade pula enquanto as imagens chegam, o que no celular faz a pessoa
- * clicar no produto errado.
+ * <p>Quando a foto existe ela recebe o espaço inteiro, porque aí ela é a
+ * informação principal. O tamanho é reservado por proporção e o carregamento é
+ * preguiçoso: sem isso a grade pula enquanto as imagens chegam, o que no
+ * celular faz a pessoa clicar no produto errado.
  */
 export function Foto({
   url,
   nome,
   categoria,
   proporcao = 'aspect-[3/2]',
+  alturaSemFoto = 'h-14',
 }: {
   url: string | null | undefined;
   nome: string;
   categoria?: string | null;
   proporcao?: string;
+  alturaSemFoto?: string;
 }) {
   if (!url) {
     return (
       <div
-        className={`${proporcao} sem-foto w-full border-b-2 border-tinta`}
+        className={`${alturaSemFoto} sem-foto w-full border-b-2 border-tinta`}
         style={{ backgroundColor: corDaCategoria(categoria) }}
         role="img"
         aria-label={`${nome}: foto ainda não enviada`}
@@ -48,7 +52,7 @@ export function Foto({
       alt={nome}
       loading="lazy"
       decoding="async"
-      className={`${proporcao} w-full object-cover border-b-2 border-tinta bg-papel-fundo`}
+      className={`${proporcao} w-full object-cover border-b-2 border-tinta bg-faixa`}
     />
   );
 }

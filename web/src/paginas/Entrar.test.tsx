@@ -17,6 +17,14 @@ const sessaoDaEmpreendedora = {
   },
 };
 
+/** O corpo que foi de fato enviado no POST da demonstração, já em objeto. */
+function corpoDoPost(espiao: ReturnType<typeof vi.fn>): unknown {
+  const chamada = espiao.mock.calls.find(
+    (item) => String(item[0]).includes('/auth/demonstracao') && item[1]?.method === 'POST',
+  );
+  return JSON.parse(String(chamada![1].body));
+}
+
 describe('tela de entrar', () => {
   it('mostra o formulário de e-mail e senha', async () => {
     vi.stubGlobal('fetch', fetchDeMentira({ '/auth/demonstracao': { ativa: false } }));
@@ -134,11 +142,12 @@ describe('modo demonstração na tela de entrar', () => {
       await screen.findByRole('button', { name: /Entrar como empreendedora/ }),
     );
 
+    // O nome do campo é conferido, e não só o valor. Uma troca em massa de
+    // "papel" por outra palavra já passou por aqui sem quebrar nada: os
+    // apelidos do teste tinham sido renomeados junto, e o contrato quebrado
+    // com o servidor só apareceu no teste de ponta a ponta.
     await waitFor(() => {
-      const chamada = espiao.mock.calls.find(
-        (item) => String(item[0]).includes('/auth/demonstracao') && item[1]?.method === 'POST',
-      );
-      expect(String(chamada![1].body)).toContain('empreendedor');
+      expect(corpoDoPost(espiao)).toEqual({ papel: 'empreendedor' });
     });
   });
 
@@ -167,7 +176,7 @@ describe('modo demonstração na tela de entrar', () => {
       const chamada = espiao.mock.calls.find(
         (item) => String(item[0]).includes('/auth/demonstracao') && item[1]?.method === 'POST',
       );
-      expect(String(chamada![1].body)).toContain('sedecon');
+      expect(corpoDoPost(espiao)).toEqual({ papel: 'sedecon' });
     });
   });
 
