@@ -21,7 +21,7 @@ class DocumentoTest {
     class Cpf {
 
         @Test
-        @DisplayName("aceita CPF com digito verificador correto")
+        @DisplayName("aceita CPF com dígito verificador correto")
         void aceitaCpfValido() {
             Documento documento = Documento.de("529.982.247-25");
 
@@ -31,16 +31,16 @@ class DocumentoTest {
         }
 
         @Test
-        @DisplayName("recusa CPF com digito trocado")
+        @DisplayName("recusa CPF com dígito trocado")
         void recusaCpfComDigitoTrocado() {
             assertThatThrownBy(() -> Documento.de("529.982.247-26"))
                     .isInstanceOf(Documento.DocumentoInvalido.class)
-                    .hasMessageContaining("CPF invalido");
+                    .hasMessageContaining("CPF inválido");
         }
 
         @ParameterizedTest(name = "recusa {0}")
         @ValueSource(strings = {"00000000000", "11111111111", "99999999999"})
-        @DisplayName("recusa CPF com todos os digitos iguais")
+        @DisplayName("recusa CPF com todos os dígitos iguais")
         void recusaDigitosRepetidos(String cpf) {
             assertThatThrownBy(() -> Documento.de(cpf))
                     .isInstanceOf(Documento.DocumentoInvalido.class);
@@ -61,7 +61,7 @@ class DocumentoTest {
     class CnpjNumerico {
 
         @Test
-        @DisplayName("aceita CNPJ com digito verificador correto")
+        @DisplayName("aceita CNPJ com dígito verificador correto")
         void aceitaCnpjValido() {
             Documento documento = Documento.de("11.222.333/0001-81");
 
@@ -73,16 +73,16 @@ class DocumentoTest {
         }
 
         @Test
-        @DisplayName("recusa CNPJ com digito trocado")
+        @DisplayName("recusa CNPJ com dígito trocado")
         void recusaCnpjComDigitoTrocado() {
             assertThatThrownBy(() -> Documento.de("11.222.333/0001-82"))
                     .isInstanceOf(Documento.DocumentoInvalido.class)
-                    .hasMessageContaining("CNPJ invalido");
+                    .hasMessageContaining("CNPJ inválido");
         }
     }
 
     @Nested
-    @DisplayName("CNPJ alfanumerico, emitido a partir de julho de 2026")
+    @DisplayName("CNPJ alfanumérico, emitido a partir de julho de 2026")
     class CnpjAlfanumerico {
 
         @Test
@@ -96,25 +96,25 @@ class DocumentoTest {
         }
 
         @Test
-        @DisplayName("aceita letra minuscula e normaliza para maiuscula")
+        @DisplayName("aceita letra minuscula e normaliza para maiúscula")
         void normalizaCaixa() {
             assertThat(Documento.de("12abc34501de35").valor()).isEqualTo("12ABC34501DE35");
         }
 
         @Test
-        @DisplayName("recusa letra nos dois digitos verificadores")
+        @DisplayName("recusa letra nos dois dígitos verificadores")
         void recusaLetraNoDigitoVerificador() {
             assertThatThrownBy(() -> Documento.de("12ABC34501DEAB"))
                     .isInstanceOf(Documento.DocumentoInvalido.class)
-                    .hasMessageContaining("digitos verificadores");
+                    .hasMessageContaining("dígitos verificadores");
         }
 
         @Test
-        @DisplayName("recusa alfanumerico com digito verificador errado")
+        @DisplayName("recusa alfanumérico com dígito verificador errado")
         void recusaDigitoErrado() {
             assertThatThrownBy(() -> Documento.de("12ABC34501DE34"))
                     .isInstanceOf(Documento.DocumentoInvalido.class)
-                    .hasMessageContaining("CNPJ invalido");
+                    .hasMessageContaining("CNPJ inválido");
         }
     }
 
@@ -127,7 +127,7 @@ class DocumentoTest {
         void recusaTamanhoErrado(String bruto) {
             assertThatThrownBy(() -> Documento.de(bruto))
                     .isInstanceOf(Documento.DocumentoInvalido.class)
-                    .hasMessageContaining("11 digitos");
+                    .hasMessageContaining("11 dígitos");
         }
 
         @Test
@@ -144,11 +144,11 @@ class DocumentoTest {
         }
 
         @Test
-        @DisplayName("recusa letra dentro de um documento de 11 caracteres, que so pode ser CPF")
+        @DisplayName("recusa letra dentro de um documento de 11 caracteres, que só pode ser CPF")
         void recusaLetraEmCpf() {
             assertThatThrownBy(() -> Documento.de("5299822472A"))
                     .isInstanceOf(Documento.DocumentoInvalido.class)
-                    .hasMessageContaining("CPF so pode ter numeros");
+                    .hasMessageContaining("CPF só pode ter números");
         }
     }
 }

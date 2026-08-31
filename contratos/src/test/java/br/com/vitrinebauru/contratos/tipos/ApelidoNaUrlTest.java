@@ -21,13 +21,13 @@ class ApelidoNaUrlTest {
             "'Conserto 24h', 'conserto-24h'",
             "'Bolo-de-pote', 'bolo-de-pote'"
     })
-    @DisplayName("tira acento, cedilha e simbolo do nome do negocio")
+    @DisplayName("tira acento, cedilha e símbolo do nome do negócio")
     void geraApelido(String nome, String esperado) {
         assertThat(ApelidoNaUrl.deTexto(nome).valor()).isEqualTo(esperado);
     }
 
     @Test
-    @DisplayName("corta nome muito longo sem terminar em hifen")
+    @DisplayName("corta nome muito longo sem terminar em hífen")
     void cortaNomeLongo() {
         String nomeLongo = "Cooperativa dos Produtores Artesanais da Regiao Central de Bauru e Adjacencias";
 
@@ -38,7 +38,7 @@ class ApelidoNaUrlTest {
     }
 
     @Test
-    @DisplayName("acrescenta numero quando o apelido ja existe")
+    @DisplayName("acrescenta número quando o apelido já existe")
     void acrescentaSufixo() {
         ApelidoNaUrl apelido = ApelidoNaUrl.deTexto("Doces da Lourdes");
 
@@ -46,7 +46,7 @@ class ApelidoNaUrlTest {
     }
 
     @Test
-    @DisplayName("mantem o limite de tamanho mesmo com sufixo")
+    @DisplayName("mantém o limite de tamanho mesmo com sufixo")
     void sufixoRespeitaLimite() {
         ApelidoNaUrl apelido = ApelidoNaUrl.deTexto("a".repeat(60));
 
@@ -57,7 +57,7 @@ class ApelidoNaUrlTest {
     }
 
     @Test
-    @DisplayName("recusa nome que so tem simbolo, porque sobraria endereco vazio")
+    @DisplayName("recusa nome que só tem símbolo, porque sobraria endereço vazio")
     void recusaNomeSoComSimbolo() {
         assertThatThrownBy(() -> ApelidoNaUrl.deTexto("!!! @@@ ###"))
                 .isInstanceOf(ApelidoNaUrl.ApelidoInvalido.class)
@@ -65,7 +65,7 @@ class ApelidoNaUrlTest {
     }
 
     @Test
-    @DisplayName("recusa apelido construido a mao fora do formato")
+    @DisplayName("recusa apelido construído a mão fora do formato")
     void recusaFormatoInvalido() {
         assertThatThrownBy(() -> new ApelidoNaUrl("Doces Da Lourdes"))
                 .isInstanceOf(ApelidoNaUrl.ApelidoInvalido.class);

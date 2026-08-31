@@ -62,7 +62,7 @@ public class RenovarSessao {
             // Transação própria, senão a exceção lançada em seguida desfaz a
             // revogação e a sessão roubada continua valendo.
             int derrubadas = registroDeSeguranca.derrubarTodasAsSessoes(sessao.usuarioId(), sessao.id());
-            log.warn("Token de renovacao reutilizado pelo usuario {}. {} sessoes revogadas.",
+            log.warn("Token de renovação reutilizado pelo usuário {}. {} sessões revogadas.",
                     sessao.usuarioId(), derrubadas);
             throw new ErrosDeNegocio.NaoAutenticado(
                     "Detectamos uso indevido da sua sessão. Por segurança, entre de novo.");

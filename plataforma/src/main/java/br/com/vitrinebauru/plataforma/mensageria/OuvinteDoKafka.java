@@ -53,7 +53,7 @@ public class OuvinteDoKafka implements SmartLifecycle {
     public void start() {
         Set<String> topicos = despachante.topicosAssinados();
         if (topicos.isEmpty()) {
-            log.info("Nenhum consumidor registrado: este servico so publica");
+            log.info("Nenhum consumidor registrado: este serviço só pública");
             return;
         }
 

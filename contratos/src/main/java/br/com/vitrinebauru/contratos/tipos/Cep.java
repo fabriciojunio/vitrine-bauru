@@ -12,7 +12,7 @@ public record Cep(String valor) {
 
     public Cep {
         if (valor == null || !valor.matches("\\d{8}")) {
-            throw new CepInvalido("CEP precisa ter 8 digitos");
+            throw new CepInvalido("CEP precisa ter 8 dígitos");
         }
     }
 

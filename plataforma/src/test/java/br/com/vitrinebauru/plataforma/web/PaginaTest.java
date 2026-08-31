@@ -9,11 +9,11 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Pagina da API")
+@DisplayName("Página da API")
 class PaginaTest {
 
     @Test
-    @DisplayName("converte a pagina do Spring Data no formato da API")
+    @DisplayName("converte a página do Spring Data no formato da API")
     void converte() {
         var pagina = new PageImpl<>(List.of("Bolo", "Pastel"), PageRequest.of(0, 2), 5);
 
@@ -28,7 +28,7 @@ class PaginaTest {
     }
 
     @Test
-    @DisplayName("marca a ultima pagina como sem proxima")
+    @DisplayName("marca a ultima página como sem proxima")
     void ultimaPagina() {
         var pagina = new PageImpl<>(List.of("Pastel"), PageRequest.of(2, 2), 5);
 
@@ -36,7 +36,7 @@ class PaginaTest {
     }
 
     @Test
-    @DisplayName("pagina vazia mantem o tamanho pedido")
+    @DisplayName("página vazia mantem o tamanho pedido")
     void paginaVazia() {
         Pagina<String> vazia = Pagina.vazia(20);
 

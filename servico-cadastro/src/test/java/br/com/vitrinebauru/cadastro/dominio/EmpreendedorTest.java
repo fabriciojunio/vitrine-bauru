@@ -61,7 +61,7 @@ class EmpreendedorTest {
     class AoNascer {
 
         @Test
-        @DisplayName("entra na fila da SEDECON, e nao no ar")
+        @DisplayName("entra na fila da SEDECON, e não no ar")
         void nascePendente() {
             var empreendedor = novo();
 
@@ -72,7 +72,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("guarda telefone e documento so com digitos")
+        @DisplayName("guarda telefone e documento só com dígitos")
         void normalizaDados() {
             var empreendedor = novo();
 
@@ -88,7 +88,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("recusa bairro que nao e de Bauru")
+        @DisplayName("recusa bairro que não é de Bauru")
         void recusaBairroDeFora() {
             assertThatThrownBy(() -> Empreendedor.novo(UUID.randomUUID(), "Loja",
                     ApelidoNaUrl.deTexto("Loja"), null, "Alimentação", "Copacabana", null,
@@ -145,7 +145,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("nao deixa aprovar duas vezes")
+        @DisplayName("não deixa aprovar duas vezes")
         void naoAprovaDuasVezes() {
             var empreendedor = em(StatusDoCadastro.APROVADO);
 
@@ -193,7 +193,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("nao aceita motivo nulo")
+        @DisplayName("não aceita motivo nulo")
         void recusaMotivoNulo() {
             var empreendedor = novo();
 
@@ -213,7 +213,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("nao suspende quem nunca foi aprovado")
+        @DisplayName("não suspende quem nunca foi aprovado")
         void naoSuspendePendente() {
             var empreendedor = novo();
 
@@ -250,7 +250,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("so vale para cadastro rejeitado")
+        @DisplayName("só vale para cadastro rejeitado")
         void soValeParaRejeitado() {
             var empreendedor = em(StatusDoCadastro.APROVADO);
 
@@ -350,7 +350,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("nao muda o endereco publico da loja quando o nome muda")
+        @DisplayName("não muda o endereço público da loja quando o nome muda")
         void mantemApelido() {
             var empreendedor = em(StatusDoCadastro.APROVADO);
             String antes = empreendedor.apelidoNaUrl();
@@ -362,7 +362,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("cadastro excluido nao aceita alteracao")
+        @DisplayName("cadastro excluído não aceita alteração")
         void excluidoNaoEdita() {
             var empreendedor = em(StatusDoCadastro.EXCLUIDO);
 
@@ -373,7 +373,7 @@ class EmpreendedorTest {
     }
 
     @Nested
-    @DisplayName("exclusao de dados")
+    @DisplayName("exclusão de dados")
     class ExclusaoDeDados {
 
         @Test
@@ -394,7 +394,7 @@ class EmpreendedorTest {
         }
 
         @Test
-        @DisplayName("o apelido anonimizado nao colide com loja nenhuma")
+        @DisplayName("o apelido anonimizado não colide com loja nenhuma")
         void apelidoAnonimizadoNaoColide() {
             var empreendedor = novo();
 
@@ -411,7 +411,7 @@ class EmpreendedorTest {
     class ConferenciaDoDocumento {
 
         @Test
-        @DisplayName("guarda o resultado da consulta sem mudar a situacao do cadastro")
+        @DisplayName("guarda o resultado da consulta sem mudar a situação do cadastro")
         void anotaSemDecidir() {
             var empreendedor = novo();
 
@@ -420,25 +420,25 @@ class EmpreendedorTest {
             assertThat(empreendedor.situacaoDoDocumento()).contains("ATIVA");
             assertThat(empreendedor.documentoConferidoEm()).isEqualTo(AGORA);
             assertThat(empreendedor.status())
-                    .as("consulta a Receita informa, nao decide")
+                    .as("consulta a Receita informa, não decide")
                     .isEqualTo(StatusDoCadastro.PENDENTE);
         }
     }
 
     @Nested
-    @DisplayName("regras do enum de situacao")
+    @DisplayName("regras do enum de situação")
     class RegrasDoEnum {
 
         @ParameterizedTest(name = "{0}")
         @EnumSource(StatusDoCadastro.class)
-        @DisplayName("so aprovado aparece na vitrine")
+        @DisplayName("só aprovado aparece na vitrine")
         void soAprovadoApareceNaVitrine(StatusDoCadastro status) {
             assertThat(status.apareceNaVitrine()).isEqualTo(status == StatusDoCadastro.APROVADO);
         }
 
         @ParameterizedTest(name = "{0}")
         @EnumSource(StatusDoCadastro.class)
-        @DisplayName("aprovado e pendente podem mexer no catalogo")
+        @DisplayName("aprovado e pendente podem mexer no catálogo")
         void quemPodeMexerNoCatalogo(StatusDoCadastro status) {
             boolean esperado = status == StatusDoCadastro.APROVADO || status == StatusDoCadastro.PENDENTE;
 

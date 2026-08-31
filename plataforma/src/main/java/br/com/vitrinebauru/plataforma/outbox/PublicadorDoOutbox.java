@@ -73,7 +73,7 @@ public class PublicadorDoOutbox {
                 metricas.counter("vitrine.outbox.falhas", "topico", mensagem.topico()).increment();
 
                 if (mensagem.esgotouTentativas()) {
-                    log.error("Mensagem {} do tipo {} esgotou {} tentativas e travou. Precisa de analise manual.",
+                    log.error("Mensagem {} do tipo {} esgotou {} tentativas e travou. Precisa de análise manual.",
                             mensagem.id(), mensagem.tipo(), MensagemDoOutbox.TENTATIVAS_MAXIMAS, e);
                 } else {
                     log.warn("Falha ao publicar {} ({}a tentativa): {}",

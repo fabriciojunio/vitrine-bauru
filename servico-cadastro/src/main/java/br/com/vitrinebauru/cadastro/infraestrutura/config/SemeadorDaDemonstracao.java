@@ -72,7 +72,7 @@ public class SemeadorDaDemonstracao implements ApplicationRunner {
     @Transactional
     public void run(org.springframework.boot.ApplicationArguments argumentos) {
         if (usuarios.count() > 0) {
-            log.info("Demonstracao ja semeada, seguindo sem mexer nos dados");
+            log.info("Demonstração já semeada, seguindo sem mexer nos dados");
             return;
         }
 
@@ -119,7 +119,7 @@ public class SemeadorDaDemonstracao implements ApplicationRunner {
             }
         }
 
-        log.info("Demonstracao semeada: {} lojas, {} aprovadas e {} na fila da SEDECON",
+        log.info("Demonstração semeada: {} lojas, {} aprovadas e {} na fila da SEDECON",
                 lojas.size(), aprovadas, LOJAS_PENDENTES);
     }
 }

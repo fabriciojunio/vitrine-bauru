@@ -25,7 +25,7 @@ class PoliticaDeSenhaTest {
             "vilacardia14",
             "arroz feijao bife batata"
     })
-    @DisplayName("aceita senha longa o bastante e que nao é obvia")
+    @DisplayName("aceita senha longa o bastante e que não é óbvia")
     void aceitaSenhaBoa(String senha) {
         assertThatCode(() -> PoliticaDeSenha.exigirValida(senha, EMAIL, NOME))
                 .doesNotThrowAnyException();
@@ -60,7 +60,7 @@ class PoliticaDeSenhaTest {
 
     @ParameterizedTest(name = "recusa \"{0}\"")
     @ValueSource(strings = {"aaaaaaaa", "00000000", "zzzzzzzzzz"})
-    @DisplayName("recusa senha de um caractere so repetido")
+    @DisplayName("recusa senha de um caractere só repetido")
     void recusaRepetida(String senha) {
         assertThatThrownBy(() -> PoliticaDeSenha.exigirValida(senha, EMAIL, NOME))
                 .isInstanceOf(ErrosDeNegocio.RegraDeNegocio.class)
@@ -100,7 +100,7 @@ class PoliticaDeSenhaTest {
     }
 
     @Test
-    @DisplayName("nao exige simbolo nem maiuscula, de proposito")
+    @DisplayName("não exige símbolo nem maiúscula, de propósito")
     void naoExigeComposicao() {
         assertThatCode(() -> PoliticaDeSenha.exigirValida("caderneta", EMAIL, NOME))
                 .doesNotThrowAnyException();
@@ -114,7 +114,7 @@ class PoliticaDeSenhaTest {
     }
 
     @Test
-    @DisplayName("nome curto nao bloqueia senha que so contem essas letras")
+    @DisplayName("nome curto não bloqueia senha que só contém essas letras")
     void nomeCurtoNaoBloqueia() {
         assertThatCode(() -> PoliticaDeSenha.exigirValida("anaconda123", "ana@exemplo.com", "Ana"))
                 .doesNotThrowAnyException();

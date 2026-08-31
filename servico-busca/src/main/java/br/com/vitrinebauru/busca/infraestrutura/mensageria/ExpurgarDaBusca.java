@@ -65,7 +65,7 @@ public class ExpurgarDaBusca implements ConsumidorDeEventos {
         lojas.deleteById(empreendedorId);
 
         log.info("Expurgo na busca: loja {} e {} produtos removidos da vitrine",
-                tinhaLoja ? "removida" : "ja ausente", produtosRemovidos);
+                tinhaLoja ? "removida" : "já ausente", produtosRemovidos);
 
         outbox.gravar(Topicos.PRIVACIDADE, new ExpurgoConcluido(
                 UUID.randomUUID(), pedido.correlacao(), relogio.instant(),

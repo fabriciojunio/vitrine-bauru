@@ -101,7 +101,7 @@ public class TratadorDeErros {
     @ExceptionHandler(Exception.class)
     public ProblemDetail erroInesperado(Exception excecao) {
         String ocorrencia = MDC.get("correlacao");
-        log.error("Erro nao tratado na ocorrencia {}", ocorrencia, excecao);
+        log.error("Erro não tratado na ocorrência {}", ocorrencia, excecao);
 
         var problema = montar(HttpStatus.INTERNAL_SERVER_ERROR, "Erro no servidor",
                 "Algo deu errado do nosso lado. Tente de novo em alguns minutos.");

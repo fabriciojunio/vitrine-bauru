@@ -13,16 +13,16 @@ public record Telefone(String ddd, String numero) {
 
     public Telefone {
         if (ddd == null || !ddd.matches("\\d{2}")) {
-            throw new TelefoneInvalido("DDD precisa ter 2 digitos");
+            throw new TelefoneInvalido("DDD precisa ter 2 dígitos");
         }
         if (Integer.parseInt(ddd) < 11) {
             throw new TelefoneInvalido("DDD inexistente no Brasil");
         }
         if (numero == null || !numero.matches("\\d{8,9}")) {
-            throw new TelefoneInvalido("Numero precisa ter 8 ou 9 digitos");
+            throw new TelefoneInvalido("Número precisa ter 8 ou 9 dígitos");
         }
         if (numero.length() == 9 && numero.charAt(0) != '9') {
-            throw new TelefoneInvalido("Celular com 9 digitos precisa comecar com 9");
+            throw new TelefoneInvalido("Celular com 9 dígitos precisa começar com 9");
         }
     }
 
@@ -35,7 +35,7 @@ public record Telefone(String ddd, String numero) {
             digitos = digitos.substring(2);
         }
         if (digitos.length() < 10 || digitos.length() > 11) {
-            throw new TelefoneInvalido("Telefone precisa ter DDD mais 8 ou 9 digitos");
+            throw new TelefoneInvalido("Telefone precisa ter DDD mais 8 ou 9 dígitos");
         }
         return new Telefone(digitos.substring(0, 2), digitos.substring(2));
     }

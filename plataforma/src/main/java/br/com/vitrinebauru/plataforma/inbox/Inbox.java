@@ -54,7 +54,7 @@ public class Inbox implements RegistroDeEntrada {
         var chave = new EventoProcessado.Chave(evento.id(), consumidor);
         if (repositorio.existsById(chave)) {
             metricas.counter("vitrine.inbox.repetidos", "consumidor", consumidor).increment();
-            log.debug("Evento {} ja processado por {}, ignorando", evento.id(), consumidor);
+            log.debug("Evento {} já processado por {}, ignorando", evento.id(), consumidor);
             return false;
         }
         repositorio.save(new EventoProcessado(evento.id(), consumidor, evento.tipoDoEvento(), relogio.instant()));

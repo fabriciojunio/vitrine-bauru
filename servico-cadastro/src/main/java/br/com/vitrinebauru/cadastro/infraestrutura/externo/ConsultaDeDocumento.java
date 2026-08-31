@@ -72,7 +72,7 @@ public class ConsultaDeDocumento {
 
     @SuppressWarnings("unused")
     private Optional<Situacao> naoDeuParaConferir(Documento documento, Throwable erro) {
-        log.warn("Consulta de CNPJ indisponivel ({}). O cadastro segue para analise manual.",
+        log.warn("Consulta de CNPJ indisponível ({}). O cadastro segue para análise manual.",
                 erro.getMessage());
         return Optional.empty();
     }

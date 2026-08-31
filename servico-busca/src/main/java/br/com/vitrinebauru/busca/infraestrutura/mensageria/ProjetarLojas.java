@@ -119,7 +119,7 @@ public class ProjetarLojas implements ConsumidorDeEventos {
             }
             lojas.save(loja);
             espalharNosProdutos(loja, agora);
-        }, () -> log.warn("Evento de visibilidade para loja {} que a busca ainda nao conhece", id));
+        }, () -> log.warn("Evento de visibilidade para loja {} que a busca ainda não conhece", id));
     }
 
     private void espalharNosProdutos(LojaNaVitrine loja, Instant agora) {

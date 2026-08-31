@@ -30,7 +30,7 @@ class SanitizadorTest {
             "<style>@import 'https://exemplo.invalido';</style>",
             "<object data=\"data:text/html;base64,PHNjcmlwdD4=\"></object>"
     })
-    @DisplayName("nao deixa passar marcacao executavel")
+    @DisplayName("não deixa passar marcacao executavel")
     void neutralizaCargasDeXss(String carga) {
         String limpo = sanitizador.limpar(carga);
 
@@ -52,7 +52,7 @@ class SanitizadorTest {
             "'Tamanhos P/M/G', 'Tamanhos P/M/G'",
             "'Peça com 24h de antecedência', 'Peça com 24h de antecedência'"
     })
-    @DisplayName("nao estraga texto legitimo de empreendedor")
+    @DisplayName("não estraga texto legitimo de empreendedor")
     void mantemTextoLegitimo(String original, String esperado) {
         assertThat(sanitizador.limpar(original)).isEqualTo(esperado);
     }
@@ -64,7 +64,7 @@ class SanitizadorTest {
     }
 
     @Test
-    @DisplayName("tira espaco sobrando nas pontas")
+    @DisplayName("tira espaço sobrando nas pontas")
     void tiraEspacoDasPontas() {
         assertThat(sanitizador.limpar("   pastel de feira   ")).isEqualTo("pastel de feira");
     }
@@ -84,7 +84,7 @@ class SanitizadorTest {
     }
 
     @Test
-    @DisplayName("nao deixa entidade escapada virar marcacao de novo")
+    @DisplayName("não deixa entidade escapada virar marcacao de novo")
     void naoRemontaMarcacao() {
         String limpo = sanitizador.limpar("&lt;script&gt;alert(1)&lt;/script&gt;");
 

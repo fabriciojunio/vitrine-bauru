@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CepTest {
 
     @Test
-    @DisplayName("aceita o CEP da Casa do Empreendedor, com e sem hifen")
+    @DisplayName("aceita o CEP da Casa do Empreendedor, com e sem hífen")
     void aceitaComESemHifen() {
         assertThat(Cep.de("17011-066").valor()).isEqualTo("17011066");
         assertThat(Cep.de("17011066").valor()).isEqualTo("17011066");
@@ -28,7 +28,7 @@ class CepTest {
     void recusaTamanhoErrado(String bruto) {
         assertThatThrownBy(() -> Cep.de(bruto))
                 .isInstanceOf(Cep.CepInvalido.class)
-                .hasMessageContaining("8 digitos");
+                .hasMessageContaining("8 dígitos");
     }
 
     @Test
