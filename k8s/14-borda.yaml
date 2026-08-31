@@ -1,0 +1,128 @@
+---
+# A borda: a única porta de entrada, e a única coisa exposta para fora.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: borda
+  namespace: vitrine-bauru
+  labels:
+    app.kubernetes.io/name: borda
+    app.kubernetes.io/part-of: vitrine-bauru
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: borda
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: borda
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: borda
+          image: ghcr.io/fabriciojunio/vitrine-bauru/borda:1.0.0
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SERVICO_CADASTRO
+              value: http://servico-cadastro:8081
+            - name: SERVICO_CATALOGO
+              value: http://servico-catalogo:8082
+            - name: SERVICO_BUSCA
+              value: http://servico-busca:8083
+            - name: SERVICO_NOTIFICACOES
+              value: http://servico-notificacoes:8084
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 256Mi
+          startupProbe:
+            httpGet: { path: /actuator/health/readiness, port: http }
+            failureThreshold: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: http }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: http }
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: temporario
+              mountPath: /tmp
+      volumes:
+        - name: temporario
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: borda
+  namespace: vitrine-bauru
+spec:
+  selector:
+    app.kubernetes.io/name: borda
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vitrine-bauru
+  namespace: vitrine-bauru
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [api.vitrinebauru.com.br]
+      secretName: vitrine-tls
+  rules:
+    - host: api.vitrinebauru.com.br
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: borda
+                port:
+                  number: 80
+
+---
+# A vitrine pública é o que sofre pico: divulgação da SEDECON num grupo de
+# bairro, e o acesso multiplica em minutos. Os outros três não escalam por
+# acesso, e sim por volume de cadastro, que cresce devagar.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: servico-busca
+  namespace: vitrine-bauru
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: servico-busca
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
