@@ -43,6 +43,11 @@ export class ErroDaApi extends Error {
     return this.status === 401;
   }
 
+  /** Servidor fora do ar, endereço não configurado, ou rede caída. */
+  get ehDeConexao(): boolean {
+    return this.status === 0 || this.status === 404;
+  }
+
   get ehDePermissao(): boolean {
     return this.status === 403;
   }
@@ -163,11 +168,23 @@ export async function chamar<T>(caminho: string, opcoes: OpcoesDaChamada = {}): 
     });
   };
 
-  let resposta = await executar();
+  let resposta: Response;
+  try {
+    resposta = await executar();
+  } catch {
+    // Falha de rede: a API não respondeu, ou o endereço dela não foi
+    // configurado neste ambiente. É diferente de um erro vindo do servidor, e
+    // a tela precisa poder distinguir os dois para explicar o que houve.
+    throw new ErroDaApi(0, 'Não foi possível falar com o servidor da plataforma.');
+  }
 
   if (resposta.status === 401 && !opcoes.semAutenticacao && sessaoGuardada.renovacao()) {
     if (await renovarSessao()) {
-      resposta = await executar();
+      try {
+        resposta = await executar();
+      } catch {
+        throw new ErroDaApi(0, 'Não foi possível falar com o servidor da plataforma.');
+      }
     }
   }
 

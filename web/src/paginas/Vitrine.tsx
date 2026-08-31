@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { chamar } from '@/lib/api';
+import { chamar, ErroDaApi } from '@/lib/api';
 import type { Pagina, ProdutoNaVitrine, ResumoDaVitrine } from '@/lib/tipos';
 import { Aviso, Botao, Carregando, Selecao, TituloDeSecao } from '@/componentes/Basicos';
 import { CartaoDeProduto } from '@/componentes/Cartoes';
+import { ApiDesligada } from '@/componentes/ApiDesligada';
 
 /**
  * A página que o consumidor abre.
@@ -23,6 +24,7 @@ export function Vitrine() {
   const [resumo, definirResumo] = useState<ResumoDaVitrine | null>(null);
   const [carregando, definirCarregando] = useState(true);
   const [erro, definirErro] = useState<string | null>(null);
+  const [semConexao, definirSemConexao] = useState(false);
 
   const termo = parametros.get('termo') ?? '';
   const bairro = parametros.get('bairro') ?? '';
@@ -49,8 +51,17 @@ export function Vitrine() {
     consulta.set('tamanho', '24');
 
     chamar<Pagina<ProdutoNaVitrine>>(`/api/busca/produtos?${consulta}`)
-      .then(definirResultado)
-      .catch((falha) => definirErro(falha.message))
+      .then((pagina) => {
+        definirResultado(pagina);
+        definirSemConexao(false);
+      })
+      .catch((falha: ErroDaApi) => {
+        if (falha.ehDeConexao) {
+          definirSemConexao(true);
+        } else {
+          definirErro(falha.message);
+        }
+      })
       .finally(() => definirCarregando(false));
   }, [termo, bairro, categoria, pagina]);
 
@@ -71,6 +82,10 @@ export function Vitrine() {
   );
 
   const temFiltro = Boolean(termo || bairro || categoria);
+
+  if (semConexao) {
+    return <ApiDesligada aoTentarDeNovo={() => window.location.reload()} />;
+  }
 
   return (
     <div>
