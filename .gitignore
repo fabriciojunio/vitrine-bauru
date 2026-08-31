@@ -12,3 +12,4 @@ Thumbs.db
 web/playwright-report/
 web/test-results/
 .vercel/
+web/tsconfig.tsbuildinfo
