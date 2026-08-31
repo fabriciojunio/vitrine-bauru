@@ -6,46 +6,52 @@
 /*
  * Identidade da Vitrine Bauru
  * ---------------------------
- * A referência é o Calçadão da Batista de Carvalho: sete quadras fechadas ao
- * trânsito em 1992, cobertas por setenta arcos de ferro. É o lugar onde o
- * comércio de rua de Bauru acontece há décadas, e o arco virou o desenho que
- * se repete na interface, no lugar do cartão retangular de sempre.
+ * Duas referências, nesta ordem.
  *
- * O verde vem da identidade institucional da SEDECON, escurecido até passar em
- * contraste AA sobre papel. O terracota e o mostarda vêm de feira: caixote,
- * toldo, papel pardo. Nada de gradiente roxo-azul, vidro fosco ou sombra
- * flutuante, que é o visual padrão de ferramenta gerada por IA e não tem nada
- * a ver com quem vende bolo de pote na Vila Cardia.
+ * A primeira é institucional: a plataforma leva o nome da SEDECON e pede o CPF
+ * de gente de verdade, então precisa parecer serviço público sério. O verde
+ * institucional é estrutura, e não enfeite: barra de topo, rodapé e faixa do
+ * herói. É ele que faz a página ler como prefeitura logo no primeiro segundo.
+ *
+ * A segunda é o Calçadão da Batista de Carvalho, sete quadras fechadas ao
+ * trânsito em 1992 e cobertas por setenta arcos de ferro. O arco aparece como
+ * arcada de verdade, com coluna e vão, e não como meia-lua decorativa.
+ *
+ * O que fica de fora, de propósito: gradiente colorido, vidro fosco, sombra
+ * flutuante e canto totalmente arredondado. É o visual padrão de ferramenta
+ * gerada por IA, e não tem nada a ver com quem vende bolo de pote na Vila
+ * Cardia.
  */
 @theme {
-  --color-papel: #f6f1e7;
-  --color-papel-fundo: #ece2d0;
-  --color-papel-claro: #fdfbf6;
+  --color-papel: #f7f3ea;
+  --color-papel-fundo: #efe7d6;
+  --color-papel-claro: #fffdf8;
 
-  --color-tinta: #1b1a17;
-  --color-tinta-suave: #4f4a42;
-  --color-concreto: #736d63;
-  --color-linha: #d9cdb6;
+  --color-tinta: #1a1917;
+  --color-tinta-suave: #4b463f;
+  --color-concreto: #6f6960;
+  --color-linha: #ddd2bd;
 
-  /* Verde institucional da SEDECON, escurecido para contraste AA no papel. */
-  --color-selo: #00693c;
-  --color-selo-claro: #e2efe6;
+  /* Verde institucional da SEDECON, escurecido para o texto branco passar em AA. */
+  --color-selo: #0b5d3b;
+  --color-selo-escuro: #084029;
+  --color-selo-claro: #e3efe7;
 
   /* Terracota de caixote de feira: é a cor de toda ação principal. */
   --color-terracota: #b4471f;
-  --color-terracota-claro: #f8e6de;
+  --color-terracota-escuro: #93380f;
+  --color-terracota-claro: #f9e7df;
 
-  --color-mostarda: #d99a2b;
-  --color-mostarda-claro: #fbf0d9;
+  --color-mostarda: #dda42c;
+  --color-mostarda-claro: #fbf1da;
 
-  --color-alerta: #9a2b18;
+  --color-alerta: #99291a;
 
   --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-corpo: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Cantos quase retos: arredondamento total em tudo é a cara de template. */
   --radius-caixa: 2px;
-  --radius-arco: 999px;
 }
 
 @layer base {
@@ -61,11 +67,9 @@
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
 
-    /*
-     * Textura de papel em SVG embutido: alguns bytes, nenhuma requisição, e
-     * tira o aspecto de fundo chapado sem pesar no celular.
-     */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23r)' opacity='0.035'/%3E%3C/svg%3E");
+    /* Textura de papel em SVG embutido: alguns bytes, nenhuma requisição, e
+       tira o aspecto de fundo chapado sem pesar no celular. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23r)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
   h1,
@@ -73,14 +77,14 @@
   h3 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.015em;
-    line-height: 1.12;
+    letter-spacing: -0.018em;
+    line-height: 1.1;
     font-variation-settings: 'SOFT' 20, 'WONK' 1;
   }
 
   /* O foco visível não é enfeite: parte do público navega por teclado. */
   :focus-visible {
-    outline: 3px solid var(--color-terracota);
+    outline: 3px solid var(--color-mostarda);
     outline-offset: 2px;
   }
 
@@ -92,12 +96,30 @@
 
 @layer components {
   /*
-   * O arco do calçadão. Aparece no topo da foto do produto e nos títulos de
-   * seção. É o único elemento decorativo do sistema, e é o que faz a página
-   * não parecer um catálogo genérico.
+   * A arcada do calçadão.
+   *
+   * Arcos com coluna e vão, desenhados em SVG e repetidos na horizontal. Fica
+   * por baixo do conteúdo do herói e acima do rodapé, sempre discreta: é a
+   * assinatura da página, e assinatura que grita atrapalha quem está
+   * procurando bolo de pote.
    */
-  .arco {
-    border-radius: var(--radius-arco) var(--radius-arco) var(--radius-caixa) var(--radius-caixa);
+  .arcada {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='120' viewBox='0 0 96 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.16' stroke-width='3'%3E%3Cpath d='M6 120V56a42 42 0 0 1 84 0v64'/%3E%3Cpath d='M6 120V56' /%3E%3Cpath d='M90 120V56'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom center;
+  }
+
+  /* Versão baixa da arcada, para faixas finas: o arco inteiro cabe em 56px. */
+  .arcada-faixa {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='56' viewBox='0 0 72 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.22' stroke-width='3'%3E%3Cpath d='M5 56V32a31 31 0 0 1 62 0v24'/%3E%3Cpath d='M5 56V32'/%3E%3Cpath d='M67 56V32'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom center;
+  }
+
+  .arcada-tinta {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='120' viewBox='0 0 96 120'%3E%3Cg fill='none' stroke='%231a1917' stroke-opacity='0.12' stroke-width='3'%3E%3Cpath d='M6 120V56a42 42 0 0 1 84 0v64'/%3E%3Cpath d='M6 120V56'/%3E%3Cpath d='M90 120V56'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom center;
   }
 
   .quadro {
@@ -106,10 +128,8 @@
     border-radius: var(--radius-caixa);
   }
 
-  /*
-   * Sombra sólida deslocada, como carimbo de tinta fora de registro. Substitui
-   * a sombra difusa, que é o que dá aspecto de interface flutuante.
-   */
+  /* Sombra sólida deslocada, como carimbo de tinta fora de registro.
+     Substitui a sombra difusa, que dá aspecto de interface flutuante. */
   .carimbo {
     box-shadow: 4px 4px 0 var(--color-tinta);
   }
@@ -176,6 +196,24 @@
     color: var(--color-tinta);
     text-decoration: underline;
     text-underline-offset: 3px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Link do menu sobre o verde da barra de topo. */
+  .link-do-menu {
+    color: #f4efe3;
+    font-weight: 600;
+    padding: 0.35rem 0.1rem;
+    border-bottom: 2px solid transparent;
+  }
+
+  .link-do-menu:hover {
+    border-bottom-color: var(--color-mostarda);
+  }
+
+  .link-do-menu[aria-current='page'] {
+    border-bottom-color: var(--color-mostarda);
   }
 
   .campo {
@@ -187,6 +225,11 @@
     font-family: var(--font-corpo);
     font-size: 1rem;
     min-height: 46px;
+  }
+
+  .campo::placeholder {
+    color: #8d867b;
+    opacity: 1;
   }
 
   .campo:focus {
@@ -209,24 +252,39 @@
   .preco {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
+    color: var(--color-terracota-escuro);
     background: var(--color-mostarda-claro);
     border: 2px solid var(--color-tinta);
-    padding: 0.1rem 0.5rem;
+    padding: 0.05rem 0.5rem;
     display: inline-block;
     border-radius: var(--radius-caixa);
+    white-space: nowrap;
+  }
+
+  .preco-sob-consulta {
+    font-size: 0.95rem;
+    color: var(--color-tinta-suave);
+    background: var(--color-papel-fundo);
   }
 
   .selo-categoria {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     border: 1.5px solid var(--color-tinta);
     padding: 0.1rem 0.45rem;
     border-radius: var(--radius-caixa);
     background: var(--color-papel-fundo);
     white-space: nowrap;
+    display: inline-block;
+  }
+
+  .selo-no-verde {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+    color: #f4efe3;
   }
 
   .aviso {
@@ -251,18 +309,55 @@
     border-left-color: var(--color-mostarda);
   }
 
-  /* Faixa de arcos: a assinatura visual, usada no topo e no rodapé. */
-  .faixa-de-arcos {
-    height: 14px;
-    background-image: radial-gradient(
-      circle at 10px -2px,
-      transparent 10px,
-      var(--color-tinta) 10px,
-      var(--color-tinta) 12px,
-      transparent 12px
-    );
-    background-size: 20px 14px;
+  /*
+   * O lugar da foto que ainda não existe.
+   *
+   * A maioria das lojas começa sem foto, e um retângulo vazio faria a vitrine
+   * inteira parecer quebrada no dia da inauguração. Aqui vira um bloco na cor
+   * da categoria, com a arcada por cima e as iniciais discretas: fica óbvio
+   * que falta foto, sem parecer defeito.
+   */
+  .sem-foto {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .sem-foto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90' viewBox='0 0 72 90'%3E%3Cg fill='none' stroke='%231a1917' stroke-opacity='0.14' stroke-width='2.5'%3E%3Cpath d='M5 90V44a31 31 0 0 1 62 0v46'/%3E%3Cpath d='M5 90V44'/%3E%3Cpath d='M67 90V44'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat-x;
+    background-position: bottom center;
+    pointer-events: none;
+  }
+
+  .iniciais-da-foto {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    color: rgba(26, 25, 23, 0.42);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Duas linhas no máximo na descrição do cartão, para a grade não desalinhar. */
+  .duas-linhas {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tres-linhas {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 

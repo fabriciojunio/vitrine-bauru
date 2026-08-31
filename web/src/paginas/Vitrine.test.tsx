@@ -74,7 +74,7 @@ describe('vitrine pública', () => {
     });
   });
 
-  it('oferece os bairros e as categorias que existem de verdade na vitrine', async () => {
+  it('oferece os bairros num seletor e as categorias como atalho', async () => {
     vi.stubGlobal(
       'fetch',
       fetchDeMentira({
@@ -85,9 +85,49 @@ describe('vitrine pública', () => {
 
     renderizar(<Vitrine />);
 
+    // Bairro é seletor porque Bauru tem dezenas deles; categoria é fila de
+    // atalhos porque são doze e cabem numa linha.
     expect(await screen.findByRole('option', { name: 'Vila Cardia' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Alimentação' })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: 'Todos os bairros' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Alimentação' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tudo' })).toBeInTheDocument();
+  });
+
+  it('filtra pela categoria ao clicar no atalho', async () => {
+    const espiao = vi.fn().mockImplementation((url: string) => {
+      if (url.includes('/api/busca/resumo')) {
+        return Promise.resolve(resposta(resumoDeExemplo));
+      }
+      return Promise.resolve(resposta(paginaCom([produtoDeExemplo])));
+    });
+    vi.stubGlobal('fetch', espiao);
+
+    renderizar(<Vitrine />);
+
+    await userEvent.click(await screen.findByRole('button', { name: 'Pet' }));
+
+    await waitFor(() => {
+      const busca = espiao.mock.calls
+        .map((chamada) => String(chamada[0]))
+        .find((url) => url.includes('categoria=Pet'));
+      expect(busca).toBeDefined();
+    });
+  });
+
+  it('explica como a plataforma funciona no fim da página', async () => {
+    vi.stubGlobal(
+      'fetch',
+      fetchDeMentira({
+        '/api/busca/resumo': resumoDeExemplo,
+        '/api/busca/produtos': paginaCom([produtoDeExemplo]),
+      }),
+    );
+
+    renderizar(<Vitrine />);
+
+    expect(await screen.findByRole('heading', { name: 'Como funciona' })).toBeInTheDocument();
+    expect(screen.getByText('Você encontra')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Cadastrar meu negócio/ })).toBeInTheDocument();
   });
 
   it('filtra por bairro pela URL, para o link poder ser compartilhado', async () => {
