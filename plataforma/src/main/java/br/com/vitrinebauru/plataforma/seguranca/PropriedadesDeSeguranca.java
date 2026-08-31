@@ -28,7 +28,7 @@ public record PropriedadesDeSeguranca(
     public PropriedadesDeSeguranca {
         if (segredo == null || segredo.getBytes().length < 32) {
             throw new IllegalStateException(
-                    "vitrine.seguranca.segredo precisa ter no minimo 32 bytes. "
+                    "vitrine.segurança.segredo precisa ter no mínimo 32 bytes. "
                             + "Defina a variavel de ambiente VITRINE_SEGREDO_JWT.");
         }
         if (duracaoDoAcesso == null) {
@@ -39,8 +39,8 @@ public record PropriedadesDeSeguranca(
         }
         if (duracaoDoAcesso.toMinutes() > 60) {
             throw new IllegalStateException(
-                    "Token de acesso com mais de uma hora nao e aceito neste projeto: "
-                            + "o que protege a sessao roubada e a validade curta mais a renovacao.");
+                    "Token de acesso com mais de uma hora não e aceito neste projeto: "
+                            + "o que protege a sessão roubada e a validade curta mais a renovação.");
         }
         if (origensPermitidas == null || origensPermitidas.isEmpty()) {
             origensPermitidas = List.of("http://localhost:5173");

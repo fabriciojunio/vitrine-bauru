@@ -122,8 +122,8 @@ BANCO_URL=jdbc:postgresql://localhost:5432/vitrine DEMO_ATIVO=true \
 ## Testes
 
 ```bash
-mvn verify                    # 897 testes de back-end
-cd web && npm test            # 190 testes de front-end
+mvn verify                    # 813 testes de back-end
+cd web && npm test            # 193 testes de front-end
 cd web && npm run e2e         # 36 testes com navegador de verdade
 ```
 

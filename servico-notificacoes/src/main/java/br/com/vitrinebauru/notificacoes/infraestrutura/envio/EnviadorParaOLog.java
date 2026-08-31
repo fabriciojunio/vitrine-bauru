@@ -27,7 +27,7 @@ public class EnviadorParaOLog implements EnviadorDeEmail {
 
     @Override
     public void enviar(Notificacao notificacao) {
-        log.info("E-mail nao enviado de verdade (sem provedor configurado): {} para {} [{}]",
+        log.info("E-mail não enviado de verdade (sem provedor configurado): {} para {} [{}]",
                 notificacao.tipo(), mascarar(notificacao.destinatario()), notificacao.assunto());
     }
 

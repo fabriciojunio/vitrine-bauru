@@ -27,7 +27,7 @@ class DinheiroTest {
     }
 
     @Test
-    @DisplayName("usa espaco comum, e nao o espaco nao separavel do NumberFormat")
+    @DisplayName("usa espaço comum, e não o espaço não separável do NumberFormat")
     void naoUsaEspacoEstranho() {
         String formatado = Dinheiro.deCentavos(1250).formatado();
 
@@ -45,7 +45,7 @@ class DinheiroTest {
             "'0,99', 99",
             "'10', 1000"
     })
-    @DisplayName("le valor digitado pelo empreendedor no formato brasileiro")
+    @DisplayName("lê valor digitado pelo empreendedor no formato brasileiro")
     void leValorDigitado(String digitado, long centavos) {
         assertThat(Dinheiro.deReais(digitado).centavos()).isEqualTo(centavos);
     }
@@ -69,7 +69,7 @@ class DinheiroTest {
     }
 
     @Test
-    @DisplayName("recusa preco negativo")
+    @DisplayName("recusa preço negativo")
     void recusaNegativo() {
         assertThatThrownBy(() -> Dinheiro.deCentavos(-1))
                 .isInstanceOf(Dinheiro.DinheiroInvalido.class)
@@ -77,7 +77,7 @@ class DinheiroTest {
     }
 
     @Test
-    @DisplayName("recusa texto que nao e numero")
+    @DisplayName("recusa texto que não e número")
     void recusaTextoInvalido() {
         assertThatThrownBy(() -> Dinheiro.deReais("combinar"))
                 .isInstanceOf(Dinheiro.DinheiroInvalido.class);

@@ -18,7 +18,7 @@ public record Dinheiro(long centavos) implements Comparable<Dinheiro> {
 
     public Dinheiro {
         if (centavos < 0) {
-            throw new DinheiroInvalido("Preco nao pode ser negativo");
+            throw new DinheiroInvalido("Preço não pode ser negativo");
         }
     }
 
@@ -35,7 +35,7 @@ public record Dinheiro(long centavos) implements Comparable<Dinheiro> {
             BigDecimal valor = new BigDecimal(limpo).setScale(2, RoundingMode.HALF_UP);
             return new Dinheiro(valor.movePointRight(2).longValueExact());
         } catch (NumberFormatException | ArithmeticException e) {
-            throw new DinheiroInvalido("Valor invalido: " + reais);
+            throw new DinheiroInvalido("Valor inválido: " + reais);
         }
     }
 

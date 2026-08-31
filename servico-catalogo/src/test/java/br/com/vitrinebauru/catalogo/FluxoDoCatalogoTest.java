@@ -145,7 +145,7 @@ class FluxoDoCatalogoTest {
     class Publicar {
 
         @Test
-        @DisplayName("publica e gera o evento que a busca vai consumir")
+        @DisplayName("pública e gera o evento que a busca vai consumir")
         void publicaEGeraEvento() throws Exception {
             UUID produtoId = publicar("Bolo de pote", 1200L);
 
@@ -230,7 +230,7 @@ class FluxoDoCatalogoTest {
         }
 
         @Test
-        @DisplayName("sem token não publica")
+        @DisplayName("sem token não pública")
         void semToken() throws Exception {
             mockMvc.perform(post("/api/catalogo/meus-produtos")
                             .contentType(MediaType.APPLICATION_JSON)

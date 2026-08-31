@@ -62,7 +62,7 @@ public class EnviarPendentes {
 
                 if (notificacao.esgotouTentativas()) {
                     log.error("E-mail {} para o empreendedor {} esgotou as tentativas. "
-                                    + "A pessoa nao foi avisada e alguem precisa olhar.",
+                                    + "A pessoa não foi avisada e alguém precisa olhar.",
                             notificacao.tipo(), notificacao.empreendedorId(), e);
                 } else {
                     log.warn("Falha ao enviar {} ({}a tentativa): {}",

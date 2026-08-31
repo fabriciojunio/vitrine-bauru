@@ -36,7 +36,7 @@ public class MapeadorDeEventos {
         try {
             return mapeador.writeValueAsString(evento);
         } catch (Exception e) {
-            throw new EventoIlegivel("Nao foi possivel serializar o evento " + evento.tipoDoEvento(), e);
+            throw new EventoIlegivel("Não foi possível serializar o evento " + evento.tipoDoEvento(), e);
         }
     }
 
@@ -44,7 +44,7 @@ public class MapeadorDeEventos {
         try {
             return mapeador.readValue(json, Evento.class);
         } catch (Exception e) {
-            throw new EventoIlegivel("Nao foi possivel ler o evento recebido", e);
+            throw new EventoIlegivel("Não foi possível ler o evento recebido", e);
         }
     }
 

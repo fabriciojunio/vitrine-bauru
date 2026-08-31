@@ -106,13 +106,13 @@ class MapeadorDeEventosTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("todosOsEventos")
-    @DisplayName("a data sai como texto ISO, e nao como numero de milissegundos")
+    @DisplayName("a data sai como texto ISO, e não como número de milissegundos")
     void dataEmFormatoLegivel(Evento original) {
         assertThat(mapeador.paraJson(original)).contains("2026-09-22T15:30:00Z");
     }
 
     @Test
-    @DisplayName("aceita campo desconhecido, para o servico antigo ler evento da versao nova")
+    @DisplayName("aceita campo desconhecido, para o serviço antigo ler evento da versao nova")
     void aceitaCampoNovo() {
         String json = """
                 {"tipo":"ProdutoRetirado","id":"%s","correlacao":"%s","ocorridoEm":"2026-09-22T15:30:00Z",
@@ -125,16 +125,16 @@ class MapeadorDeEventosTest {
     }
 
     @Test
-    @DisplayName("recusa JSON sem tipo, porque nao da para adivinhar o que e")
+    @DisplayName("recusa JSON sem tipo, porque não da para adivinhar o que e")
     void recusaSemTipo() {
         assertThatThrownBy(() -> mapeador.deJson("{\"empreendedorId\":\"" + EMPREENDEDOR + "\"}"))
                 .isInstanceOf(MapeadorDeEventos.EventoIlegivel.class);
     }
 
     @Test
-    @DisplayName("recusa texto que nao e JSON")
+    @DisplayName("recusa texto que não e JSON")
     void recusaLixo() {
-        assertThatThrownBy(() -> mapeador.deJson("nao e json"))
+        assertThatThrownBy(() -> mapeador.deJson("não e json"))
                 .isInstanceOf(MapeadorDeEventos.EventoIlegivel.class);
     }
 

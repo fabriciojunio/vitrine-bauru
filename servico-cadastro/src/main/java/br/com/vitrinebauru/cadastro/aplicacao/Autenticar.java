@@ -70,7 +70,7 @@ public class Autenticar {
 
         if (encontrado.isEmpty()) {
             codificador.matches(senha == null ? "" : senha, HASH_DE_MENTIRA);
-            log.info("Tentativa de login com e-mail nao cadastrado");
+            log.info("Tentativa de login com e-mail não cadastrado");
             throw new ErrosDeNegocio.NaoAutenticado(MENSAGEM_GENERICA);
         }
 

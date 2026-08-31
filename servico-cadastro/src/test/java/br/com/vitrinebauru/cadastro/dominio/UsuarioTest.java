@@ -23,7 +23,7 @@ class UsuarioTest {
     }
 
     @Test
-    @DisplayName("guarda o e-mail em minusculas")
+    @DisplayName("guarda o e-mail em minúsculas")
     void normalizaEmail() {
         assertThat(novo().email()).isEqualTo("lourdes@exemplo.com");
     }
@@ -105,7 +105,7 @@ class UsuarioTest {
     }
 
     @Test
-    @DisplayName("conta desativada nao entra")
+    @DisplayName("conta desativada não entra")
     void contaDesativadaNaoEntra() {
         var usuario = novo();
         usuario.anonimizar(AGORA);
@@ -116,7 +116,7 @@ class UsuarioTest {
     }
 
     @Test
-    @DisplayName("anonimizar tira nome, e-mail e senha, e mantem o identificador")
+    @DisplayName("anonimizar tira nome, e-mail e senha, e mantém o identificador")
     void anonimiza() {
         var usuario = novo();
         var id = usuario.id();
@@ -132,7 +132,7 @@ class UsuarioTest {
     }
 
     @Test
-    @DisplayName("o e-mail anonimizado nao colide com o de outra conta removida")
+    @DisplayName("o e-mail anonimizado não colide com o de outra conta removida")
     void emailAnonimizadoNaoColide() {
         var primeira = novo();
         var segunda = Usuario.novo("Outro", "outro@exemplo.com", "hash", Papel.EMPREENDEDOR, AGORA);

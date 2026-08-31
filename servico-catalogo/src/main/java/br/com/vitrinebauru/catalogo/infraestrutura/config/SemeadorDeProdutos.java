@@ -57,7 +57,7 @@ public class SemeadorDeProdutos implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments argumentos) {
         if (produtos.count() > 0) {
-            log.info("Catalogo da demonstracao ja semeado");
+            log.info("Catálogo da demonstração já semeado");
             return;
         }
 
@@ -66,7 +66,7 @@ public class SemeadorDeProdutos implements ApplicationRunner {
 
         for (DadosDaDemonstracao.Produto ficticio : DadosDaDemonstracao.produtos()) {
             var categoria = categorias.findByNome(ficticio.categoria()).orElseThrow(() ->
-                    new IllegalStateException("Categoria da demonstracao nao existe: "
+                    new IllegalStateException("Categoria da demonstração não existe: "
                             + ficticio.categoria()));
 
             // Espalha as datas para o catálogo não parecer criado de uma vez.
@@ -92,7 +92,7 @@ public class SemeadorDeProdutos implements ApplicationRunner {
                     null, produto.disponivel()));
         }
 
-        log.info("Catalogo da demonstracao semeado com {} produtos",
+        log.info("Catálogo da demonstração semeado com {} produtos",
                 DadosDaDemonstracao.produtos().size());
     }
 }

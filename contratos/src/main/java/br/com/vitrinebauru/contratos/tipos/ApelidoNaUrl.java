@@ -16,7 +16,7 @@ public record ApelidoNaUrl(String valor) {
 
     public ApelidoNaUrl {
         if (valor == null || !valor.matches("[a-z0-9]+(-[a-z0-9]+)*")) {
-            throw new ApelidoInvalido("Apelido so aceita letras minusculas, numeros e hifen");
+            throw new ApelidoInvalido("Apelido só aceita letras minúsculas, números e hífen");
         }
         if (valor.length() > TAMANHO_MAXIMO) {
             throw new ApelidoInvalido("Apelido passa de " + TAMANHO_MAXIMO + " caracteres");
@@ -25,7 +25,7 @@ public record ApelidoNaUrl(String valor) {
 
     public static ApelidoNaUrl deTexto(String texto) {
         if (texto == null || texto.isBlank()) {
-            throw new ApelidoInvalido("Informe o nome do negocio");
+            throw new ApelidoInvalido("Informe o nome do negócio");
         }
         String semAcento = Normalizer.normalize(texto, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "");
@@ -37,7 +37,7 @@ public record ApelidoNaUrl(String valor) {
             apelido = apelido.substring(0, TAMANHO_MAXIMO).replaceAll("-+$", "");
         }
         if (apelido.isEmpty()) {
-            throw new ApelidoInvalido("O nome do negocio precisa ter ao menos uma letra ou numero");
+            throw new ApelidoInvalido("O nome do negócio precisa ter ao menos uma letra ou número");
         }
         return new ApelidoNaUrl(apelido);
     }

@@ -44,7 +44,7 @@ class DespachanteTest {
     }
 
     @Test
-    @DisplayName("entrega so a quem assinou o topico")
+    @DisplayName("entrega só a quem assinou o topico")
     void entregaSoAQuemAssinou() {
         var deEmpreendedores = new ConsumidorDeMentira("empreendedores", Set.of(Topicos.EMPREENDEDORES));
         var deCatalogo = new ConsumidorDeMentira("catalogo", Set.of(Topicos.CATALOGO));
@@ -84,7 +84,7 @@ class DespachanteTest {
     }
 
     @Test
-    @DisplayName("o mesmo evento em dois consumidores nao e repeticao")
+    @DisplayName("o mesmo evento em dois consumidores não e repetição")
     void doisConsumidoresNaoSaoRepeticao() {
         var primeiro = new ConsumidorDeMentira("primeiro", Set.of(Topicos.EMPREENDEDORES));
         var segundo = new ConsumidorDeMentira("segundo", Set.of(Topicos.EMPREENDEDORES));
@@ -119,13 +119,13 @@ class DespachanteTest {
     }
 
     @Test
-    @DisplayName("servico sem consumidor nao assina nada")
+    @DisplayName("serviço sem consumidor não assina nada")
     void semConsumidorNaoAssina() {
         assertThat(despachanteCom().topicosAssinados()).isEmpty();
     }
 
     @Test
-    @DisplayName("abre uma transacao por consumidor, e nao uma para todos")
+    @DisplayName("abre uma transação por consumidor, e não uma para todos")
     void umaTransacaoPorConsumidor() {
         despachanteCom(
                 new ConsumidorDeMentira("a", Set.of(Topicos.EMPREENDEDORES)),

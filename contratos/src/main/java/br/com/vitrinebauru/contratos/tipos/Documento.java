@@ -41,21 +41,21 @@ public record Documento(String valor, Tipo tipo) {
             case 11 -> criarCpf(limpo);
             case 14 -> criarCnpj(limpo);
             default -> throw new DocumentoInvalido(
-                    "O documento precisa ter 11 digitos (CPF) ou 14 caracteres (CNPJ)");
+                    "O documento precisa ter 11 dígitos (CPF) ou 14 caracteres (CNPJ)");
         };
     }
 
     private static Documento criarCpf(String limpo) {
         if (!limpo.matches("\\d{11}")) {
-            throw new DocumentoInvalido("CPF so pode ter numeros");
+            throw new DocumentoInvalido("CPF só pode ter números");
         }
         if (todosIguais(limpo)) {
-            throw new DocumentoInvalido("CPF invalido");
+            throw new DocumentoInvalido("CPF inválido");
         }
         int primeiro = digito(limpo.substring(0, 9), PESOS_CPF_PRIMEIRO);
         int segundo = digito(limpo.substring(0, 10), PESOS_CPF_SEGUNDO);
         if (limpo.charAt(9) - '0' != primeiro || limpo.charAt(10) - '0' != segundo) {
-            throw new DocumentoInvalido("CPF invalido");
+            throw new DocumentoInvalido("CPF inválido");
         }
         return new Documento(limpo, Tipo.CPF);
     }
@@ -63,15 +63,15 @@ public record Documento(String valor, Tipo tipo) {
     private static Documento criarCnpj(String limpo) {
         if (!limpo.substring(0, 12).matches("[0-9A-Z]{12}") || !limpo.substring(12).matches("\\d{2}")) {
             throw new DocumentoInvalido(
-                    "CNPJ precisa de 12 caracteres alfanumericos seguidos de 2 digitos verificadores");
+                    "CNPJ precisa de 12 caracteres alfanuméricos seguidos de 2 dígitos verificadores");
         }
         if (todosIguais(limpo)) {
-            throw new DocumentoInvalido("CNPJ invalido");
+            throw new DocumentoInvalido("CNPJ inválido");
         }
         int primeiro = digito(limpo.substring(0, 12), PESOS_CNPJ_PRIMEIRO);
         int segundo = digito(limpo.substring(0, 13), PESOS_CNPJ_SEGUNDO);
         if (limpo.charAt(12) - '0' != primeiro || limpo.charAt(13) - '0' != segundo) {
-            throw new DocumentoInvalido("CNPJ invalido");
+            throw new DocumentoInvalido("CNPJ inválido");
         }
         return new Documento(limpo, Tipo.CNPJ);
     }

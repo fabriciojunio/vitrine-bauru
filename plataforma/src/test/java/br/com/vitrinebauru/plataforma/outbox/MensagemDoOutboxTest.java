@@ -44,7 +44,7 @@ class MensagemDoOutboxTest {
     }
 
     @Test
-    @DisplayName("dobra a espera a cada falha, ate dez minutos")
+    @DisplayName("dobra a espera a cada falha, até dez minutos")
     void esperaCrescente() {
         var mensagem = nova();
 
@@ -62,7 +62,7 @@ class MensagemDoOutboxTest {
     }
 
     @Test
-    @DisplayName("a espera nao passa de dez minutos, senao a fila nunca mais anda")
+    @DisplayName("a espera não passa de dez minutos, senao a fila nunca mais anda")
     void esperaTemTeto() {
         var mensagem = nova();
 
@@ -88,7 +88,7 @@ class MensagemDoOutboxTest {
     }
 
     @Test
-    @DisplayName("corta erro comprido para nao estourar a coluna")
+    @DisplayName("corta erro comprido para não estourar a coluna")
     void cortaErroComprido() {
         var mensagem = nova();
 

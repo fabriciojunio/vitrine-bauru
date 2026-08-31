@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
-@DisplayName("Limite de requisicoes")
+@DisplayName("Limite de requisições")
 class FiltroDeLimiteTest {
 
     private static final String LOGIN = "/api/cadastro/auth/login";
@@ -34,7 +34,7 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("deixa passar ate a capacidade e barra a proxima")
+    @DisplayName("deixa passar até a capacidade e barra a proxima")
     void barraDepoisDaCapacidade() throws Exception {
         var filtro = filtroCom(true, 5);
 
@@ -46,7 +46,7 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("conta separado por endereco de origem")
+    @DisplayName("conta separado por endereço de origem")
     void contaSeparadoPorOrigem() throws Exception {
         var filtro = filtroCom(true, 2);
 
@@ -58,7 +58,7 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("nao limita caminho fora das regras")
+    @DisplayName("não limita caminho fora das regras")
     void naoLimitaOutroCaminho() throws Exception {
         var filtro = filtroCom(true, 1);
 
@@ -80,7 +80,7 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("usa o endereco real de tras do proxy da hospedagem")
+    @DisplayName("usa o endereço real de tras do proxy da hospedagem")
     void usaEnderecoDeTrasDoProxy() throws Exception {
         var filtro = filtroCom(true, 1);
 
@@ -98,7 +98,7 @@ class FiltroDeLimiteTest {
 
         assertThat(respostaUm.getStatus()).isEqualTo(200);
         assertThat(respostaDois.getStatus())
-                .as("dois clientes diferentes atras do mesmo proxy nao dividem o balde")
+                .as("dois clientes diferentes atrás do mesmo proxy não dividem o balde")
                 .isEqualTo(200);
     }
 
@@ -120,7 +120,7 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("regra sem capacidade nao e aceita na configuracao")
+    @DisplayName("regra sem capacidade não e aceita na configuração")
     void recusaRegraSemCapacidade() {
         assertThatThrownBy(() -> new PropriedadesDeLimite.Regra("/api/**", 0, Duration.ofMinutes(1)))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -129,7 +129,7 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("sem regra configurada, o filtro nao atrapalha")
+    @DisplayName("sem regra configurada, o filtro não atrapalha")
     void semRegras() throws Exception {
         var filtro = new FiltroDeLimite(new PropriedadesDeLimite(true, null), new SimpleMeterRegistry());
 

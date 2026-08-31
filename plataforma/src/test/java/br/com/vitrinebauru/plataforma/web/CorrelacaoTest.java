@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-@DisplayName("Correlacao entre servicos")
+@DisplayName("Correlação entre serviços")
 class CorrelacaoTest {
 
     private final FiltroDeCorrelacao filtro = new FiltroDeCorrelacao();
@@ -24,7 +24,7 @@ class CorrelacaoTest {
     }
 
     @Test
-    @DisplayName("aproveita a correlacao que veio do cliente")
+    @DisplayName("aproveita a correlação que veio do cliente")
     void aproveitaAQueVeio() throws Exception {
         String vinda = UUID.randomUUID().toString();
         var requisicao = new MockHttpServletRequest();
@@ -37,7 +37,7 @@ class CorrelacaoTest {
     }
 
     @Test
-    @DisplayName("cria uma correlacao quando o cliente nao mandou")
+    @DisplayName("cria uma correlação quando o cliente não mandou")
     void criaQuandoNaoVeio() throws Exception {
         var resposta = new MockHttpServletResponse();
 
@@ -48,7 +48,7 @@ class CorrelacaoTest {
     }
 
     @Test
-    @DisplayName("descarta texto livre no cabecalho, que serviria para forjar linha de log")
+    @DisplayName("descarta texto livre no cabeçalho, que serviria para forjar linha de log")
     void descartaTextoLivre() throws Exception {
         var requisicao = new MockHttpServletRequest();
         requisicao.addHeader(FiltroDeCorrelacao.CABECALHO, "linha1\nlinha2 usuario=admin");
@@ -60,7 +60,7 @@ class CorrelacaoTest {
     }
 
     @Test
-    @DisplayName("limpa o registro depois da requisicao, para a thread reaproveitada nao herdar")
+    @DisplayName("limpa o registro depois da requisição, para a thread reaproveitada não herdar")
     void limpaDepois() throws Exception {
         filtro.doFilter(new MockHttpServletRequest(), new MockHttpServletResponse(), mock(FilterChain.class));
 
@@ -68,13 +68,13 @@ class CorrelacaoTest {
     }
 
     @Test
-    @DisplayName("fora de requisicao, gera uma correlacao em vez de devolver nulo")
+    @DisplayName("fora de requisição, gera uma correlação em vez de devolver nulo")
     void foraDeRequisicao() {
         assertThat(Correlacao.atual()).isNotNull();
     }
 
     @Test
-    @DisplayName("dentro da requisicao, usa a correlacao do registro de log")
+    @DisplayName("dentro da requisição, usa a correlação do registro de log")
     void dentroDaRequisicao() {
         UUID esperada = UUID.randomUUID();
         MDC.put(FiltroDeCorrelacao.CHAVE_NO_LOG, esperada.toString());
@@ -83,7 +83,7 @@ class CorrelacaoTest {
     }
 
     @Test
-    @DisplayName("registro corrompido nao derruba a criacao do evento")
+    @DisplayName("registro corrompido não derruba a criação do evento")
     void registroCorrompido() {
         MDC.put(FiltroDeCorrelacao.CHAVE_NO_LOG, "nao-e-uuid");
 

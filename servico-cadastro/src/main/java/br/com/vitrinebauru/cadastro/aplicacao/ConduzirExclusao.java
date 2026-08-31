@@ -64,7 +64,7 @@ public class ConduzirExclusao {
     public void registrarConfirmacao(UUID empreendedorId, Participante participante, int removidos) {
         var pedido = pedidos.findByEmpreendedorId(empreendedorId).orElse(null);
         if (pedido == null) {
-            log.warn("Confirmacao de expurgo de {} sem pedido correspondente. Ignorando.", participante);
+            log.warn("Confirmação de expurgo de {} sem pedido correspondente. Ignorando.", participante);
             return;
         }
 
@@ -95,7 +95,7 @@ public class ConduzirExclusao {
                 "Todos os serviços confirmaram o expurgo");
         metricas.counter("vitrine.exclusao.concluidas").increment();
 
-        log.info("Exclusao do empreendedor {} concluida", pedido.empreendedorId());
+        log.info("Exclusão do empreendedor {} concluída", pedido.empreendedorId());
     }
 
     /**
@@ -121,7 +121,7 @@ public class ConduzirExclusao {
                 continue;
             }
 
-            log.warn("Exclusao do empreendedor {} parada ha tempo demais. Faltam {}. Reenviando.",
+            log.warn("Exclusão do empreendedor {} parada há tempo demais. Faltam {}. Reenviando.",
                     pedido.empreendedorId(), pedido.faltando());
 
             outbox.gravar(Topicos.PRIVACIDADE, new ExclusaoSolicitada(
@@ -131,8 +131,8 @@ public class ConduzirExclusao {
             metricas.counter("vitrine.exclusao.reenvios").increment();
 
             if (pedido.estaAtrasado(agora)) {
-                log.error("PRAZO LEGAL ESTOURADO: exclusao do empreendedor {} passou de {}. "
-                                + "Servicos que nao responderam: {}. Precisa de acao manual.",
+                log.error("PRAZO LEGAL ESTOURADO: exclusão do empreendedor {} passou de {}. "
+                                + "Serviços que não responderam: {}. Precisa de ação manual.",
                         pedido.empreendedorId(), pedido.prazoLimite(), pedido.faltando());
                 metricas.counter("vitrine.exclusao.atrasadas").increment();
                 auditor.registrar(null, "exclusao_atrasada", "empreendedor", pedido.empreendedorId(),

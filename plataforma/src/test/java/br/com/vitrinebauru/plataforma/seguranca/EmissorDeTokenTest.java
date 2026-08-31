@@ -29,7 +29,7 @@ class EmissorDeTokenTest {
     }
 
     @Test
-    @DisplayName("devolve no token o mesmo usuario que entrou")
+    @DisplayName("devolve no token o mesmo usuário que entrou")
     void idaEVolta() {
         var emissor = emissorEm(AGORA, SEGREDO);
         var usuario = new UsuarioAutenticado(usuarioId, "lourdes@exemplo.com",
@@ -112,7 +112,7 @@ class EmissorDeTokenTest {
     }
 
     @Test
-    @DisplayName("nao aceita segredo curto demais para HMAC")
+    @DisplayName("não aceita segredo curto demais para HMAC")
     void recusaSegredoCurto() {
         assertThatThrownBy(() -> new PropriedadesDeSeguranca(
                 "curto", Duration.ofMinutes(15), Duration.ofDays(7), List.of()))
@@ -121,7 +121,7 @@ class EmissorDeTokenTest {
     }
 
     @Test
-    @DisplayName("nao aceita token de acesso com validade longa")
+    @DisplayName("não aceita token de acesso com validade longa")
     void recusaValidadeLonga() {
         assertThatThrownBy(() -> new PropriedadesDeSeguranca(
                 SEGREDO, Duration.ofHours(8), Duration.ofDays(7), List.of()))
@@ -130,7 +130,7 @@ class EmissorDeTokenTest {
     }
 
     @Test
-    @DisplayName("aplica padrao quando duracao e origem nao foram configuradas")
+    @DisplayName("aplica padrão quando duração e origem não foram configuradas")
     void aplicaPadroes() {
         var propriedades = new PropriedadesDeSeguranca(SEGREDO, null, null, null);
 
