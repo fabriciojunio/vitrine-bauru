@@ -21,17 +21,17 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 /**
- * Enche o catalogo da demonstracao.
+ * Enche o catálogo da demonstração.
  *
- * <p>Grava direto no repositorio, sem passar pelo caso de uso. E a unica
- * excecao a regra do projeto, e ela tem motivo: o caso de uso exige que o
- * empreendedor ja seja conhecido do catalogo, e ele so passa a ser quando o
- * evento de cadastro chega, o que ainda nao aconteceu no instante em que a
- * aplicacao esta subindo. Esperar por isso dentro de um {@code ApplicationRunner}
- * seria travar a subida do servico por causa de dado de demonstracao.
+ * <p>Grava direto no repositório, sem passar pelo caso de uso. É a única
+ * exceção a regra do projeto, e ela tem motivo: o caso de uso exige que o
+ * empreendedor já seja conhecido do catálogo, e ele só passa a ser quando o
+ * evento de cadastro chega, o que ainda não aconteceu no instante em que a
+ * aplicação está subindo. Esperar por isso dentro de um {@code ApplicationRunner}
+ * seria travar a subida do serviço por causa de dado de demonstração.
  *
- * <p>Os eventos, esses sim, sao gravados: a busca publica se enche por evento,
- * como se enche em producao.
+ * <p>Os eventos, esses sim, são gravados: a busca pública se enche por evento,
+ * como se enche em produção.
  */
 @Component
 @ConditionalOnProperty(name = "vitrine.demo.ativo", havingValue = "true")
@@ -69,7 +69,7 @@ public class SemeadorDeProdutos implements ApplicationRunner {
                     new IllegalStateException("Categoria da demonstracao nao existe: "
                             + ficticio.categoria()));
 
-            // Espalha as datas para o catalogo nao parecer criado de uma vez.
+            // Espalha as datas para o catálogo não parecer criado de uma vez.
             var publicadoEm = agora.minus(60L - posicao, ChronoUnit.DAYS);
             posicao++;
 

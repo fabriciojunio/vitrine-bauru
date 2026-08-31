@@ -16,13 +16,13 @@ import java.util.Map;
 /**
  * Envio de verdade, pelo Resend.
  *
- * <p>So entra em cena quando existe chave configurada. Sem chave, o servico
+ * <p>Só entra em cena quando existe chave configurada. Sem chave, o serviço
  * sobe com o registrador em log, o que permite rodar a plataforma inteira em
- * desenvolvimento e na demonstracao sem contratar nada nem vazar e-mail de
- * ninguem.
+ * desenvolvimento e na demonstração sem contratar nada nem vazar e-mail de
+ * ninguém.
  *
- * <p>A camada gratuita do Resend cobre 3 mil e-mails por mes e 100 por dia,
- * que e mais do que o volume esperado: cada empreendedor recebe entre dois e
+ * <p>A camada gratuita do Resend cobre 3 mil e-mails por mês e 100 por dia,
+ * que é mais do que o volume esperado: cada empreendedor recebe entre dois e
  * quatro e-mails na vida inteira do cadastro.
  */
 @Component

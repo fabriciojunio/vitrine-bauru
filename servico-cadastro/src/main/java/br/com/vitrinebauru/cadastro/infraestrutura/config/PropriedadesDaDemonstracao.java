@@ -3,10 +3,10 @@ package br.com.vitrinebauru.cadastro.infraestrutura.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Liga o modo demonstracao.
+ * Liga o modo demonstração.
  *
- * <p>Desligado por padrao. Isso importa: com o modo ligado existe um endereco
- * que devolve sessao valida sem senha nenhuma, e um dia esse serviço vai
+ * <p>Desligado por padrão. Isso importa: com o modo ligado existe um endereço
+ * que devolve sessão válida sem senha nenhuma, e um dia esse serviço vai
  * subir com dado de gente de verdade dentro. Ligar precisa ser um ato
  * deliberado do ambiente, nunca um esquecimento.
  *

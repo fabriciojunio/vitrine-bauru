@@ -13,12 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Duas coisas sao publicas no catalogo: a lista de categorias e as imagens.
+ * Duas coisas são públicas no catálogo: a lista de categorias e as imagens.
  * O resto exige o token emitido pelo cadastro.
  *
- * <p>Desligado quando os quatro servicos rodam num processo so: la existe uma
- * cadeia de seguranca unica, cobrindo todos os caminhos de uma vez. Duas
- * cadeias no mesmo contexto sem separacao por caminho fariam a primeira
+ * <p>Desligado quando os quatro serviços rodam num processo só: lá existe uma
+ * cadeia de segurança única, cobrindo todos os caminhos de uma vez. Duas
+ * cadeias no mesmo contexto sem separação por caminho fariam a primeira
  * responder por tudo, e a segunda nunca valeria.
  */
 @Configuration

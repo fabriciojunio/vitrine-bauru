@@ -6,10 +6,10 @@
 # regra, e existe porque não há Kafka gerenciado de graça em 2026.
 #
 #   docker compose up -d
-#   docker compose logs -f servico-cadastro
+#   docker compose logs -f serviço-cadastro
 #
 # Para desenvolver um serviço na IDE, suba só a infraestrutura:
-#   docker compose up -d broker banco-cadastro banco-catalogo banco-busca banco-notificacoes
+#   docker compose up -d broker banco-cadastro banco-catálogo banco-busca banco-notificações
 
 name: vitrine-bauru
 

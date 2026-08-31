@@ -16,25 +16,25 @@ import java.time.Duration;
 import java.util.UUID;
 
 /**
- * Abre o pedido de exclusao de dados (LGPD, artigo 18, inciso VI).
+ * Abre o pedido de exclusão de dados (LGPD, artigo 18, inciso VI).
  *
- * <p>Duas coisas acontecem na hora e nao esperam a saga terminar: a loja sai
- * do ar e as sessoes caem. Quem pediu para sair nao deve continuar aparecendo
- * na vitrine enquanto quatro servicos conversam entre si.
+ * <p>Duas coisas acontecem na hora e não esperam a saga terminar: a loja sai
+ * do ar e as sessões caem. Quem pediu para sair não deve continuar aparecendo
+ * na vitrine enquanto quatro serviços conversam entre si.
  *
- * <p>O apagamento de fato leva o tempo da saga. Isso e dito para o
+ * <p>O apagamento de fato leva o tempo da saga. Isso é dito para o
  * empreendedor na tela, com prazo, porque prometer "seus dados foram apagados"
- * no instante do clique seria mentira: os produtos ainda estao no banco do
- * catalogo naquele segundo.
+ * no instante do clique seria mentira: os produtos ainda estão no banco do
+ * catálogo naquele segundo.
  */
 @Component
 public class SolicitarExclusao {
 
     /**
-     * Prazo de resposta ao titular. Quinze dias e o que a ANPD usa como
-     * referencia para pedido que nao pode ser atendido de imediato. Aqui a
+     * Prazo de resposta ao titular. Quinze dias é o que a ANPD usa como
+     * referência para pedido que não pode ser atendido de imediato. Aqui a
      * saga costuma fechar em segundos; o prazo existe para o caso em que um
-     * servico fica fora do ar, e e ele que dispara o alerta.
+     * serviço fica fora do ar, e é ele que dispara o alerta.
      */
     public static final Duration PRAZO = Duration.ofDays(15);
 

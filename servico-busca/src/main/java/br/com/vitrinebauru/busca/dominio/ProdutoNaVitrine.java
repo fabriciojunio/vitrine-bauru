@@ -9,17 +9,17 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * O produto como o consumidor o ve.
+ * O produto como o consumidor o vê.
  *
- * <p>Guarda junto o bairro e o nome da loja, que sao dados do cadastro e nao
- * do catalogo. Isso e duplicacao de proposito: sem ela, filtrar produto por
- * bairro exigiria juntar duas tabelas alimentadas por servicos diferentes a
- * cada busca. Como projecao pode ser reconstruida a partir dos eventos, a
- * duplicacao aqui nao cria uma segunda fonte da verdade.
+ * <p>Guarda junto o bairro e o nome da loja, que são dados do cadastro e não
+ * do catálogo. Isso é duplicação de propósito: sem ela, filtrar produto por
+ * bairro exigiria juntar duas tabelas alimentadas por serviços diferentes a
+ * cada busca. Como projeção pode ser reconstruída a partir dos eventos, a
+ * duplicação aqui não cria uma segunda fonte da verdade.
  *
- * <p>Quando o produto chega antes da loja (a ordem entre topicos diferentes
- * nao e garantida), a linha e criada mesmo assim, com o nome da loja em
- * branco, e completada quando o evento da loja chegar. Melhor uma projecao que
+ * <p>Quando o produto chega antes da loja (a ordem entre tópicos diferentes
+ * não é garantida), a linha é criada mesmo assim, com o nome da loja em
+ * branco, e completada quando o evento da loja chegar. Melhor uma projeção que
  * se completa sozinha do que uma que rejeita o evento e some com o produto.
  */
 @Entity
@@ -109,7 +109,7 @@ public class ProdutoNaVitrine {
         this.busca = Normalizacao.juntar(nome, descricao, categoriaNome, lojaNome, bairro);
     }
 
-    /** So aparece o que esta disponivel e cuja loja esta no ar. */
+    /** Só aparece o que está disponível e cuja loja está no ar. */
     public boolean apareceNaVitrine() {
         return visivel && disponivel;
     }

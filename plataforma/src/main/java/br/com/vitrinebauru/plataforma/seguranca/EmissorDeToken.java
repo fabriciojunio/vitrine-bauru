@@ -16,15 +16,15 @@ import java.util.UUID;
 /**
  * Emite e confere o token de acesso.
  *
- * <p>O token e curto (quinze minutos por padrao) e nao pode ser revogado, que
- * e o preco de nao consultar o banco a cada requisicao. Quem revoga acesso e a
- * renovacao: o refresh fica no banco, e derrubar a sessao e apagar a linha
+ * <p>O token é curto (quinze minutos por padrão) e não pode ser revogado, que
+ * é o preço de não consultar o banco a cada requisição. Quem revoga acesso é a
+ * renovação: o refresh fica no banco, e derrubar a sessão é apagar a linha
  * dele. Por isso a validade do acesso precisa ser curta o bastante para a
- * janela entre revogar e o token morrer nao importar.
+ * janela entre revogar e o token morrer não importar.
  *
- * <p>O papel viaja dentro do token. Isso permite o catalogo autorizar sem
- * chamar o cadastro. Como o token e assinado, adulterar o papel exige o
- * segredo, que so os servicos tem.
+ * <p>O papel viaja dentro do token. Isso permite o catálogo autorizar sem
+ * chamar o cadastro. Como o token é assinado, adulterar o papel exige o
+ * segredo, que só os serviços tem.
  */
 @Component
 public class EmissorDeToken {
@@ -62,9 +62,9 @@ public class EmissorDeToken {
     }
 
     /**
-     * @return o usuario do token, ou vazio se o token for invalido, expirado,
-     *         adulterado ou de outro emissor. Nao levanta excecao de proposito:
-     *         token invalido e situacao esperada num endpoint publico, e nao
+     * @return o usuário do token, ou vazio se o token for inválido, expirado,
+     *         adulterado ou de outro emissor. Não levanta exceção de propósito:
+     *         token inválido é situação esperada num endpoint público, e não
      *         acidente digno de pilha de erro no log.
      */
     public Optional<UsuarioAutenticado> ler(String token) {

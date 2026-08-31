@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 /**
  * O painel da SEDECON.
  *
- * <p>Responde as perguntas do objetivo especifico numero 5 do projeto, que e
+ * <p>Responde as perguntas do objetivo específico número 5 do projeto, que é
  * "avaliar o impacto e o engajamento inicial da plataforma". Sem isto, a
- * resposta na apresentacao final seria impressao pessoal.
+ * resposta na apresentação final seria impressão pessoal.
  *
- * <p>A metrica que importa nao e visita: e contato iniciado. A plataforma nao
- * fecha venda, entao o que ela pode provar e que gerou conversa entre
- * consumidor e empreendedor. E a lista de aprovados sem nenhum produto e a
- * mais acionavel de todas, porque e a lista de quem precisa de capacitacao.
+ * <p>A métrica que importa não é visita: é contato iniciado. A plataforma não
+ * fecha venda, então o que ela pode provar é que gerou conversa entre
+ * consumidor e empreendedor. E a lista de aprovados sem nenhum produto é a
+ * mais acionável de todas, porque é a lista de quem precisa de capacitação.
  */
 @Component
 public class ConsultarIndicadores {
@@ -93,7 +93,7 @@ public class ConsultarIndicadores {
                 semProduto);
     }
 
-    /** Distribuicao por bairro: mostra onde a plataforma pegou e onde nao. */
+    /** Distribuição por bairro: mostra onde a plataforma pegou e onde não. */
     private Map<String, Long> porBairro() {
         return empreendedores.findAll().stream()
                 .filter(empreendedor -> empreendedor.status() == StatusDoCadastro.APROVADO)

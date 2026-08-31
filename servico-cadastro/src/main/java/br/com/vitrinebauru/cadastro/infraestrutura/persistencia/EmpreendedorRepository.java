@@ -28,10 +28,10 @@ public interface EmpreendedorRepository extends JpaRepository<Empreendedor, UUID
     long countByStatus(StatusDoCadastro status);
 
     /**
-     * Fila de moderacao ordenada do mais antigo para o mais novo.
+     * Fila de moderação ordenada do mais antigo para o mais novo.
      *
      * <p>A ordem importa mais do que parece: quem se cadastrou primeiro
-     * esperou mais, e uma fila que a SEDECON atende de tras para a frente faz
+     * esperou mais, e uma fila que a SEDECON atende de trás para a frente faz
      * o empreendedor mais antigo esperar para sempre.
      */
     @Query("""

@@ -3,12 +3,12 @@ package br.com.vitrinebauru.contratos.tipos;
 import java.text.Normalizer;
 
 /**
- * O pedaco do endereco que identifica a loja: /loja/doces-da-dona-lourdes.
+ * O pedaço do endereço que identifica a loja: /loja/doces-da-dona-lourdes.
  *
- * <p>E gerado a partir do nome do negocio para o empreendedor nao precisar
- * entender o que e uma URL. Acento sai, cedilha vira c, espaco vira hifen, e o
- * resultado e conferido: se o nome for so simbolo, o apelido sairia vazio, e
- * ai o erro estoura aqui em vez de a loja nascer com endereco em branco.
+ * <p>É gerado a partir do nome do negócio para o empreendedor não precisar
+ * entender o que é uma URL. Acento sai, cedilha vira c, espaço vira hífen, e o
+ * resultado é conferido: se o nome for só símbolo, o apelido sairia vazio, e
+ * aí o erro estoura aqui em vez de a loja nascer com endereço em branco.
  */
 public record ApelidoNaUrl(String valor) {
 
@@ -42,7 +42,7 @@ public record ApelidoNaUrl(String valor) {
         return new ApelidoNaUrl(apelido);
     }
 
-    /** Acrescenta sufixo quando o apelido ja existe: doces-da-lourdes-2. */
+    /** Acrescenta sufixo quando o apelido já existe: doces-da-lourdes-2. */
     public ApelidoNaUrl comSufixo(int numero) {
         String base = valor;
         String sufixo = "-" + numero;

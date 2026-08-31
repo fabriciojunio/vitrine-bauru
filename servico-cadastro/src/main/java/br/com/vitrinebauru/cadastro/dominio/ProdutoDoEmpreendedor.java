@@ -9,16 +9,16 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Copia magra do catalogo, mantida por evento.
+ * Cópia magra do catálogo, mantida por evento.
  *
- * <p>Existe para o painel da SEDECON responder "quantos produtos ja foram
+ * <p>Existe para o painel da SEDECON responder "quantos produtos já foram
  * cadastrados" e, principalmente, "quem foi aprovado e nunca publicou nada"
- * sem consultar o servico de catalogo. Essa segunda pergunta e a mais util das
- * duas: e a lista de quem precisa de ajuda para usar a ferramenta, que e
- * exatamente o objetivo de capacitacao do projeto.
+ * sem consultar o serviço de catálogo. Essa segunda pergunta é a mais útil das
+ * duas: é a lista de quem precisa de ajuda para usar a ferramenta, que é
+ * exatamente o objetivo de capacitação do projeto.
  *
- * <p>Guarda o minimo: id, dono e data. Nome, preco e foto continuam sendo do
- * catalogo, e replicar isso aqui seria criar uma segunda fonte da verdade para
+ * <p>Guarda o mínimo: id, dono e data. Nome, preço e foto continuam sendo do
+ * catálogo, e replicar isso aqui seria criar uma segunda fonte da verdade para
  * o mesmo dado.
  */
 @Entity

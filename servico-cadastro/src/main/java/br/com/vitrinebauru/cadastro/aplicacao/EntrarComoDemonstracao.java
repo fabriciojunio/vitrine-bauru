@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 /**
- * Entrada em um clique na demonstracao.
+ * Entrada em um clique na demonstração.
  *
- * <p>Existe para quem vai avaliar o sistema (a professora, a SEDECON, alguem
- * lendo o portfolio) nao precisar inventar cadastro para ver como e por
- * dentro. Sao dois papeis, e a diferenca entre eles e o ponto: um ve a propria
- * loja, o outro ve a fila de moderacao da cidade inteira.
+ * <p>Existe para quem vai avaliar o sistema (a professora, a SEDECON, alguém
+ * lendo o portfólio) não precisar inventar cadastro para ver como é por
+ * dentro. São dois papéis, e a diferença entre eles é o ponto: um vê a própria
+ * loja, o outro vê a fila de moderação da cidade inteira.
  *
- * <p>Fora do modo demonstracao, este caminho nao existe. Responde 404, e nao
- * 403: quem procura por endereco de entrada sem senha nao precisa saber que
+ * <p>Fora do modo demonstração, este caminho não existe. Responde 404, e não
+ * 403: quem procura por endereço de entrada sem senha não precisa saber que
  * ele existiu algum dia.
  */
 @Component

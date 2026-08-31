@@ -10,9 +10,9 @@ import java.util.UUID;
 /**
  * Categoria do produto.
  *
- * <p>E tabela, e nao enum no codigo, porque a SEDECON pode querer uma
- * categoria nova sem esperar implantacao. O conjunto inicial vem da migracao,
- * com os mesmos nomes usados no cadastro do negocio, para o consumidor nao
+ * <p>É tabela, e não enum no código, porque a SEDECON pode querer uma
+ * categoria nova sem esperar implantação. O conjunto inicial vem da migração,
+ * com os mesmos nomes usados no cadastro do negócio, para o consumidor não
  * encontrar "Alimentação" na busca de loja e "Comida" na busca de produto.
  */
 @Entity

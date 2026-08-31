@@ -17,14 +17,14 @@ import java.time.Clock;
 /**
  * Confere na Receita os CNPJ que entraram na fila, em segundo plano.
  *
- * <p>Fora do caminho do cadastro de proposito. Se a consulta acontecesse
+ * <p>Fora do caminho do cadastro de propósito. Se a consulta acontecesse
  * durante o cadastro, o empreendedor com internet fraca ficaria olhando um
- * botao girando por causa de uma API de terceiro, e um timeout viraria
+ * botão girando por causa de uma API de terceiro, e um timeout viraria
  * "não consegui me cadastrar".
  *
- * <p>Tarefa agendada, e nao chamada assincrona: assincrona morre junto com o
- * processo e ninguem fica sabendo. A tarefa pega de onde parou depois de
- * qualquer reinicio, porque o que define o que falta e o estado no banco.
+ * <p>Tarefa agendada, e não chamada assíncrona: assíncrona morre junto com o
+ * processo e ninguém fica sabendo. A tarefa pega de onde parou depois de
+ * qualquer reinício, porque o que define o que falta é o estado no banco.
  */
 @Component
 public class ConferirDocumentos {
@@ -62,7 +62,7 @@ public class ConferirDocumentos {
         var documento = new Documento(empreendedor.documento(), empreendedor.documentoTipo());
 
         if (!documento.ehCnpj()) {
-            // CPF nao tem consulta publica de situacao, e nem deveria ter.
+            // CPF não tem consulta pública de situação, e nem deveria ter.
             // Marcar como conferido evita a fila tentar de novo para sempre.
             empreendedor.anotarConferenciaDoDocumento(
                     "CPF: sem consulta automática, conferir na análise", relogio.instant());

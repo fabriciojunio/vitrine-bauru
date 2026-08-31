@@ -7,15 +7,15 @@ import java.util.Optional;
 /**
  * Bairros aceitos no cadastro.
  *
- * <p>Lista fechada, e nao campo livre, por causa da busca: com texto livre, o
+ * <p>Lista fechada, e não campo livre, por causa da busca: com texto livre, o
  * mesmo bairro vira "Vila Cardia", "vila cardia", "V. Cardia" e "Vl Cardia",
- * e o filtro por bairro, que e uma das tres formas de busca do produto,
- * simplesmente para de funcionar. Como a plataforma atende um municipio so, a
+ * e o filtro por bairro, que é uma das três formas de busca do produto,
+ * simplesmente para de funcionar. Como a plataforma atende um município só, a
  * lista cabe num arquivo.
  *
- * <p>Acrescentar bairro e acrescentar uma linha aqui. E de proposito que isso
- * exija passar por revisao de codigo: e o unico lugar onde a normalizacao da
- * busca pode ser quebrada sem ninguem perceber.
+ * <p>Acrescentar bairro é acrescentar uma linha aqui. É de propósito que isso
+ * exija passar por revisão de código: é o único lugar onde a normalização da
+ * busca pode ser quebrada sem ninguém perceber.
  */
 public final class BairrosDeBauru {
 
@@ -78,7 +78,7 @@ public final class BairrosDeBauru {
 
     /**
      * Devolve o bairro no formato oficial a partir do que a pessoa digitou.
-     * Compara sem acento e sem caixa, porque o empreendedor nao tem obrigacao
+     * Compara sem acento e sem caixa, porque o empreendedor não tem obrigação
      * de acertar o acento de Tibiriçá para se cadastrar.
      */
     public static Optional<String> normalizado(String bairro) {

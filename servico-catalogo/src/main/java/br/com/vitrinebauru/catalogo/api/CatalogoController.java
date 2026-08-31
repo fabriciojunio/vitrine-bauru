@@ -37,11 +37,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * O painel do empreendedor sobre o proprio catalogo.
+ * O painel do empreendedor sobre o próprio catálogo.
  *
- * <p>O dono sai do token, nunca da URL. Um endereco como
- * {@code /empreendedores/{id}/produtos} obrigaria a conferir, a cada metodo,
- * se o id da URL e o mesmo de quem esta logado, e um dia alguem esqueceria.
+ * <p>O dono sai do token, nunca da URL. Um endereço como
+ * {@code /empreendedores/{id}/produtos} obrigaria a conferir, a cada método,
+ * se o id da URL é o mesmo de quem está logado, e um dia alguém esqueceria.
  */
 @RestController
 @RequestMapping("/api/catalogo")
@@ -142,9 +142,9 @@ public class CatalogoController {
     }
 
     /**
-     * A imagem e publica: ela aparece na vitrine, que nao tem login. O que
-     * protege e o cabecalho de tipo, que sai do que foi detectado nos bytes, e
-     * nao do que o navegador declarou no envio.
+     * A imagem é pública: ela aparece na vitrine, que não tem login. O que
+     * protege é o cabeçalho de tipo, que sai do que foi detectado nos bytes, e
+     * não do que o navegador declarou no envio.
      */
     @GetMapping("/imagens/{imagemId}")
     @Operation(summary = "Baixar a foto de um produto")

@@ -4,19 +4,19 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * As lojas e os produtos do modo demonstracao.
+ * As lojas e os produtos do modo demonstração.
  *
- * <p>Fica no modulo de contratos porque os identificadores precisam ser os
- * mesmos nos quatro servicos: o produto que o catalogo semeia tem que apontar
- * para o empreendedor que o cadastro semeou, senao a demonstracao sobe com
- * produto orfao e loja vazia.
+ * <p>Fica no módulo de contratos porque os identificadores precisam ser os
+ * mesmos nos quatro serviços: o produto que o catálogo semeia tem que apontar
+ * para o empreendedor que o cadastro semeou, senão a demonstração sobe com
+ * produto órfão e loja vazia.
  *
- * <p>Os identificadores sao fixos, e nao sorteados, pelo mesmo motivo: semear
- * duas vezes precisa dar no mesmo resultado, e o mesmo endereco de loja
- * precisa continuar funcionando depois de a demonstracao ser reiniciada.
+ * <p>Os identificadores são fixos, e não sorteados, pelo mesmo motivo: semear
+ * duas vezes precisa dar no mesmo resultado, e o mesmo endereço de loja
+ * precisa continuar funcionando depois de a demonstração ser reiniciada.
  *
- * <p>Tudo aqui e ficticio. Os negocios nao existem, os telefones sao da faixa
- * de teste e os documentos foram gerados so para fechar o digito verificador.
+ * <p>Tudo aqui é fictício. Os negócios não existem, os telefones são da faixa
+ * de teste e os documentos foram gerados só para fechar o dígito verificador.
  * Nenhum empreendedor de verdade atendido pela SEDECON aparece nesta lista.
  */
 public final class DadosDaDemonstracao {
@@ -31,10 +31,10 @@ public final class DadosDaDemonstracao {
     }
 
     /**
-     * @param fotoDeCapaUrl deixado nulo de proposito: a interface desenha um
-     *                      fundo proprio a partir da categoria, e assim a
-     *                      demonstracao nao depende de nenhum servidor de
-     *                      imagem de terceiro para nao ficar quebrada.
+     * @param fotoDeCapaUrl deixado nulo de propósito: a interface desenha um
+     *                      fundo próprio a partir da categoria, e assim a
+     *                      demonstração não depende de nenhum servidor de
+     *                      imagem de terceiro para não ficar quebrada.
      */
     public record Loja(
             UUID empreendedorId,

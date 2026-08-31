@@ -13,16 +13,16 @@ import java.util.UUID;
 /**
  * A foto do produto, guardada no banco.
  *
- * <p>Guardar imagem em banco tem fama ruim, e com razao em sistema de volume
- * alto. Aqui a conta e outra: sao algumas centenas de fotos de no maximo 5 MB
- * de empreendedores de um municipio, e a alternativa (bucket S3) exige conta,
- * cartao e credencial que um projeto de graduacao nao tem. O acoplamento fica
- * atras de uma interface, entao trocar por Cloudflare R2 e escrever um
+ * <p>Guardar imagem em banco tem fama ruim, e com razão em sistema de volume
+ * alto. Aqui a conta é outra: são algumas centenas de fotos de no máximo 5 MB
+ * de empreendedores de um município, e a alternativa (bucket S3) exige conta,
+ * cartão e credencial que um projeto de graduação não tem. O acoplamento fica
+ * atrás de uma interface, então trocar por Cloudflare R2 é escrever um
  * adaptador, sem tocar em regra nenhuma.
  *
- * <p>O nome original do arquivo nao e guardado. O identificador e sorteado, o
- * que resolve de uma vez colisao de nome, caractere estranho e a tentativa
- * classica de subir um arquivo chamado {@code ../../etc/passwd}.
+ * <p>O nome original do arquivo não é guardado. O identificador é sorteado, o
+ * que resolve de uma vez colisão de nome, caractere estranho e a tentativa
+ * clássica de subir um arquivo chamado {@code ../../etc/passwd}.
  */
 @Entity
 @Table(name = "imagem", schema = "catalogo")
@@ -42,11 +42,11 @@ public class ImagemDeProduto {
     private int tamanho;
 
     /**
-     * Sem {@code @Lob} de proposito. No PostgreSQL, {@code @Lob} em
+     * Sem {@code @Lob} de propósito. No PostgreSQL, {@code @Lob} em
      * {@code byte[]} vira {@code oid}, que guarda o arquivo fora da tabela,
-     * num objeto grande com ciclo de vida proprio: apagar a linha nao apaga o
-     * arquivo, e o banco vai enchendo de orfao ate alguem rodar limpeza. O
-     * {@code bytea} guarda na propria linha, e apagar apaga.
+     * num objeto grande com ciclo de vida próprio: apagar a linha não apaga o
+     * arquivo, e o banco vai enchendo de órfão até alguém rodar limpeza. O
+     * {@code bytea} guarda na própria linha, e apagar apaga.
      */
     @Column(nullable = false, columnDefinition = "bytea")
     private byte[] conteudo;

@@ -18,12 +18,12 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * A parte da busca no pedido de exclusao.
+ * A parte da busca no pedido de exclusão.
  *
- * <p>E o participante mais visivel dos tres: enquanto o catalogo e as
- * notificacoes limpam bancos internos, aqui o efeito e a loja sumir da vitrine
- * publica na hora. Por isso o expurgo apaga a linha em vez de so esconder:
- * esconder mantem nome, telefone e descricao numa tabela consultada sem login.
+ * <p>É o participante mais visível dos três: enquanto o catálogo e as
+ * notificações limpam bancos internos, aqui o efeito é a loja sumir da vitrine
+ * pública na hora. Por isso o expurgo apaga a linha em vez de só esconder:
+ * esconder mantém nome, telefone e descrição numa tabela consultada sem login.
  */
 @Component
 public class ExpurgarDaBusca implements ConsumidorDeEventos {

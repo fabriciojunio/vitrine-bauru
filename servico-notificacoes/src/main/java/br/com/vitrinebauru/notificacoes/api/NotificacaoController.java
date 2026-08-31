@@ -18,11 +18,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Consulta do que foi enviado, so para a SEDECON.
+ * Consulta do que foi enviado, só para a SEDECON.
  *
  * <p>Serve para responder "o empreendedor foi avisado?" sem abrir o banco. O
- * corpo do e-mail nao vai nesta resposta: quem administra a plataforma precisa
- * saber que a mensagem saiu, e nao ler a correspondencia das pessoas.
+ * corpo do e-mail não vai nesta resposta: quem administra a plataforma precisa
+ * saber que a mensagem saiu, e não ler a correspondência das pessoas.
  */
 @RestController
 @RequestMapping("/api/notificacoes")

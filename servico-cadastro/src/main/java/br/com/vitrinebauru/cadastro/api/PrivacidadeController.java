@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Os direitos do titular, com endereco proprio.
+ * Os direitos do titular, com endereço próprio.
  *
- * <p>Estar na API, e nao so num texto de politica de privacidade, e a
- * diferenca entre cumprir a LGPD e dizer que cumpre. Sao dois direitos aqui:
+ * <p>Estar na API, e não só num texto de política de privacidade, é a
+ * diferença entre cumprir a LGPD e dizer que cumpre. São dois direitos aqui:
  * ver o que a plataforma guarda e mandar apagar.
  */
 @RestController

@@ -20,14 +20,14 @@ import java.util.UUID;
  * Entrega ao titular tudo que a plataforma guarda sobre ele (LGPD, artigo 18,
  * incisos I e II).
  *
- * <p>Aqui o documento sai inteiro, e nao mascarado como no resto do sistema:
- * quem pede e o dono, e o objetivo do artigo e justamente mostrar o que esta
- * guardado. Mascarar aqui seria confundir sigilo com transparencia.
+ * <p>Aqui o documento sai inteiro, e não mascarado como no resto do sistema:
+ * quem pede é o dono, e o objetivo do artigo é justamente mostrar o que está
+ * guardado. Mascarar aqui seria confundir sigilo com transparência.
  *
- * <p>O arquivo cobre so o que este servico guarda. Produto e foto sao do
- * catalogo, e o proprio arquivo diz isso, com o endereco de onde pedir o
- * resto. Fingir que um servico sabe tudo que os outros guardam seria a mentira
- * mais facil de contar e a mais dificil de sustentar.
+ * <p>O arquivo cobre só o que este serviço guarda. Produto e foto são do
+ * catálogo, e o próprio arquivo diz isso, com o endereço de onde pedir o
+ * resto. Fingir que um serviço sabe tudo que os outros guardam seria a mentira
+ * mais fácil de contar é a mais difícil de sustentar.
  */
 @Component
 public class ExportarDadosPessoais {

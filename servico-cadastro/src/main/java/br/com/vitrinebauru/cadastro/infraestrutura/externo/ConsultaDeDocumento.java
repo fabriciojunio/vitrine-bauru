@@ -13,16 +13,16 @@ import java.time.Duration;
 import java.util.Optional;
 
 /**
- * Consulta a situacao de um CNPJ na BrasilAPI.
+ * Consulta a situação de um CNPJ na BrasilAPI.
  *
- * <p>A resposta e informativa, nunca decisoria. Tres razoes: a BrasilAPI e um
- * projeto comunitario sem compromisso de disponibilidade, o cadastro aqui
- * aceita CPF de quem ainda nao se formalizou, e reprovar automaticamente um
+ * <p>A resposta é informativa, nunca decisória. Três razões: a BrasilAPI é um
+ * projeto comunitário sem compromisso de disponibilidade, o cadastro aqui
+ * aceita CPF de quem ainda não se formalizou, e reprovar automaticamente um
  * empreendedor de verdade por causa de uma API fora do ar seria o pior erro
  * que este sistema pode cometer.
  *
  * <p>Por isso: tempo de espera curto, disjuntor no caminho, e falha vira
- * {@code Optional.empty()}. Quem modera ve "não foi possível conferir agora" e
+ * {@code Optional.empty()}. Quem modera vê "não foi possível conferir agora" e
  * decide como sempre decidiu, olhando os dados.
  */
 @Component
@@ -83,8 +83,8 @@ public class ConsultaDeDocumento {
 
     /**
      * Espelha o JSON da BrasilAPI, inclusive o nome dos campos com sublinhado.
-     * Renomear aqui exigiria anotacao em cada campo e nao melhoraria nada:
-     * este record nao sai desta classe.
+     * Renomear aqui exigiria anotação em cada campo e não melhoraria nada:
+     * este record não sai desta classe.
      */
     private record Resposta(String razao_social, String nome_fantasia,
                             String descricao_situacao_cadastral, String municipio) {

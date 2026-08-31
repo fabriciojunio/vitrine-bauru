@@ -13,8 +13,8 @@ import java.util.UUID;
  *
  * <p>Existe por um motivo concreto: a SEDECON aprova e suspende cadastro de
  * gente de verdade, e "quem suspendeu a minha loja?" precisa ter resposta. O
- * registro sobrevive ate a exclusao de dados do titular, porque quem responde
- * pelo ato e o servidor que moderou, nao o empreendedor moderado.
+ * registro sobrevive até a exclusão de dados do titular, porque quem responde
+ * pelo ato é o servidor que moderou, não o empreendedor moderado.
  */
 @Entity
 @Table(name = "auditoria", schema = "cadastro")

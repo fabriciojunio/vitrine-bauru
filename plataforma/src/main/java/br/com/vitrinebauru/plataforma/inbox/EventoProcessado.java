@@ -12,11 +12,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Marca de que um evento ja foi tratado por um consumidor.
+ * Marca de que um evento já foi tratado por um consumidor.
  *
- * <p>A chave e o par (evento, consumidor), e nao so o evento: dentro do mesmo
- * servico, dois consumidores diferentes podem reagir ao mesmo
- * {@code CadastroAprovado}, e isso nao e repeticao, sao dois trabalhos
+ * <p>A chave é o par (evento, consumidor), e não só o evento: dentro do mesmo
+ * serviço, dois consumidores diferentes podem reagir ao mesmo
+ * {@code CadastroAprovado}, e isso não é repetição, são dois trabalhos
  * distintos.
  */
 @Entity

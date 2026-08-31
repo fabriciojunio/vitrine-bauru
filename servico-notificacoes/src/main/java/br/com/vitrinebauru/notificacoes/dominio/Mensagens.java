@@ -3,16 +3,16 @@ package br.com.vitrinebauru.notificacoes.dominio;
 /**
  * O texto dos e-mails.
  *
- * <p>Escritos como uma pessoa escreveria para outra, e nao como sistema
- * escreve para usuario. Quem recebe e um empreendedor que muitas vezes tem
+ * <p>Escritos como uma pessoa escreveria para outra, e não como sistema
+ * escreve para usuário. Quem recebe é um empreendedor que muitas vezes tem
  * pouca familiaridade digital, e "Sua solicitação foi processada com sucesso"
- * nao diz o que aconteceu nem o que fazer em seguida.
+ * não diz o que aconteceu nem o que fazer em seguida.
  *
- * <p>Tres regras seguidas em todos: dizer o que aconteceu na primeira linha,
- * dizer o proximo passo, e assinar como SEDECON, que e a instituicao em que a
+ * <p>Três regras seguidas em todos: dizer o que aconteceu na primeira linha,
+ * dizer o próximo passo, e assinar como SEDECON, que é a instituição em que a
  * pessoa confia.
  *
- * <p>Texto puro, sem HTML. E-mail com marcacao exige tratar cliente antigo,
+ * <p>Texto puro, sem HTML. E-mail com marcação exige tratar cliente antigo,
  * imagem bloqueada e filtro de spam mais agressivo, sem melhorar nada do que
  * precisa ser dito aqui.
  */

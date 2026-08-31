@@ -24,9 +24,9 @@ public interface ProdutoDaVitrineRepository extends JpaRepository<ProdutoNaVitri
      * A busca principal da plataforma.
      *
      * <p>Ordena por disponibilidade e depois por data: produto novo primeiro. A
-     * ordenacao por relevancia de texto viria de {@code pg_trgm}, e nao entra
+     * ordenação por relevância de texto viria de {@code pg_trgm}, e não entra
      * agora justamente porque a busca precisa funcionar em qualquer PostgreSQL
-     * gratuito, sem extensao habilitada.
+     * gratuito, sem extensão habilitada.
      */
     @Query("""
             select p from ProdutoNaVitrine p

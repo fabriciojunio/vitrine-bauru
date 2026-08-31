@@ -9,8 +9,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * As cargas usadas aqui sao as classicas de XSS, do jeito que apareceriam num
- * campo de descricao de produto aberto ao publico.
+ * As cargas usadas aqui são as clássicas de XSS, do jeito que apareceriam num
+ * campo de descrição de produto aberto ao público.
  */
 @DisplayName("Sanitizador de texto livre")
 class SanitizadorTest {

@@ -21,9 +21,9 @@ public interface LojaRepository extends JpaRepository<LojaNaVitrine, UUID> {
      * Busca de loja por texto, bairro e categoria, com todos os filtros
      * opcionais.
      *
-     * <p>O termo chega ja normalizado (minusculo e sem acento) e a coluna
-     * tambem foi gravada assim, entao a comparacao e direta. Sem isso, procurar
-     * "acai" nao encontraria "Açaí", que e exatamente o que o consumidor
+     * <p>O termo chega já normalizado (minúsculo e sem acento) e a coluna
+     * também foi gravada assim, então a comparação é direta. Sem isso, procurar
+     * "açaí" não encontraria "Açaí", que é exatamente o que o consumidor
      * digita no celular.
      */
     @Query("""

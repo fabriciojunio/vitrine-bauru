@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * A busca publica: por palavra, por bairro e por categoria.
+ * A busca pública: por palavra, por bairro e por categoria.
  *
- * <p>Os tres filtros sao opcionais e se combinam. Sem nenhum, a resposta e a
- * vitrine inteira, que e o que a pagina inicial mostra: quem chega pela
- * primeira vez nao sabe o que procurar, e uma tela pedindo termo de busca
- * antes de mostrar qualquer coisa e uma tela vazia.
+ * <p>Os três filtros são opcionais e se combinam. Sem nenhum, a resposta é a
+ * vitrine inteira, que é o que a página inicial mostra: quem chega pela
+ * primeira vez não sabe o que procurar, e uma tela pedindo termo de busca
+ * antes de mostrar qualquer coisa é uma tela vazia.
  *
- * <p>O bairro e a categoria sao conferidos contra a lista oficial. Alem de
+ * <p>O bairro e a categoria são conferidos contra a lista oficial. Além de
  * evitar filtro sem resultado por causa de acento, isso impede que um valor
  * qualquer da URL chegue a consulta.
  */
@@ -79,8 +79,8 @@ public class Procurar {
     }
 
     /**
-     * Termo com uma letra so nao filtra nada util e faz varrer a tabela inteira
-     * a cada tecla digitada. Abaixo do minimo, o termo e ignorado.
+     * Termo com uma letra só não filtra nada útil e faz varrer a tabela inteira
+     * a cada tecla digitada. Abaixo do mínimo, o termo é ignorado.
      */
     private String termoDeBusca(String termo) {
         if (termo == null || Normalizacao.paraBusca(termo).length() < TAMANHO_MINIMO_DO_TERMO) {

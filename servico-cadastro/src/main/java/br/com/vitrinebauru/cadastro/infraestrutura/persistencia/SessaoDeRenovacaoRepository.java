@@ -17,7 +17,7 @@ public interface SessaoDeRenovacaoRepository extends JpaRepository<SessaoDeRenov
 
     List<SessaoDeRenovacao> findByUsuarioId(UUID usuarioId);
 
-    /** Usada quando um token ja gasto reaparece: derruba tudo daquele usuario. */
+    /** Usada quando um token já gasto reaparece: derruba tudo daquele usuário. */
     @Modifying
     @Query("""
             update SessaoDeRenovacao s

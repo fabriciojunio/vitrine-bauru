@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * Recebe as confirmacoes de expurgo dos outros servicos.
+ * Recebe as confirmações de expurgo dos outros serviços.
  *
- * <p>O cadastro publica no mesmo topico em que escuta: ele pede a exclusao e
- * recebe as respostas. O proprio pedido volta para ca e e ignorado, o que e o
- * comportamento certo para um topico por assunto, e nao por remetente.
+ * <p>O cadastro publica no mesmo tópico em que escuta: ele pede a exclusão e
+ * recebe as respostas. O próprio pedido volta para cá e é ignorado, o que é o
+ * comportamento certo para um tópico por assunto, e não por remetente.
  */
 @Component
 public class OuvinteDasConfirmacoes implements ConsumidorDeEventos {

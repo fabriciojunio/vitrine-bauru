@@ -22,7 +22,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, UUID> {
 
     Optional<Produto> findByIdAndRetiradoEmIsNull(UUID id);
 
-    /** Usado no expurgo de dados: apaga de verdade, e nao marca como retirado. */
+    /** Usado no expurgo de dados: apaga de verdade, e não marca como retirado. */
     int deleteByEmpreendedorId(UUID empreendedorId);
 
     @Query("select count(p) from Produto p where p.retiradoEm is null")

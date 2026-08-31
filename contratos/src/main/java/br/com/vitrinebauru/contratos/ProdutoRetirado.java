@@ -3,7 +3,7 @@ package br.com.vitrinebauru.contratos;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Produto saiu do catalogo e precisa sumir da busca publica. */
+/** Produto saiu do catálogo e precisa sumir da busca publica. */
 public record ProdutoRetirado(
         UUID id,
         UUID correlacao,

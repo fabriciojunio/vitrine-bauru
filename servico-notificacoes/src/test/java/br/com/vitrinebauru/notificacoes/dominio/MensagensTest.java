@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * O texto do e-mail e parte do produto, e nao detalhe de implementacao: e o
- * unico contato da plataforma com o empreendedor fora da tela. Estes testes
- * seguram o que nao pode se perder numa alteracao de texto.
+ * O texto do e-mail é parte do produto, e não detalhe de implementação: é o
+ * único contato da plataforma com o empreendedor fora da tela. Estes testes
+ * seguram o que não pode se perder numa alteração de texto.
  */
 @DisplayName("Mensagens de e-mail")
 class MensagensTest {

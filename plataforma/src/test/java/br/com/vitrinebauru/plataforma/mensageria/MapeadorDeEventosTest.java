@@ -30,11 +30,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Contrato de serializacao dos eventos.
+ * Contrato de serialização dos eventos.
  *
- * <p>E o teste que segura a compatibilidade entre servicos: quem renomear um
- * campo de evento quebra aqui, no build, e nao em producao, com o consumidor
- * do outro lado recebendo nulo em silencio.
+ * <p>É o teste que segura a compatibilidade entre serviços: quem renomear um
+ * campo de evento quebra aqui, no build, e não em produção, com o consumidor
+ * do outro lado recebendo nulo em silêncio.
  */
 @DisplayName("Mapeador de eventos")
 class MapeadorDeEventosTest {

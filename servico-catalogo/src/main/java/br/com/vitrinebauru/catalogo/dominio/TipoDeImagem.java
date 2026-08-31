@@ -7,14 +7,14 @@ import java.util.Arrays;
 /**
  * Descobre o tipo da imagem pelos primeiros bytes do arquivo.
  *
- * <p>A extensao do nome e o cabecalho enviado pelo navegador sao escritos por
- * quem esta enviando, entao nenhum dos dois prova nada. Um arquivo chamado
+ * <p>A extensão do nome e o cabeçalho enviado pelo navegador são escritos por
+ * quem está enviando, então nenhum dos dois prova nada. Um arquivo chamado
  * {@code foto.jpg}, anunciado como {@code image/jpeg}, pode ser um HTML com
- * script dentro; servido de volta no mesmo dominio da API, ele executaria no
+ * script dentro; servido de volta no mesmo domínio da API, ele executaria no
  * navegador de quem abrir.
  *
- * <p>Os primeiros bytes, ao contrario, sao o formato de verdade. Este enum le
- * essa assinatura e recusa o que nao for uma das quatro imagens aceitas.
+ * <p>Os primeiros bytes, ao contrário, são o formato de verdade. Este enum lê
+ * essa assinatura e recusa o que não for uma das quatro imagens aceitas.
  */
 public enum TipoDeImagem {
 
@@ -74,8 +74,8 @@ public enum TipoDeImagem {
     }
 
     /**
-     * RIFF sozinho tambem e o comeco de arquivo de audio. O que distingue o
-     * WEBP e a palavra na posicao 8.
+     * RIFF sozinho também é o começo de arquivo de áudio. O que distingue o
+     * WEBP é a palavra na posição 8.
      */
     private static boolean ehWebpDeVerdade(byte[] conteudo) {
         if (conteudo.length < 12) {

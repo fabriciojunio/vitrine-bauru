@@ -10,19 +10,19 @@ import java.util.UUID;
 
 /**
  * O outro lado do login: o que permite continuar logado sem manter um token
- * de acesso valido por horas.
+ * de acesso válido por horas.
  *
  * <h2>Guarda o resumo, nunca o token</h2>
- * A coluna e um hash SHA-256 do valor entregue ao navegador. Um vazamento do
- * banco entrega hashes, e nao sessoes utilizaveis. E o mesmo raciocinio da
- * senha, so que aqui basta SHA-256: o valor original tem 256 bits aleatorios,
- * entao nao ha o que adivinhar por forca bruta e nao ha ganho em bcrypt.
+ * A coluna é um hash SHA-256 do valor entregue ao navegador. Um vazamento do
+ * banco entrega hashes, e não sessões utilizáveis. É o mesmo raciocínio da
+ * senha, só que aqui basta SHA-256: o valor original tem 256 bits aleatórios,
+ * então não há o que adivinhar por força bruta e não há ganho em bcrypt.
  *
- * <h2>Rotacao com deteccao de reuso</h2>
- * Cada renovacao queima o token anterior e emite outro. Se um token ja usado
- * aparecer de novo, so ha duas explicacoes: copia roubada ou copia antiga em
- * uso. As duas sao motivo para derrubar todas as sessoes daquele usuario, que
- * e o que o caso de uso de renovacao faz ao ver {@link #jaFoiUsada()}.
+ * <h2>Rotação com detecção de reuso</h2>
+ * Cada renovação queima o token anterior e emite outro. Se um token já usado
+ * aparecer de novo, só há duas explicações: cópia roubada ou cópia antiga em
+ * uso. As duas são motivo para derrubar todas as sessões daquele usuário, que
+ * é o que o caso de uso de renovação faz ao ver {@link #jaFoiUsada()}.
  */
 @Entity
 @Table(name = "sessao_de_renovacao", schema = "cadastro")

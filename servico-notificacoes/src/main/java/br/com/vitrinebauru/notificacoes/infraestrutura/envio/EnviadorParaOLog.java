@@ -7,17 +7,17 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /**
- * O envio de desenvolvimento e da demonstracao: escreve no log em vez de
+ * O envio de desenvolvimento e da demonstração: escreve no log em vez de
  * mandar e-mail.
  *
- * <p>Existe para que ninguem precise de chave de provedor para rodar o
- * projeto, e para que a demonstracao publica nao dispare e-mail de verdade
- * para os enderecos ficticios das lojas semeadas. E o padrao: ligar o envio
+ * <p>Existe para que ninguém precise de chave de provedor para rodar o
+ * projeto, e para que a demonstração pública não dispare e-mail de verdade
+ * para os endereços fictícios das lojas semeadas. É o padrão: ligar o envio
  * de verdade exige dizer {@code vitrine.email.ativo=true} no ambiente.
  *
- * <p>Registra o destinatario e o assunto, nunca o corpo inteiro. Corpo de
- * e-mail transacional carrega nome e motivo de recusa, e log e o lugar onde
- * dado pessoal costuma vazar sem ninguem perceber.
+ * <p>Registra o destinatário e o assunto, nunca o corpo inteiro. Corpo de
+ * e-mail transacional carrega nome e motivo de recusa, e log é o lugar onde
+ * dado pessoal costuma vazar sem ninguém perceber.
  */
 @Component
 @ConditionalOnProperty(name = "vitrine.email.ativo", havingValue = "false", matchIfMissing = true)

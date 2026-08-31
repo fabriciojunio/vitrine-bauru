@@ -19,15 +19,15 @@ import java.util.UUID;
  * Login por e-mail e senha.
  *
  * <h2>A mesma resposta para e-mail errado e senha errada</h2>
- * Responder "esse e-mail nao existe" transforma a tela de login numa lista de
- * quem tem conta na plataforma. E como o cadastro aqui e de pequeno
- * empreendedor com nome e telefone publicos, essa lista tem valor para quem
+ * Responder "esse e-mail não existe" transforma a tela de login numa lista de
+ * quem tem conta na plataforma. E como o cadastro aqui é de pequeno
+ * empreendedor com nome e telefone públicos, essa lista tem valor para quem
  * aplica golpe.
  *
- * <h2>Conferir senha mesmo quando o usuario nao existe</h2>
- * Bcrypt e lento de proposito. Se a resposta para e-mail inexistente voltasse
+ * <h2>Conferir senha mesmo quando o usuário não existe</h2>
+ * Bcrypt é lento de propósito. Se a resposta para e-mail inexistente voltasse
  * na hora e a de senha errada demorasse, o tempo de resposta entregaria o que
- * a mensagem esconde. Por isso o codigo confere a senha contra um hash de
+ * a mensagem esconde. Por isso o código confere a senha contra um hash de
  * mentira nesse caso.
  */
 @Component
@@ -36,7 +36,7 @@ public class Autenticar {
     private static final Logger log = LoggerFactory.getLogger(Autenticar.class);
 
     /**
-     * Hash de bcrypt valido, de uma senha que nao e de ninguem. Serve so para
+     * Hash de bcrypt válido, de uma senha que não é de ninguém. Serve só para
      * gastar o mesmo tempo do caminho normal.
      */
     private static final String HASH_DE_MENTIRA =
@@ -87,7 +87,7 @@ public class Autenticar {
         usuario.exigirAtiva();
 
         if (!codificador.matches(senha == null ? "" : senha, usuario.senhaHash())) {
-            // Transacao propria: esta aqui vai ser desfeita pela excecao logo
+            // Transação própria: esta aqui vai ser desfeita pela exceção logo
             // abaixo, e com ela o contador de tentativas voltaria a zero.
             registroDeSeguranca.anotarSenhaErrada(usuario.id());
             throw new ErrosDeNegocio.NaoAutenticado(MENSAGEM_GENERICA);

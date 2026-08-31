@@ -15,15 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Quem entra onde no servico de cadastro.
+ * Quem entra onde no serviço de cadastro.
  *
- * <p>A lista e curta e explicita. Tudo que nao esta escrito como publico exige
- * login, porque o padrao seguro precisa ser o silencio: esquecer de proteger
- * um endereco novo nao pode deixa-lo aberto.
+ * <p>A lista é curta e explícita. Tudo que não está escrito como público exige
+ * login, porque o padrão seguro precisa ser o silêncio: esquecer de proteger
+ * um endereço novo não pode deixa-lo aberto.
  *
- * <p>Desligado quando os quatro servicos rodam num processo so: la existe uma
- * cadeia de seguranca unica, cobrindo todos os caminhos de uma vez. Duas
- * cadeias no mesmo contexto sem separacao por caminho fariam a primeira
+ * <p>Desligado quando os quatro serviços rodam num processo só: lá existe uma
+ * cadeia de segurança única, cobrindo todos os caminhos de uma vez. Duas
+ * cadeias no mesmo contexto sem separação por caminho fariam a primeira
  * responder por tudo, e a segunda nunca valeria.
  */
 @Configuration
@@ -32,10 +32,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SegurancaDoCadastro {
 
     /**
-     * Custo 12 no bcrypt: cerca de 250ms por verificacao em maquina modesta.
-     * Lento o bastante para forca bruta nao compensar, rapido o bastante para
-     * o login nao parecer travado. O custo fica gravado no proprio hash, entao
-     * subir esse numero no futuro nao invalida as senhas ja cadastradas.
+     * Custo 12 no bcrypt: cerca de 250ms por verificação em máquina modesta.
+     * Lento o bastante para força bruta não compensar, rápido o bastante para
+     * o login não parecer travado. O custo fica gravado no próprio hash, então
+     * subir esse número no futuro não inválida as senhas já cadastradas.
      */
     @Bean
     public PasswordEncoder codificadorDeSenha() {
@@ -58,8 +58,8 @@ public class SegurancaDoCadastro {
                         "/api/cadastro/bairros", "/api/cadastro/categorias").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**", "/actuator/info").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                // Metrica descreve o funcionamento interno e ajuda quem quer
-                // atacar a escolher a hora. Fica atras de login.
+                // Métrica descreve o funcionamento interno e ajuda quem quer
+                // atacar a escolher a hora. Fica atrás de login.
                 .requestMatchers("/actuator/**").hasRole("ADMIN_SEDECON")
                 .requestMatchers("/api/cadastro/moderacao/**").hasRole("ADMIN_SEDECON")
                 .anyRequest().authenticated());

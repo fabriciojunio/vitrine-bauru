@@ -23,12 +23,12 @@ import java.time.Clock;
 import java.util.UUID;
 
 /**
- * O cadastro do empreendedor, do zero ate a fila da SEDECON.
+ * O cadastro do empreendedor, do zero até a fila da SEDECON.
  *
- * <p>Tudo numa transacao so: a conta, o perfil e o evento que avisa o resto do
- * sistema. Meio cadastro nao existe. Se o evento nao puder ser gravado, o
- * cadastro tambem nao acontece, e o empreendedor tenta de novo em vez de ficar
- * com uma conta que nenhum outro servico conhece.
+ * <p>Tudo numa transação só: a conta, o perfil e o evento que avisa o resto do
+ * sistema. Meio cadastro não existe. Se o evento não puder ser gravado, o
+ * cadastro também não acontece, e o empreendedor tenta de novo em vez de ficar
+ * com uma conta que nenhum outro serviço conhece.
  */
 @Component
 public class RegistrarEmpreendedor {
@@ -125,11 +125,11 @@ public class RegistrarEmpreendedor {
     }
 
     /**
-     * O que o formulario de cadastro manda.
+     * O que o formulário de cadastro manda.
      *
-     * <p>Nao tem foto: subir imagem no mesmo passo do cadastro faria o
-     * empreendedor com internet ruim perder o formulario inteiro por causa de
-     * uma foto que nao subiu. A foto entra depois, no painel dele.
+     * <p>Não tem foto: subir imagem no mesmo passo do cadastro faria o
+     * empreendedor com internet ruim perder o formulário inteiro por causa de
+     * uma foto que não subiu. A foto entra depois, no painel dele.
      */
     public record Pedido(
             String nome,

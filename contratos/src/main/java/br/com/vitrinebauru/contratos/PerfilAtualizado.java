@@ -3,7 +3,7 @@ package br.com.vitrinebauru.contratos;
 import java.time.Instant;
 import java.util.UUID;
 
-/** O empreendedor mexeu no proprio perfil. A vitrine publica precisa refletir. */
+/** O empreendedor mexeu no próprio perfil. A vitrine pública precisa refletir. */
 public record PerfilAtualizado(
         UUID id,
         UUID correlacao,

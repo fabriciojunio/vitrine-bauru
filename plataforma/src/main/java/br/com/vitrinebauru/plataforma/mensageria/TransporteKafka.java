@@ -8,11 +8,11 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Transporte de producao: publica no broker.
+ * Transporte de produção: publica no broker.
  *
- * <p>O {@code get()} no retorno do envio deixa a publicacao sincrona de
- * proposito. Assincrono seria mais rapido e marcaria como publicada uma
- * mensagem cujo envio ainda podia falhar; aqui a vazao vale menos que a
+ * <p>O {@code get()} no retorno do envio deixa a publicação síncrona de
+ * propósito. Assíncrono seria mais rápido e marcaria como publicada uma
+ * mensagem cujo envio ainda podia falhar; aqui a vazão vale menos que a
  * garantia.
  */
 @Component

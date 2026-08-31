@@ -10,18 +10,18 @@ import java.time.Clock;
 import java.util.UUID;
 
 /**
- * O que precisa ficar gravado mesmo quando a requisicao termina em erro.
+ * O que precisa ficar gravado mesmo quando a requisição termina em erro.
  *
  * <h2>Por que isto existe</h2>
- * Contar senha errada e revogar sessao roubada acontecem no caminho que
- * termina lancando excecao. E excecao desfaz a transacao: o contador subia,
- * a excecao subia junto, o banco voltava atras e o contador nunca passava de
- * zero. O bloqueio por tentativa existia no codigo e nao existia na pratica.
+ * Contar senha errada e revogar sessão roubada acontecem no caminho que
+ * termina lançando exceção. E exceção desfaz a transação: o contador subia,
+ * a exceção subia junto, o banco voltava atrás e o contador nunca passava de
+ * zero. O bloqueio por tentativa existia no código e não existia na prática.
  *
- * <p>Uma transacao propria, que fecha antes de a de fora ser desfeita, e o que
- * resolve. Foi um teste de integracao que mostrou isso; nenhum teste de
- * unidade com repositorio de mentira pegaria, porque em memoria nao existe
- * transacao para desfazer.
+ * <p>Uma transação própria, que fecha antes de a de fora ser desfeita, é o que
+ * resolve. Foi um teste de integração que mostrou isso; nenhum teste de
+ * unidade com repositório de mentira pegaria, porque em memória não existe
+ * transação para desfazer.
  */
 @Component
 public class RegistroDeSeguranca {
@@ -50,10 +50,10 @@ public class RegistroDeSeguranca {
     }
 
     /**
-     * Derruba todas as sessoes do usuario. Chamado quando um token de
-     * renovacao ja gasto reaparece, que so acontece por copia roubada ou copia
-     * antiga em uso: nos dois casos, manter as sessoes vivas favorece quem
-     * nao devia estar la.
+     * Derruba todas as sessões do usuário. Chamado quando um token de
+     * renovação já gasto reaparece, que só acontece por cópia roubada ou cópia
+     * antiga em uso: nos dois casos, manter as sessões vivas favorece quem
+     * não devia estar lá.
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public int derrubarTodasAsSessoes(UUID usuarioId, UUID sessaoSuspeita) {

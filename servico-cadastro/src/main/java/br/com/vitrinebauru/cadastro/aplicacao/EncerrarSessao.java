@@ -10,12 +10,12 @@ import java.util.UUID;
 /**
  * Sair da conta.
  *
- * <p>Sair e revogar a renovacao. O token de acesso continua tecnicamente
- * valido ate expirar, e isso e assumido: e o preco de nao consultar o banco a
- * cada requisicao, e por isso a validade dele e de quinze minutos.
+ * <p>Sair é revogar a renovação. O token de acesso continua tecnicamente
+ * válido até expirar, e isso é assumido: é o preço de não consultar o banco a
+ * cada requisição, e por isso a validade dele é de quinze minutos.
  *
- * <p>Sair de token que nao existe nao da erro. Quem clicou em sair quer estar
- * fora, e mostrar "não foi possível sair" para alguem que ja esta fora so
+ * <p>Sair de token que não existe não dá erro. Quem clicou em sair quer estar
+ * fora, e mostrar "não foi possível sair" para alguém que já está fora só
  * assusta.
  */
 @Component
@@ -45,7 +45,7 @@ public class EncerrarSessao {
         });
     }
 
-    /** Usado quando o proprio dono pede para derrubar tudo, e na exclusao de dados. */
+    /** Usado quando o próprio dono pede para derrubar tudo, e na exclusão de dados. */
     @Transactional
     public int todasDoUsuario(UUID usuarioId) {
         int derrubadas = sessoesSalvas.revogarTodasDoUsuario(usuarioId, relogio.instant());

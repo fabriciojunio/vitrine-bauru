@@ -4,9 +4,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Um empreendedor terminou o cadastro e entrou na fila de moderacao da
- * SEDECON. Ainda nao aparece para ninguem: quem escuta isto guarda o perfil,
- * mas so publica quando o {@link CadastroAprovado} chegar.
+ * Um empreendedor terminou o cadastro e entrou na fila de moderação da
+ * SEDECON. Ainda não aparece para ninguém: quem escuta isto guarda o perfil,
+ * mas só publica quando o {@link CadastroAprovado} chegar.
  */
 public record EmpreendedorCadastrado(
         UUID id,

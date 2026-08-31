@@ -22,15 +22,15 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Constroi a vitrine a partir dos eventos do cadastro.
+ * Constrói a vitrine a partir dos eventos do cadastro.
  *
- * <p>E aqui que a moderacao da SEDECON vira efeito visivel: aprovado entra,
- * suspenso sai, perfil alterado atualiza. A loja e gravada ja no cadastro,
- * invisivel, para que a aprovacao seja so trocar uma coluna, e nao montar a
- * projecao inteira no momento em que o analista clica.
+ * <p>É aqui que a moderação da SEDECON vira efeito visível: aprovado entra,
+ * suspenso sai, perfil alterado atualiza. A loja é gravada já no cadastro,
+ * invisível, para que a aprovação seja só trocar uma coluna, e não montar a
+ * projeção inteira no momento em que o analista clica.
  *
  * <p>Quando a loja muda, os produtos dela precisam mudar junto: cada produto
- * carrega o nome da loja e o bairro para a busca funcionar numa consulta so.
+ * carrega o nome da loja e o bairro para a busca funcionar numa consulta só.
  */
 @Component
 public class ProjetarLojas implements ConsumidorDeEventos {
@@ -78,15 +78,15 @@ public class ProjetarLojas implements ConsumidorDeEventos {
             case CadastroRejeitado rejeitado -> trocarVisibilidade(rejeitado.empreendedorId(), false, agora);
 
             default -> {
-                // Outros eventos do topico nao mudam a vitrine.
+                // Outros eventos do tópico não mudam a vitrine.
             }
         }
     }
 
     /**
-     * @param visivel {@code null} mantem a visibilidade que a loja ja tinha.
-     *                Alterar o perfil nao pode colocar no ar quem esta
-     *                suspenso, nem tirar do ar quem esta aprovado.
+     * @param visível {@code null} mantém a visibilidade que a loja já tinha.
+     *                Alterar o perfil não pode colocar no ar quem está
+     *                suspenso, nem tirar do ar quem está aprovado.
      */
     private void gravar(UUID id, String nomeDoNegocio, String apelido, String descricao,
                         String categoria, String bairro, String telefone,

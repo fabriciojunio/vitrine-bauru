@@ -12,12 +12,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Nada aqui e publico: o servico so escuta evento e guarda historico de
- * e-mail. O unico endereco exposto e a consulta da SEDECON.
+ * Nada aqui é público: o serviço só escuta evento e guarda histórico de
+ * e-mail. O único endereço exposto é a consulta da SEDECON.
  *
- * <p>Desligado quando os quatro servicos rodam num processo so: la existe uma
- * cadeia de seguranca unica, cobrindo todos os caminhos de uma vez. Duas
- * cadeias no mesmo contexto sem separacao por caminho fariam a primeira
+ * <p>Desligado quando os quatro serviços rodam num processo só: lá existe uma
+ * cadeia de segurança única, cobrindo todos os caminhos de uma vez. Duas
+ * cadeias no mesmo contexto sem separação por caminho fariam a primeira
  * responder por tudo, e a segunda nunca valeria.
  */
 @Configuration

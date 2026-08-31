@@ -20,12 +20,12 @@ public interface ContatoRegistradoRepository extends JpaRepository<ContatoRegist
     int deleteByEmpreendedorId(UUID empreendedorId);
 
     /**
-     * Ranking de quem mais recebe contato no periodo.
+     * Ranking de quem mais recebe contato no período.
      *
-     * <p>Devolve id e total; o nome do negocio e resolvido depois, no servico,
-     * consultando o repositorio de empreendedores. Juntar as duas tabelas na
-     * consulta seria mais rapido e amarraria a projecao de indicador ao
-     * cadastro, que sao coisas que mudam por motivos diferentes.
+     * <p>Devolve id e total; o nome do negócio é resolvido depois, no serviço,
+     * consultando o repositório de empreendedores. Juntar as duas tabelas na
+     * consulta seria mais rápido e amarraria a projeção de indicador ao
+     * cadastro, que são coisas que mudam por motivos diferentes.
      */
     @Query("""
             select c.empreendedorId as empreendedorId, count(c) as total

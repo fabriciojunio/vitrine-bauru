@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 /**
  * Converte evento em JSON e de volta.
  *
- * <p>Usa um {@code ObjectMapper} proprio, e nao o do Spring, por um motivo de
- * compatibilidade: quem configura o mapeador da aplicacao mexe no formato da
- * API REST, e mexer no formato da API nao pode reescrever o formato das
- * mensagens que ja estao gravadas no outbox esperando para sair.
+ * <p>Usa um {@code ObjectMapper} próprio, e não o do Spring, por um motivo de
+ * compatibilidade: quem configura o mapeador da aplicação mexe no formato da
+ * API REST, e mexer no formato da API não pode reescrever o formato das
+ * mensagens que já estão gravadas no outbox esperando para sair.
  *
- * <p>{@code FAIL_ON_UNKNOWN_PROPERTIES} desligado de proposito: durante uma
- * implantacao os servicos ficam alguns minutos em versoes diferentes, e o
- * servico antigo precisa conseguir ler um evento que ganhou campo novo. Campo
- * novo pode ser ignorado; campo removido, nao, e por isso a regra do projeto e
- * so acrescentar campo em evento.
+ * <p>{@code FAIL_ON_UNKNOWN_PROPERTIES} desligado de propósito: durante uma
+ * implantação os serviços ficam alguns minutos em versões diferentes, e o
+ * serviço antigo precisa conseguir ler um evento que ganhou campo novo. Campo
+ * novo pode ser ignorado; campo removido, não, e por isso a regra do projeto é
+ * só acrescentar campo em evento.
  */
 @Component
 public class MapeadorDeEventos {

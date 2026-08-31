@@ -4,15 +4,15 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Alguem clicou para falar com o empreendedor.
+ * Alguém clicou para falar com o empreendedor.
  *
- * <p>E o unico numero que responde a pergunta que a SEDECON de fato faz
- * ("isso esta servindo para alguma coisa?"), porque a venda acontece fora da
- * plataforma. Visita a pagina mede curiosidade; contato iniciado mede
- * intencao.
+ * <p>É o único número que responde a pergunta que a SEDECON de fato faz
+ * ("isso está servindo para alguma coisa?"), porque a venda acontece fora da
+ * plataforma. Visita a página mede curiosidade; contato iniciado mede
+ * intenção.
  *
- * <p>Nada aqui identifica o consumidor: nao ha IP, nao ha cookie, nao ha
- * identificador de sessao. O evento existe para contar, nao para rastrear.
+ * <p>Nada aqui identifica o consumidor: não há IP, não há cookie, não há
+ * identificador de sessão. O evento existe para contar, não para rastrear.
  */
 public record ContatoIniciado(
         UUID id,

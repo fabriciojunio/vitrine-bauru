@@ -17,10 +17,10 @@ import java.util.UUID;
 public interface OutboxRepository extends JpaRepository<MensagemDoOutbox, UUID> {
 
     /**
-     * Proximas mensagens a publicar, ja travadas para esta instancia.
+     * Próximas mensagens a publicar, já travadas para esta instância.
      *
-     * <p>O {@code SKIP LOCKED} (que e o que o tempo de espera -2 liga no
-     * PostgreSQL) e o que permite rodar mais de uma instancia do servico sem
+     * <p>O {@code SKIP LOCKED} (que é o que o tempo de espera -2 liga no
+     * PostgreSQL) é o que permite rodar mais de uma instância do serviço sem
      * publicar a mesma mensagem duas vezes: quem chegar depois pula as linhas
      * travadas em vez de ficar esperando, e a fila continua andando.
      */

@@ -6,17 +6,17 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * Configuracao de seguranca lida do ambiente.
+ * Configuração de segurança lida do ambiente.
  *
- * <p>Nenhum valor sensivel tem padrao embutido. O segredo do token vem de
- * variavel de ambiente e o servico se recusa a subir sem ele: um segredo
- * padrao esquecido em producao e a falha que nao aparece em nenhum teste e
+ * <p>Nenhum valor sensível tem padrão embutido. O segredo do token vem de
+ * variável de ambiente e o serviço se recusa a subir sem ele: um segredo
+ * padrão esquecido em produção é a falha que não aparece em nenhum teste e
  * abre o sistema inteiro.
  *
- * @param segredo            chave HMAC do token, com no minimo 32 bytes
+ * @param segredo            chave HMAC do token, com no mínimo 32 bytes
  * @param duracaoDoAcesso    validade do token de acesso
- * @param duracaoDoRefresh   validade do token de renovacao
- * @param origensPermitidas  dominios do frontend liberados no CORS
+ * @param duracaoDoRefresh   validade do token de renovação
+ * @param origensPermitidas  domínios do frontend liberados no CORS
  */
 @ConfigurationProperties(prefix = "vitrine.seguranca")
 public record PropriedadesDeSeguranca(

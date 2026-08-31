@@ -8,12 +8,12 @@ import jakarta.validation.constraints.Size;
 /**
  * O que entra pela API.
  *
- * <p>As mensagens de erro sao escritas para o empreendedor ler, e nao para o
- * programador. "não pode ser nulo" nao ajuda ninguem a preencher um
- * formulario; "Escreva o nome do seu negócio" ajuda.
+ * <p>As mensagens de erro são escritas para o empreendedor ler, e não para o
+ * programador. "não pode ser nulo" não ajuda ninguém a preencher um
+ * formulário; "Escreva o nome do seu negócio" ajuda.
  *
- * <p>A validacao aqui e de formato. Regra de negocio (bairro existir em Bauru,
- * documento fechar o digito verificador, senha nao ser obvia) fica no dominio,
+ * <p>A validação aqui é de formato. Regra de negócio (bairro existir em Bauru,
+ * documento fechar o dígito verificador, senha não ser óbvia) fica no domínio,
  * onde vale para qualquer caminho de entrada, inclusive semeadura e teste.
  */
 public final class Requisicoes {

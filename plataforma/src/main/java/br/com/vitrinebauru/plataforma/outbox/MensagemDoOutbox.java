@@ -12,16 +12,16 @@ import java.util.UUID;
 /**
  * Uma mensagem esperando para sair.
  *
- * <p>A chave primaria e o id do proprio evento, e nao um id gerado aqui. Isso
- * transforma o banco em guarda contra duplicata: se a mesma regra de negocio
- * for executada duas vezes por um retry, a segunda gravacao esbarra na chave
- * primaria em vez de virar uma segunda mensagem no topico.
+ * <p>A chave primária é o id do próprio evento, e não um id gerado aqui. Isso
+ * transforma o banco em guarda contra duplicata: se a mesma regra de negócio
+ * for executada duas vezes por um retry, a segunda gravação esbarra na chave
+ * primária em vez de virar uma segunda mensagem no tópico.
  */
 @Entity
 @Table(name = "outbox")
 public class MensagemDoOutbox {
 
-    /** Depois disso a mensagem para de ser tentada e espera analise humana. */
+    /** Depois disso a mensagem para de ser tentada e espera análise humana. */
     public static final int TENTATIVAS_MAXIMAS = 10;
 
     private static final Duration ESPERA_INICIAL = Duration.ofSeconds(2);
@@ -80,7 +80,7 @@ public class MensagemDoOutbox {
     }
 
     /**
-     * Espera dobrada a cada tentativa, ate dez minutos.
+     * Espera dobrada a cada tentativa, até dez minutos.
      *
      * <p>Sem isso, um broker fora do ar viraria uma consulta ao banco a cada
      * meio segundo por mensagem parada, e o outbox derrubaria o banco tentando

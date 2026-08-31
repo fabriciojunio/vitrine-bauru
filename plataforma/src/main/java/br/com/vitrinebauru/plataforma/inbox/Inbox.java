@@ -14,13 +14,13 @@ import java.time.Duration;
 /**
  * Deixa o consumidor idempotente.
  *
- * <p>A entrega do broker e "ao menos uma vez", e a do outbox tambem. Somando
- * as duas, receber o mesmo evento duas vezes nao e falha, e rotina: acontece
- * quando um consumidor demora demais e o grupo e rebalanceado, quando o
+ * <p>A entrega do broker é "ao menos uma vez", e a do outbox também. Somando
+ * as duas, receber o mesmo evento duas vezes não é falha, é rotina: acontece
+ * quando um consumidor demora demais e o grupo é rebalanceado, quando o
  * processo cai entre processar e confirmar, ou quando o publicador reenvia
  * depois de uma queda.
  *
- * <p>A marca e gravada na mesma transacao do trabalho. Se o trabalho falhar, a
+ * <p>A marca é gravada na mesma transação do trabalho. Se o trabalho falhar, a
  * marca some junto e o evento volta. Se o trabalho der certo, os dois ficam.
  */
 @Component
@@ -31,7 +31,7 @@ public class Inbox implements RegistroDeEntrada {
     /**
      * Trinta dias guardam o suficiente para cobrir reentrega de verdade sem a
      * tabela crescer para sempre. Reentrega mais velha que isso significa
-     * problema grave o bastante para alguem estar olhando de perto.
+     * problema grave o bastante para alguém estar olhando de perto.
      */
     private static final Duration RETENCAO = Duration.ofDays(30);
 
@@ -46,8 +46,8 @@ public class Inbox implements RegistroDeEntrada {
     }
 
     /**
-     * @return {@code true} se e a primeira vez que este consumidor ve este
-     *         evento; {@code false} se ja processou antes e deve ignorar.
+     * @return {@code true} se é a primeira vez que este consumidor vê este
+     *         evento; {@code false} se já processou antes e deve ignorar.
      */
     @Override
     public boolean registrar(Evento evento, String consumidor) {

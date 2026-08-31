@@ -12,10 +12,10 @@ import java.util.UUID;
 /**
  * Transforma evento em e-mail a enviar.
  *
- * <p>O identificador da notificacao e o id do proprio evento que a originou.
- * Com isso, a mesma mensagem reentregue pelo broker esbarra na chave primaria
- * em vez de gerar um segundo e-mail: o empreendedor nao recebe duas vezes que
- * o cadastro dele foi aprovado, e a idempotencia nao depende so do inbox.
+ * <p>O identificador da notificação é o id do próprio evento que a originou.
+ * Com isso, a mesma mensagem reentregue pelo broker esbarra na chave primária
+ * em vez de gerar um segundo e-mail: o empreendedor não recebe duas vezes que
+ * o cadastro dele foi aprovado, e a idempotência não depende só do inbox.
  */
 @Component
 public class EscreverNotificacao {

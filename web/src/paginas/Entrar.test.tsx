@@ -173,9 +173,6 @@ describe('modo demonstração na tela de entrar', () => {
     await userEvent.click(await screen.findByRole('button', { name: /Entrar como SEDECON/ }));
 
     await waitFor(() => {
-      const chamada = espiao.mock.calls.find(
-        (item) => String(item[0]).includes('/auth/demonstracao') && item[1]?.method === 'POST',
-      );
       expect(corpoDoPost(espiao)).toEqual({ papel: 'sedecon' });
     });
   });

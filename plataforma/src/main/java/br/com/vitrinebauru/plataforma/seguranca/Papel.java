@@ -3,10 +3,10 @@ package br.com.vitrinebauru.plataforma.seguranca;
 /**
  * O que a pessoa pode fazer na plataforma.
  *
- * <p>Sao dois papeis porque o sistema tem dois lados e nao mais que isso: quem
- * vende e quem modera. O consumidor nao tem papel porque nao tem conta, e essa
- * decisao e de produto: obrigar cadastro para ver a vitrine afastaria
- * exatamente o publico que a SEDECON quer alcancar.
+ * <p>São dois papéis porque o sistema tem dois lados e não mais que isso: quem
+ * vende e quem modera. O consumidor não tem papel porque não tem conta, e essa
+ * decisão é de produto: obrigar cadastro para ver a vitrine afastaria
+ * exatamente o público que a SEDECON quer alcançar.
  */
 public enum Papel {
 

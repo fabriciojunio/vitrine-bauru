@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * Transforma decisao da SEDECON em e-mail.
+ * Transforma decisão da SEDECON em e-mail.
  *
- * <p>Reativacao nao gera e-mail de proposito: a loja volta ao ar e o
- * empreendedor ve pelo painel. Escrever "sua loja foi reativada" para quem
- * talvez nem soubesse da suspensao cria mais duvida do que resolve.
+ * <p>Reativação não gera e-mail de propósito: a loja volta ao ar e o
+ * empreendedor vê pelo painel. Escrever "sua loja foi reativada" para quem
+ * talvez nem soubesse da suspensão cria mais dúvida do que resolve.
  */
 @Component
 public class OuvinteDeEmpreendedores implements ConsumidorDeEventos {
@@ -58,7 +58,7 @@ public class OuvinteDeEmpreendedores implements ConsumidorDeEventos {
                     suspenso.nomeDoResponsavel(), suspenso.nomeDoNegocio(), suspenso.motivo());
 
             default -> {
-                // Os demais eventos do topico nao viram e-mail.
+                // Os demais eventos do tópico não viram e-mail.
             }
         }
     }

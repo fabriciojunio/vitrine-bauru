@@ -1,17 +1,17 @@
 package br.com.vitrinebauru.contratos.tipos;
 
 /**
- * CPF ou CNPJ do empreendedor, ja validado.
+ * CPF ou CNPJ do empreendedor, já validado.
  *
- * <p>Aceita os dois porque o publico da SEDECON tem os dois: o MEI formalizado
- * tem CNPJ, e o artesao que ainda nao se formalizou so tem CPF. Exigir CNPJ de
- * todo mundo excluiria justamente quem a plataforma existe para alcancar.
+ * <p>Aceita os dois porque o público da SEDECON tem os dois: o MEI formalizado
+ * tem CNPJ, e o artesão que ainda não se formalizou só tem CPF. Exigir CNPJ de
+ * todo mundo excluiria justamente quem a plataforma existe para alcançar.
  *
- * <p>O CNPJ alfanumerico, que a Receita passou a emitir em julho de 2026, e
- * tratado aqui desde o inicio. A regra do digito verificador continua sendo o
- * modulo 11; o que muda e que cada caractere vale o codigo ASCII menos 48, o
+ * <p>O CNPJ alfanumérico, que a Receita passou a emitir em julho de 2026, é
+ * tratado aqui desde o início. A regra do dígito verificador continua sendo o
+ * módulo 11; o que muda é que cada caractere vale o código ASCII menos 48, o
  * que faz "0" continuar valendo 0 e "A" passar a valer 17. Os CNPJ antigos,
- * so com numeros, caem no mesmo calculo e continuam validos.
+ * só com números, caem no mesmo cálculo e continuam válidos.
  */
 public record Documento(String valor, Tipo tipo) {
 
@@ -76,7 +76,7 @@ public record Documento(String valor, Tipo tipo) {
         return new Documento(limpo, Tipo.CNPJ);
     }
 
-    /** Modulo 11 sobre o valor ASCII do caractere menos 48. */
+    /** Módulo 11 sobre o valor ASCII do caractere menos 48. */
     private static int digito(String base, int[] pesos) {
         int soma = 0;
         for (int i = 0; i < base.length(); i++) {
@@ -104,8 +104,8 @@ public record Documento(String valor, Tipo tipo) {
     }
 
     /**
-     * Versao para tela e para log. O documento inteiro so aparece para quem e
-     * dono dele; a moderacao da SEDECON precisa reconhecer o cadastro, nao
+     * Versão para tela e para log. O documento inteiro só aparece para quem é
+     * dono dele; a moderação da SEDECON precisa reconhecer o cadastro, não
      * colecionar CPF alheio.
      */
     public String mascarado() {

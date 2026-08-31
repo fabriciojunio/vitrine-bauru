@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * A SEDECON aprovou o cadastro. Este e o evento que coloca uma loja no ar e
+ * A SEDECON aprovou o cadastro. Este é o evento que coloca uma loja no ar e
  * dispara o e-mail de boas-vindas.
  */
 public record CadastroAprovado(

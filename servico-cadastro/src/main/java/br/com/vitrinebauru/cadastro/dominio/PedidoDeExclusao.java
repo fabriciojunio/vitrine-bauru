@@ -18,18 +18,18 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * O estado da saga de exclusao de dados.
+ * O estado da saga de exclusão de dados.
  *
- * <p>Cada servico guarda um pedaco dos dados do empreendedor no proprio
- * banco, entao apagar tudo e uma conversa entre quatro processos, nao um
- * {@code delete}. Esta linha e a memoria dessa conversa: quem ja confirmou,
- * quem falta, e ate quando da para esperar.
+ * <p>Cada serviço guarda um pedaço dos dados do empreendedor no próprio
+ * banco, então apagar tudo é uma conversa entre quatro processos, não um
+ * {@code delete}. Esta linha é a memória dessa conversa: quem já confirmou,
+ * quem falta, e até quando dá para esperar.
  *
- * <p>Nao ha compensacao possivel aqui, e isso e proposital. Uma saga de compra
- * pode estornar; exclusao de dados nao tem como desfazer, e nem deveria. O que
- * existe no lugar e reenvio ate confirmar, mais um prazo que, estourado, vira
- * alerta para uma pessoa resolver na mao. E a escolha honesta: melhor um
- * pedido de exclusao atrasado e visivel do que um pedido dado como concluido
+ * <p>Não há compensação possível aqui, e isso é proposital. Uma saga de compra
+ * pode estornar; exclusão de dados não tem como desfazer, e nem deveria. O que
+ * existe no lugar é reenvio até confirmar, mais um prazo que, estourado, vira
+ * alerta para uma pessoa resolver na mão. É a escolha honesta: melhor um
+ * pedido de exclusão atrasado e visível do que um pedido dado como concluído
  * com dado vivo em algum banco.
  */
 @Entity
@@ -81,7 +81,7 @@ public class PedidoDeExclusao {
         return pedido;
     }
 
-    /** @return {@code true} quando esta confirmacao foi a que faltava. */
+    /** @return {@code true} quando esta confirmação foi a que faltava. */
     public boolean confirmar(Participante participante) {
         if (concluidoEm != null) {
             return false;

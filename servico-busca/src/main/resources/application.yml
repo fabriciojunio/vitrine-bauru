@@ -7,9 +7,9 @@ spring:
     username: ${BANCO_USUARIO:vitrine}
     password: ${BANCO_SENHA:vitrine}
     hikari:
-      # Camada gratuita de banco costuma limitar conexao em algo entre 20 e 60.
-      # Cinco por servico deixa folga para o total nao estourar com quatro
-      # servicos mais migracao rodando ao mesmo tempo.
+      # Camada gratuita de banco costuma limitar conexão em algo entre 20 e 60.
+      # Cinco por serviço deixa folga para o total não estourar com quatro
+      # serviços mais migração rodando ao mesmo tempo.
       maximum-pool-size: ${BANCO_MAXIMO_DE_CONEXOES:5}
       connection-timeout: 10000
 
@@ -56,9 +56,9 @@ vitrine:
   limite:
     ativo: ${LIMITE_ATIVO:true}
     regras:
-      # A vitrine e publica, entao o limite existe contra varredura automatica,
-      # e nao contra o consumidor: 120 buscas por minuto e muito mais do que
-      # alguem procurando bolo consegue fazer, e muito menos do que um robo
+      # A vitrine é pública, então o limite existe contra varredura automática,
+      # e não contra o consumidor: 120 buscas por minuto é muito mais do que
+      # alguém procurando bolo consegue fazer, e muito menos do que um robô
       # tentaria.
       - padrao: /api/busca/produtos
         capacidade: 120
@@ -94,6 +94,6 @@ logging:
   level:
     br.com.vitrinebauru: INFO
   pattern:
-    # A correlacao no padrao do log e o que permite seguir um cadastro pelos
-    # quatro servicos sem cruzar horario a olho.
+    # A correlação no padrão do log é o que permite seguir um cadastro pelos
+    # quatro serviços sem cruzar horário a olho.
     console: "%d{HH:mm:ss.SSS} %-5level [%X{correlacao:-}] %logger{36} - %msg%n"

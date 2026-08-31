@@ -13,11 +13,11 @@ import java.util.Set;
 /**
  * Guarda cada clique em "falar no WhatsApp" para virar indicador.
  *
- * <p>O identificador do registro e o proprio id do evento. Isso torna a
- * gravacao idempotente por construcao, alem do inbox: se a mesma mensagem
+ * <p>O identificador do registro é o próprio id do evento. Isso torna a
+ * gravação idempotente por construção, além do inbox: se a mesma mensagem
  * chegar duas vezes, a segunda sobrescreve a primeira linha em vez de inflar a
- * estatistica. Numero de impacto que cresce com reentrega de mensagem e
- * numero que nao serve para relatorio.
+ * estatística. Número de impacto que cresce com reentrega de mensagem é
+ * número que não serve para relatório.
  */
 @Component
 public class OuvinteDeContatos implements ConsumidorDeEventos {

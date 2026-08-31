@@ -41,7 +41,7 @@ import static org.awaitility.Awaitility.await;
 /**
  * Evento entra, e-mail sai.
  *
- * <p>O envio de verdade e trocado por um enviador controlado pelo teste, que
+ * <p>O envio de verdade é trocado por um enviador controlado pelo teste, que
  * permite simular o provedor fora do ar. Sem isso, o teste da nova tentativa
  * dependeria de derrubar a internet.
  */

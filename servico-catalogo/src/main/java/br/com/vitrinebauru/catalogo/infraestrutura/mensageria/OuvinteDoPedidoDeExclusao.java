@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
-/** Recebe o pedido de exclusao e aciona o expurgo do catalogo. */
+/** Recebe o pedido de exclusão e aciona o expurgo do catálogo. */
 @Component
 public class OuvinteDoPedidoDeExclusao implements ConsumidorDeEventos {
 

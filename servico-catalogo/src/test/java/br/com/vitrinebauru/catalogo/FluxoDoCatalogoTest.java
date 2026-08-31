@@ -47,12 +47,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Catalogo inteiro no ar, com banco e broker de verdade.
+ * Catálogo inteiro no ar, com banco e broker de verdade.
  *
- * <p>Este teste tambem cobre a parte mais facil de errar num sistema de
- * eventos: o catalogo so aceita produto de empreendedor que ele aprendeu por
- * evento. O teste publica o evento no topico e espera o servico reagir, em vez
- * de gravar a tabela na mao, porque e assim que acontece em producao.
+ * <p>Este teste também cobre a parte mais fácil de errar num sistema de
+ * eventos: o catálogo só aceita produto de empreendedor que ele aprendeu por
+ * evento. O teste publica o evento no tópico e espera o serviço reagir, em vez
+ * de gravar a tabela na mão, porque é assim que acontece em produção.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc

@@ -6,15 +6,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * A porta de entrada quando os serviços rodam separados.
  *
- * <p>Existe para o frontend conhecer um endereco so. Sem ela, o navegador
- * precisaria saber que cadastro esta numa porta, catalogo em outra e busca em
- * uma terceira, e cada mudanca de topologia viraria alteracao no codigo do
- * frontend e no CORS de quatro servicos.
+ * <p>Existe para o frontend conhecer um endereço só. Sem ela, o navegador
+ * precisaria saber que cadastro está numa porta, catálogo em outra e busca em
+ * uma terceira, e cada mudança de topologia viraria alteração no código do
+ * frontend e no CORS de quatro serviços.
  *
- * <p>Nao ha regra de negocio aqui, e isso e proposital. Gateway que decide
- * coisa vira o lugar onde toda regra acaba parando, porque e sempre o caminho
- * mais curto. Aqui ele roteia, cuida do CORS e limita ritmo. Autenticacao
- * continua sendo conferida por cada servico, que e quem sabe o que proteger.
+ * <p>Não há regra de negócio aqui, e isso é proposital. Gateway que decide
+ * coisa vira o lugar onde toda regra acaba parando, porque é sempre o caminho
+ * mais curto. Aqui ele roteia, cuida do CORS e limita ritmo. Autenticação
+ * continua sendo conferida por cada serviço, que é quem sabe o que proteger.
  */
 @SpringBootApplication
 public class AplicacaoDaBorda {

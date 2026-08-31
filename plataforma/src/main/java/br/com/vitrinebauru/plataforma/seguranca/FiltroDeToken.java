@@ -16,12 +16,12 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Le o token do cabecalho e coloca o usuario no contexto da requisicao.
+ * Lê o token do cabeçalho e coloca o usuário no contexto da requisição.
  *
- * <p>Token ausente ou invalido nao vira erro aqui: o filtro segue adiante sem
- * autenticar e quem decide se aquele endereco exige login e a configuracao de
- * seguranca. Isso mantem publico o que precisa ser publico (a busca, a pagina
- * da loja) sem espalhar excecao pelo caminho normal.
+ * <p>Token ausente ou inválido não vira erro aqui: o filtro segue adiante sem
+ * autenticar e quem decide se aquele endereço exige login é a configuração de
+ * segurança. Isso mantém público o que precisa ser público (a busca, a página
+ * da loja) sem espalhar exceção pelo caminho normal.
  */
 @Component
 public class FiltroDeToken extends OncePerRequestFilter {

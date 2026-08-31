@@ -1,8 +1,8 @@
--- Projecao publica: a unica parte do sistema aberta sem login.
+-- Projeção pública: a única parte do sistema aberta sem login.
 --
--- Nao ha chave estrangeira entre produto e loja de proposito. Os dois vem de
--- topicos diferentes e nada garante qual chega primeiro; uma restricao aqui
--- faria o consumidor de eventos falhar e reprocessar em laco toda vez que o
+-- Não há chave estrangeira entre produto e loja de propósito. Os dois vem de
+-- tópicos diferentes e nada garante qual chega primeiro; uma restrição aqui
+-- faria o consumidor de eventos falhar e reprocessar em laço toda vez que o
 -- produto chegasse na frente da loja.
 
 create schema if not exists busca;
@@ -23,8 +23,8 @@ create table busca.loja (
 
 create unique index idx_loja_apelido on busca.loja (apelido_na_url);
 
--- Indice parcial: quase toda consulta filtra por visivel, e loja escondida
--- nao precisa ocupar espaco no indice da vitrine.
+-- Índice parcial: quase toda consulta filtra por visível, e loja escondida
+-- não precisa ocupar espaço no índice da vitrine.
 create index idx_loja_visivel on busca.loja (bairro, categoria) where visivel;
 
 create table busca.produto (

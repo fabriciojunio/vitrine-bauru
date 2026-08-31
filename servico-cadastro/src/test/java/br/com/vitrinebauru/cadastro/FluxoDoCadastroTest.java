@@ -44,13 +44,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Sobe o servico inteiro, com PostgreSQL e Kafka de verdade, e percorre o
+ * Sobe o serviço inteiro, com PostgreSQL e Kafka de verdade, e percorre o
  * caminho que um empreendedor de Bauru percorreria.
  *
- * <p>Nenhum dos dois precisa de Docker: o Postgres e um processo iniciado pelo
- * proprio teste e o Kafka e o broker embutido do spring-kafka-test. Isso
- * importa porque o teste que prova o outbox de ponta a ponta so vale se rodar
- * a cada build, e nao quando alguem lembra de subir a infraestrutura.
+ * <p>Nenhum dos dois precisa de Docker: o Postgres é um processo iniciado pelo
+ * próprio teste e o Kafka é o broker embutido do spring-kafka-test. Isso
+ * importa porque o teste que prova o outbox de ponta a ponta só vale se rodar
+ * a cada build, e não quando alguém lembra de subir a infraestrutura.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -74,19 +74,19 @@ class FluxoDoCadastroTest {
         propriedades.add("spring.datasource.password", () -> "");
         propriedades.add("spring.kafka.bootstrap-servers", () -> "${spring.embedded.kafka.brokers}");
 
-        // Publica rapido para o teste nao esperar meio segundo por mensagem.
+        // Publica rápido para o teste não esperar meio segundo por mensagem.
         propriedades.add("vitrine.outbox.intervalo-ms", () -> "100");
-        // A consulta a Receita nao entra em teste: depende de rede e de um
-        // servico de terceiro, e o que se quer verificar aqui e o fluxo.
+        // A consulta a Receita não entra em teste: depende de rede e de um
+        // serviço de terceiro, e o que se quer verificar aqui é o fluxo.
         propriedades.add("vitrine.brasilapi.ativa", () -> "false");
         propriedades.add("vitrine.conferencia.intervalo-ms", () -> "3600000");
         propriedades.add("vitrine.limite.ativo", () -> "false");
     }
 
-    // O Postgres embutido nao e fechado aqui de proposito. Fechar no @AfterAll
+    // O Postgres embutido não é fechado aqui de propósito. Fechar no @AfterAll
     // derruba o banco antes de o contexto do Spring parar, e as tarefas
-    // agendadas que ainda estao rodando enchem a saida de erro de conexao. O
-    // proprio processo do banco morre junto com a maquina virtual do teste.
+    // agendadas que ainda estão rodando enchem a saída de erro de conexão. O
+    // próprio processo do banco morre junto com a máquina virtual do teste.
 
     @Autowired
     private MockMvc mockMvc;
@@ -532,7 +532,7 @@ class FluxoDoCadastroTest {
         }
     }
 
-    // ------------------------------------------------------------ moderacao
+    // ------------------------------------------------------------ moderação
 
     @Nested
     @DisplayName("moderação da SEDECON")
@@ -861,7 +861,7 @@ class FluxoDoCadastroTest {
         }
     }
 
-    // ------------------------------------------------------------ saude
+    // ------------------------------------------------------------ saúde
 
     @Nested
     @DisplayName("saúde do serviço")

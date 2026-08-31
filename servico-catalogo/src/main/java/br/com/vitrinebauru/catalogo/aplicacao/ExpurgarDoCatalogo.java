@@ -15,14 +15,14 @@ import java.time.Clock;
 import java.util.UUID;
 
 /**
- * A parte do catalogo no pedido de exclusao de dados.
+ * A parte do catálogo no pedido de exclusão de dados.
  *
- * <p>Aqui e apagar de verdade: {@code delete}, e nao marcacao de retirado. A
- * diferenca importa. Retirar produto e decisao comercial, e o historico serve
- * para a auditoria; exclusao de dados e direito do titular, e o que ele pediu
+ * <p>Aqui é apagar de verdade: {@code delete}, e não marcação de retirado. A
+ * diferença importa. Retirar produto é decisão comercial, e o histórico serve
+ * para a auditoria; exclusão de dados é direito do titular, e o que ele pediu
  * foi que os dados sumissem.
  *
- * <p>Apagar o que ja foi apagado nao da erro e responde a mesma coisa. E essa
+ * <p>Apagar o que já foi apagado não dá erro e responde a mesma coisa. É essa
  * propriedade que permite o coordenador reenviar o pedido quantas vezes for
  * preciso sem estragar nada.
  */
@@ -48,7 +48,7 @@ public class ExpurgarDoCatalogo {
         this.relogio = relogio;
     }
 
-    /** Executado dentro da transacao aberta pelo despachante de eventos. */
+    /** Executado dentro da transação aberta pelo despachante de eventos. */
     public void executar(UUID empreendedorId, UUID correlacao) {
         int produtosRemovidos = produtos.deleteByEmpreendedorId(empreendedorId);
         int imagensRemovidas = imagens.deleteByEmpreendedorId(empreendedorId);

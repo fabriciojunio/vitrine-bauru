@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * O lado do empreendedor: cadastrar-se e cuidar da propria loja.
+ * O lado do empreendedor: cadastrar-se e cuidar da própria loja.
  *
- * <p>Todo endereco daqui fala de "meu" e resolve o empreendedor pelo token,
- * nunca por identificador na URL. E o que impede o erro mais comum de
- * autorizacao em API: aceitar o id do dono como parametro e esquecer de
- * conferir se ele bate com quem esta logado.
+ * <p>Todo endereço daqui fala de "meu" e resolve o empreendedor pelo token,
+ * nunca por identificador na URL. É o que impede o erro mais comum de
+ * autorização em API: aceitar o id do dono como parâmetro e esquecer de
+ * conferir se ele bate com quem está logado.
  */
 @RestController
 @RequestMapping("/api/cadastro")
