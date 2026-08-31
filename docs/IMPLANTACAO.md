@@ -16,19 +16,25 @@ transporte de eventos dentro do processo. O porquê está na
 ## 1. Banco no Neon
 
 1. Entre em neon.tech e crie a conta (dá para entrar com a conta do GitHub).
-2. Crie um projeto. Região: `AWS us-east-2 (Ohio)`, que é a mais próxima das
-   máquinas gratuitas do Render em Oregon.
+2. Crie um projeto. Região: `AWS us-west-2 (Oregon)`, a mesma das máquinas
+   gratuitas do Render. Banco e serviço na mesma região economiza uma ida e
+   volta pela internet em toda consulta, o que pesa num plano que hiberna.
 3. No painel, em **Connection Details**, copie a string de conexão. Ela vem
    assim:
 
    ```
-   postgresql://usuario:senha@ep-algo-123456.us-east-2.aws.neon.tech/neondb?sslmode=require
+   postgresql://usuario:senha@ep-algo-123456-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require
    ```
+
+   **Tire o `-pooler` do endereço.** O Neon oferece dois: o com `-pooler` passa
+   por PgBouncer em modo transação, e o Flyway usa `pg_advisory_lock`, que é de
+   sessão e não sobrevive a isso. Com um pool de cinco conexões e uma instância
+   só, a conexão direta é a certa.
 
 4. Guarde as três partes separadas, que é como o serviço espera:
 
    ```
-   BANCO_URL      jdbc:postgresql://ep-algo-123456.us-east-2.aws.neon.tech/neondb?sslmode=require
+   BANCO_URL      jdbc:postgresql://ep-algo-123456.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require
    BANCO_USUARIO  usuario
    BANCO_SENHA    senha
    ```
