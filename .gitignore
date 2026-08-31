@@ -1,0 +1,14 @@
+target/
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+web/playwright-report/
+web/test-results/
+.vercel/
