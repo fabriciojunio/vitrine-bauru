@@ -1,0 +1,57 @@
+name: Reiniciar a demonstração
+
+# A demonstração é pública: qualquer pessoa entra em um clique, aprova
+# cadastro, recusa outro e publica produto. Sem reiniciar, em uma semana a
+# vitrine vira um amontoado de teste alheio, e quem abrir depois vai achar que
+# o sistema é assim mesmo.
+#
+# Roda de madrugada, no horário de Bauru, quando ninguém está avaliando.
+on:
+  schedule:
+    - cron: '0 6 * * *' # 03:00 em Brasília
+  workflow_dispatch:
+
+jobs:
+  reiniciar:
+    name: Apagar e semear de novo
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apagar os esquemas da demonstração
+        env:
+          PGPASSWORD: ${{ secrets.DEMO_BANCO_SENHA }}
+        run: |
+          if [ -z "${{ secrets.DEMO_BANCO_HOST }}" ]; then
+            echo "Segredos da demonstração não configurados. Nada a fazer."
+            exit 0
+          fi
+
+          # Derruba tudo e deixa o Flyway reconstruir na próxima subida. É
+          # mais confiável que apagar linha por linha: qualquer tabela nova
+          # entra no reinício sem alguém lembrar de acrescentar aqui.
+          psql "host=${{ secrets.DEMO_BANCO_HOST }} \
+                dbname=${{ secrets.DEMO_BANCO_NOME }} \
+                user=${{ secrets.DEMO_BANCO_USUARIO }} \
+                sslmode=require" <<'SQL'
+          drop schema if exists cadastro cascade;
+          drop schema if exists catalogo cascade;
+          drop schema if exists busca cascade;
+          drop schema if exists notificacoes cascade;
+          drop table if exists outbox;
+          drop table if exists inbox;
+          drop table if exists flyway_schema_history;
+          SQL
+
+      - name: Acordar a aplicação para semear de novo
+        run: |
+          if [ -z "${{ secrets.DEMO_URL }}" ]; then
+            exit 0
+          fi
+          # A camada gratuita hiberna: a primeira chamada acorda o serviço, que
+          # roda as migrações e semeia a demonstração na subida.
+          curl -sf --max-time 120 "${{ secrets.DEMO_URL }}/actuator/health" || true
+          sleep 60
+          curl -sf --max-time 60 "${{ secrets.DEMO_URL }}/api/busca/resumo"

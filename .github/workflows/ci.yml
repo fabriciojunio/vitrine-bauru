@@ -1,0 +1,150 @@
+name: CI
+
+# Roda em todo push e em toda proposta de mudança. O objetivo é simples: nada
+# entra na branch principal sem os testes passarem, inclusive os de integração
+# com banco e broker de verdade.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  back-end:
+    name: Back-end (Java 21)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar o Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      # Os testes de integração sobem PostgreSQL e Kafka embutidos, iniciados
+      # pelo próprio teste. Não há serviço de apoio a declarar aqui, e é de
+      # propósito: o mesmo comando roda no CI e na máquina de quem programa.
+      - name: Compilar e testar
+        run: mvn -B verify
+
+      - name: Guardar o relatório de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-jacoco
+          path: '**/target/site/jacoco/'
+          retention-days: 7
+
+  front-end:
+    name: Front-end (React 19)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Conferir os tipos
+        run: npm run typecheck
+
+      - name: Testar
+        run: npm test
+
+      - name: Construir
+        run: npm run build
+
+  ponta-a-ponta:
+    name: Ponta a ponta (Playwright)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: [back-end, front-end]
+
+    services:
+      banco:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: vitrine
+          POSTGRES_USER: vitrine
+          POSTGRES_PASSWORD: vitrine
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U vitrine"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Empacotar o servidor único
+        run: mvn -B -q -pl servidor-unico -am package -DskipTests
+
+      - name: Subir a aplicação com dados de demonstração
+        env:
+          BANCO_URL: jdbc:postgresql://localhost:5432/vitrine
+          BANCO_USUARIO: vitrine
+          BANCO_SENHA: vitrine
+          DEMO_ATIVO: 'true'
+          VITRINE_SEGREDO_JWT: segredo-de-integracao-com-mais-de-32-bytes
+          ORIGENS_PERMITIDAS: http://localhost:5173
+        run: |
+          java -jar servidor-unico/target/servidor-unico-1.0.0.jar > /tmp/aplicacao.log 2>&1 &
+          for tentativa in $(seq 1 60); do
+            if curl -sf http://localhost:8080/actuator/health > /dev/null; then
+              echo "aplicação no ar"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "a aplicação não subiu a tempo"
+          tail -50 /tmp/aplicacao.log
+          exit 1
+
+      - name: Instalar o front-end e o navegador
+        working-directory: web
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Rodar os testes de ponta a ponta
+        working-directory: web
+        run: npm run e2e
+
+      - name: Guardar o relatório quando falhar
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-playwright
+          path: web/playwright-report/
+          retention-days: 7
