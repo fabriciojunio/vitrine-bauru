@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: borda
+
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            # O roteamento e por prefixo de caminho, e nao por descoberta de
+            # servico. Com quatro servicos fixos, um registro (Eureka,
+            # Consul) seria mais uma peca para manter no ar e mais um ponto de
+            # falha, sem resolver nenhum problema que este projeto tenha.
+            - id: cadastro
+              uri: ${SERVICO_CADASTRO:http://localhost:8081}
+              predicates:
+                - Path=/api/cadastro/**
+
+            - id: catalogo
+              uri: ${SERVICO_CATALOGO:http://localhost:8082}
+              predicates:
+                - Path=/api/catalogo/**
+
+            - id: busca
+              uri: ${SERVICO_BUSCA:http://localhost:8083}
+              predicates:
+                - Path=/api/busca/**
+
+            - id: notificacoes
+              uri: ${SERVICO_NOTIFICACOES:http://localhost:8084}
+              predicates:
+                - Path=/api/notificacoes/**
+
+server:
+  port: ${PORTA:8080}
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{correlacao:-}] %logger{36} - %msg%n"
