@@ -8,7 +8,7 @@ function resposta(corpo: unknown, status = 200): Response {
     headers: new Headers({ 'Content-Type': 'application/json' }),
     json: async () => corpo,
     text: async () => JSON.stringify(corpo),
-  } as Response;
+  } as unknown as Response;
 }
 
 function respostaVazia(status: number): Response {
@@ -20,7 +20,7 @@ function respostaVazia(status: number): Response {
       throw new Error('sem corpo');
     },
     text: async () => '',
-  } as Response;
+  } as unknown as Response;
 }
 
 describe('cliente da API', () => {

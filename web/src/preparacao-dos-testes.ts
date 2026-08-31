@@ -67,5 +67,5 @@ export function respostaComJson(corpo: unknown, status = 200): Response {
     headers: new Headers({ 'Content-Type': 'application/json' }),
     json: async () => corpo,
     text: async () => JSON.stringify(corpo),
-  } as Response;
+  } as unknown as Response;
 }
