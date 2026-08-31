@@ -44,6 +44,42 @@ transporte de eventos dentro do processo. O porquê está na
 
 Não é preciso criar tabela nenhuma. O Flyway cria tudo na primeira subida.
 
+## Sobre a hibernação, e o que fazer com ela
+
+A camada gratuita do Render desliga o serviço depois de **quinze minutos sem
+receber requisição**. A visita seguinte espera ele subir, e isso leva de trinta
+a noventa segundos: medimos 91 numa chamada real.
+
+Duas coisas tratam isso, e as duas já estão no repositório.
+
+**A tela avisa.** Passados quatro segundos de espera, o carregando explica que
+o servidor está acordando e que não precisa recarregar. Antes disso não fala
+nada, porque na maioria das visitas a resposta chega antes e explicar
+hibernação para quem esperou meio segundo só cria dúvida.
+
+**Um fluxo mantém acordado o tempo todo.** O
+`.github/workflows/manter-api-acordada.yml` bate no `/actuator/health` a cada
+dez minutos, sem parar. Precisa do segredo `DEMO_URL`, que é o mesmo do
+reinício da demonstração.
+
+**A conta que isso exige, e que precisa ser respeitada:** o ping consome as
+mesmas horas de instância que ele protege. A cota gratuita é de 750 horas por
+mês e um mês de 31 dias tem 744, então 24 horas por dia cabe com seis horas de
+margem e nada mais. Como a cota é da conta inteira, **enquanto este fluxo rodar
+não dá para manter um segundo serviço web gratuito no Render**: os dois somados
+estouram o limite e ambos param até virar o mês. Se precisar de outro serviço,
+reduza a janela para o horário útil, com o cron `*/10 10-23,0-2 * * *`, que
+gasta cerca de 527 horas.
+
+**Uma ressalva sobre o agendamento do GitHub:** fluxo agendado na camada
+gratuita costuma atrasar, e o atraso pode passar dos quinze minutos. Na maior
+parte do tempo funciona; quando não funcionar, quem cobre é o aviso na tela. Se
+quiser algo à prova disso, um monitor externo como o UptimeRobot bate de cinco
+em cinco minutos sem atraso, e a camada gratuita dele basta.
+
+Se o projeto passar a ter uso de verdade, o plano pago do Render resolve por
+uns sete dólares por mês e dispensa tudo isso.
+
 ## 2. Back-end no Render
 
 O repositório tem um `render.yaml`, então o Render monta o serviço sozinho:
