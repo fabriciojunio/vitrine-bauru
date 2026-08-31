@@ -196,8 +196,18 @@ export async function chamar<T>(caminho: string, opcoes: OpcoesDaChamada = {}): 
     return undefined as T;
   }
 
+  // Resposta 2xx que não é JSON não é resposta da API: é a hospedagem
+  // devolvendo o próprio index.html porque o back-end não está publicado
+  // naquele ambiente. Aceitar isso fazia a tela receber uma string onde
+  // esperava objeto e quebrar na primeira propriedade lida, com a página
+  // inteira em branco e um TypeError no console. Tratar como servidor fora
+  // do ar leva para a tela que explica o que houve.
   const tipo = resposta.headers.get('Content-Type') ?? '';
-  return (tipo.includes('json') ? await resposta.json() : ((await resposta.text()) as T)) as T;
+  if (!tipo.includes('json')) {
+    throw new ErroDaApi(0, 'Não foi possível falar com o servidor da plataforma.');
+  }
+
+  return (await resposta.json()) as T;
 }
 
 /**
