@@ -17,10 +17,10 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * A parte das notificacoes no pedido de exclusao.
+ * A parte das notificações no pedido de exclusão.
  *
- * <p>O historico de e-mail guarda nome, endereco de e-mail e o motivo escrito
- * pela analise. E o servico com menos codigo dos tres participantes e o que
+ * <p>O histórico de e-mail guarda nome, endereço de e-mail e o motivo escrito
+ * pela análise. É o serviço com menos código dos três participantes é o que
  * mais guarda texto sobre a pessoa, e por isso ele entra na saga.
  */
 @Component

@@ -7,10 +7,10 @@ import java.util.Optional;
 /**
  * Ramos de atividade aceitos.
  *
- * <p>Sao poucos e largos de proposito. Uma lista com quarenta categorias fica
- * mais precisa no papel e, na pratica, faz o empreendedor parar no meio do
+ * <p>São poucos e largos de propósito. Uma lista com quarenta categorias fica
+ * mais precisa no papel e, na prática, faz o empreendedor parar no meio do
  * cadastro tentando decidir entre "Doces e bolos" e "Alimentação artesanal", e
- * faz o consumidor nao achar nada porque procurou na categoria vizinha.
+ * faz o consumidor não achar nada porque procurou na categoria vizinha.
  */
 public final class CategoriasDoComercio {
 

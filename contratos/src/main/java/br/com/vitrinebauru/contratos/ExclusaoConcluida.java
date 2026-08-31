@@ -6,8 +6,8 @@ import java.util.UUID;
 /**
  * Todos os participantes confirmaram e a conta foi anonimizada.
  *
- * <p>Fecha a saga e serve de comprovante: numa fiscalizacao, e este registro,
- * com data e correlacao, que mostra que o pedido foi cumprido de ponta a
+ * <p>Fecha a saga e serve de comprovante: numa fiscalização, é este registro,
+ * com data e correlação, que mostra que o pedido foi cumprido de ponta a
  * ponta.
  */
 public record ExclusaoConcluida(

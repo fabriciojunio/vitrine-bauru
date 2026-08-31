@@ -7,21 +7,21 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Tudo que trafega entre os servicos.
+ * Tudo que trafega entre os serviços.
  *
- * <p>A interface e selada de proposito. O compilador passa a garantir que
- * qualquer {@code switch} sobre evento cobre todos os casos: quando alguem
+ * <p>A interface é selada de propósito. O compilador passa a garantir que
+ * qualquer {@code switch} sobre evento cobre todos os casos: quando alguém
  * acrescentar um evento novo, o build quebra nos lugares que precisam decidir
- * o que fazer com ele, em vez de o evento ser ignorado em silencio em
- * producao.
+ * o que fazer com ele, em vez de o evento ser ignorado em silêncio em
+ * produção.
  *
- * <p>O par id/correlacao existe para duas perguntas diferentes. O {@code id} e
- * a identidade da mensagem e e o que torna o consumidor idempotente: se a
+ * <p>O par id/correlação existe para duas perguntas diferentes. O {@code id} é
+ * a identidade da mensagem e é o que torna o consumidor idempotente: se a
  * mesma mensagem chegar duas vezes, o inbox reconhece pelo id. A
  * {@code correlacao} atravessa a cadeia inteira: o cadastro que gerou a
- * aprovacao, que gerou o e-mail, que gerou a projecao, carregam a mesma
- * correlacao, e por isso o log de tres servicos diferentes pode ser lido como
- * uma historia so.
+ * aprovação, que gerou o e-mail, que gerou a projeção, carregam a mesma
+ * correlação, e por isso o log de três serviços diferentes pode ser lido como
+ * uma história só.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
 @JsonSubTypes({
@@ -54,9 +54,9 @@ public sealed interface Evento permits
 
     /**
      * Chave de particionamento no broker. Tudo que diz respeito ao mesmo
-     * empreendedor cai na mesma particao, e so por isso a ordem entre
-     * "aprovado" e "suspenso" e preservada. Sem isso, dois eventos do mesmo
-     * empreendedor poderiam ser processados fora de ordem e a loja de alguem
+     * empreendedor cai na mesma partição, e só por isso a ordem entre
+     * "aprovado" e "suspenso" é preservada. Sem isso, dois eventos do mesmo
+     * empreendedor poderiam ser processados fora de ordem e a loja de alguém
      * suspenso voltaria ao ar.
      */
     UUID chaveDeParticao();

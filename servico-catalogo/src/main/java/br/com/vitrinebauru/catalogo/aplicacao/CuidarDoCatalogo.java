@@ -24,23 +24,23 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * O catalogo do empreendedor: publicar, alterar, esconder e retirar produto.
+ * O catálogo do empreendedor: publicar, alterar, esconder e retirar produto.
  *
- * <p>Toda operacao confere duas coisas antes: se o empreendedor pode publicar
- * (o que ele so pode depois de a SEDECON aprovar ou enquanto espera analise) e
- * se o produto e dele. A segunda confere sempre, mesmo o identificador do dono
- * vindo do token, porque o identificador do produto vem da URL e URL e
- * chutavel.
+ * <p>Toda operação confere duas coisas antes: se o empreendedor pode publicar
+ * (o que ele só pode depois de a SEDECON aprovar ou enquanto espera análise) e
+ * se o produto é dele. A segunda confere sempre, mesmo o identificador do dono
+ * vindo do token, porque o identificador do produto vem da URL e URL é
+ * chutável.
  *
- * <p>Cada mudanca vira evento no mesmo commit. E o evento que atualiza a busca
- * publica; sem ele, o empreendedor veria o produto no painel dele e o
- * consumidor nao acharia nada.
+ * <p>Cada mudança vira evento no mesmo commit. É o evento que atualiza a busca
+ * pública; sem ele, o empreendedor veria o produto no painel dele e o
+ * consumidor não acharia nada.
  */
 @Component
 public class CuidarDoCatalogo {
 
     /**
-     * Teto de espaco por loja. Existe porque a demonstracao roda em banco de
+     * Teto de espaço por loja. Existe porque a demonstração roda em banco de
      * camada gratuita com 1 GB: sem limite, uma loja sozinha derruba a
      * plataforma inteira sem querer.
      */
@@ -158,8 +158,8 @@ public class CuidarDoCatalogo {
     }
 
     /**
-     * A imagem viaja como endereco, e nao como bytes. Evento com foto dentro
-     * ficaria com megabytes por mensagem e entupiria o topico.
+     * A imagem viaja como endereço, e não como bytes. Evento com foto dentro
+     * ficaria com megabytes por mensagem e entupiria o tópico.
      */
     private String enderecoDaImagem(Produto produto) {
         return produto.imagemId() == null
@@ -206,9 +206,9 @@ public class CuidarDoCatalogo {
     }
 
     /**
-     * @param precoEmCentavos nulo significa "sob consulta", e nao zero. Zero e
-     *                        um preco valido: tem servico que a loja oferece de
-     *                        graca, como o leva e traz do banho e tosa.
+     * @param precoEmCentavos nulo significa "sob consulta", e não zero. Zero é
+     *                        um preço válido: tem serviço que a loja oferece de
+     *                        graça, como o leva e traz do banho e tosa.
      */
     public record Pedido(String nome, String descricao, Long precoEmCentavos, String categoria) {
     }

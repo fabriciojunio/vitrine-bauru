@@ -10,10 +10,10 @@ import java.util.UUID;
 /**
  * O que sai pela API.
  *
- * <p>Nenhuma entidade JPA atravessa esta camada. Alem do motivo conhecido
- * (carregamento preguicoso estourando fora da transacao), tem o motivo que
+ * <p>Nenhuma entidade JPA atravessa esta camada. Além do motivo conhecido
+ * (carregamento preguiçoso estourando fora da transação), tem o motivo que
  * importa mais aqui: a entidade tem o documento inteiro e o hash da senha, e
- * um dia alguem acrescenta um campo sensivel a entidade sem lembrar de que ela
+ * um dia alguém acrescenta um campo sensível a entidade sem lembrar de que ela
  * vira JSON em algum lugar.
  */
 public final class Respostas {
@@ -41,7 +41,7 @@ public final class Respostas {
     public record UsuarioLogado(UUID id, String nome, String email, String papel, UUID empreendedorId) {
     }
 
-    /** Visao do proprio empreendedor sobre a loja dele. */
+    /** Visão do próprio empreendedor sobre a loja dele. */
     public record MinhaLoja(UUID id, String nomeDoNegocio, String apelidoNaUrl, String descricao,
                             String categoriaPrincipal, String bairro, String cep,
                             String telefoneWhatsapp, String documento, String fotoDeCapaUrl,
@@ -69,12 +69,12 @@ public final class Respostas {
     }
 
     /**
-     * Visao de quem modera.
+     * Visão de quem modera.
      *
-     * <p>O documento aparece mascarado tambem aqui. Quem analisa precisa
-     * reconhecer o cadastro e conferir se o tipo bate, e nao anotar o CPF de
-     * quem se cadastrou. O resultado da consulta a Receita, que e o que de
-     * fato ajuda na decisao, vem no campo ao lado.
+     * <p>O documento aparece mascarado também aqui. Quem analisa precisa
+     * reconhecer o cadastro e conferir se o tipo bate, e não anotar o CPF de
+     * quem se cadastrou. O resultado da consulta a Receita, que é o que de
+     * fato ajuda na decisão, vem no campo ao lado.
      */
     public record CadastroParaAnalise(UUID id, String nomeDoNegocio, String descricao,
                                       String categoriaPrincipal, String bairro,

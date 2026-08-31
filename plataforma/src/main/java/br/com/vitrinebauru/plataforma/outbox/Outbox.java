@@ -8,15 +8,15 @@ import java.time.Clock;
 import java.util.List;
 
 /**
- * Grava evento na mesma transacao que mudou o estado.
+ * Grava evento na mesma transação que mudou o estado.
  *
- * <p>Este e o ponto inteiro do padrao: aprovar um cadastro e avisar que um
- * cadastro foi aprovado precisam acontecer juntos ou nao acontecer. Escrever
+ * <p>Este é o ponto inteiro do padrão: aprovar um cadastro e avisar que um
+ * cadastro foi aprovado precisam acontecer juntos ou não acontecer. Escrever
  * no banco e depois chamar o broker resolveria 99% das vezes, e o 1% restante
  * seria um empreendedor aprovado no banco cuja loja nunca apareceu na busca,
- * sem ninguem saber por que.
+ * sem ninguém saber por que.
  *
- * <p>Chamar isto fora de uma transacao compila e roda, e e o unico jeito de
+ * <p>Chamar isto fora de uma transação compila e roda, e é o único jeito de
  * errar com outbox. Por isso existe o teste de arquitetura que exige
  * {@code @Transactional} em quem grava.
  */

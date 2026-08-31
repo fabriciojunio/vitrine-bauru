@@ -19,18 +19,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Transforma excecao em resposta que da para mostrar na tela.
+ * Transforma exceção em resposta que da para mostrar na tela.
  *
  * <p>Duas regras que valem para o projeto inteiro:
  *
- * <p>A primeira e que a mensagem que chega ao usuario e escrita em portugues,
+ * <p>A primeira é que a mensagem que chega ao usuário é escrita em português,
  * com acento, dizendo o que fazer. "Error 400" na tela de um empreendedor que
- * mal usa computador nao e mensagem de erro, e um beco sem saida. Isso e
- * criterio de aceite do projeto, e nao preciosismo.
+ * mal usa computador não é mensagem de erro, é um beco sem saída. Isso é
+ * critério de aceite do projeto, e não preciosismo.
  *
- * <p>A segunda e que erro inesperado nunca devolve detalhe interno. O usuario
- * recebe um numero de ocorrencia (a correlacao) e o log guarda a pilha. Nome
- * de tabela e mensagem do banco na resposta e mapa para quem estiver
+ * <p>A segunda é que erro inesperado nunca devolve detalhe interno. O usuário
+ * recebe um número de ocorrência (a correlação) e o log guarda a pilha. Nome
+ * de tabela e mensagem do banco na resposta é mapa para quem estiver
  * procurando brecha.
  */
 @RestControllerAdvice

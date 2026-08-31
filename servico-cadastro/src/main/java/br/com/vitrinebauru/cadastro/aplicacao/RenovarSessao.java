@@ -14,13 +14,13 @@ import java.time.Clock;
 import java.util.UUID;
 
 /**
- * Troca um token de renovacao por um par novo.
+ * Troca um token de renovação por um par novo.
  *
- * <p>O token antigo e queimado na troca. Isso cria uma deteccao barata de
- * roubo de sessao: se o token queimado voltar a aparecer, ou alguem copiou a
- * sessao, ou a copia legitima ficou para tras. Nos dois casos o certo e
- * derrubar todas as sessoes do usuario e obrigar login de novo, porque manter
- * a sessao viva na duvida beneficia quem roubou.
+ * <p>O token antigo é queimado na troca. Isso cria uma detecção barata de
+ * roubo de sessão: se o token queimado voltar a aparecer, ou alguém copiou a
+ * sessão, ou a cópia legítima ficou para trás. Nos dois casos o certo é
+ * derrubar todas as sessões do usuário e obrigar login de novo, porque manter
+ * a sessão viva na dúvida beneficia quem roubou.
  */
 @Component
 public class RenovarSessao {
@@ -59,8 +59,8 @@ public class RenovarSessao {
         var agora = relogio.instant();
 
         if (sessao.jaFoiUsada()) {
-            // Transacao propria, senao a excecao lancada em seguida desfaz a
-            // revogacao e a sessao roubada continua valendo.
+            // Transação própria, senão a exceção lançada em seguida desfaz a
+            // revogação e a sessão roubada continua valendo.
             int derrubadas = registroDeSeguranca.derrubarTodasAsSessoes(sessao.usuarioId(), sessao.id());
             log.warn("Token de renovacao reutilizado pelo usuario {}. {} sessoes revogadas.",
                     sessao.usuarioId(), derrubadas);

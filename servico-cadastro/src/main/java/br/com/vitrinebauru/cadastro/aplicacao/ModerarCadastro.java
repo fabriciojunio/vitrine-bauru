@@ -20,14 +20,14 @@ import java.time.Clock;
 import java.util.UUID;
 
 /**
- * As quatro decisoes que a SEDECON toma sobre um cadastro.
+ * As quatro decisões que a SEDECON toma sobre um cadastro.
  *
- * <p>Ficam na mesma classe porque sao o mesmo ato administrativo com quatro
+ * <p>Ficam na mesma classe porque são o mesmo ato administrativo com quatro
  * resultados: carregar o cadastro, mudar o estado, gravar quem decidiu, contar
  * ao resto do sistema. Separar em quatro classes triplicaria essa moldura sem
  * separar nenhuma responsabilidade de verdade.
  *
- * <p>Toda decisao vira evento. E o evento que tira a loja do ar, manda o
+ * <p>Toda decisão vira evento. É o evento que tira a loja do ar, manda o
  * e-mail e atualiza a busca; sem ele, o administrador clicaria em suspender,
  * veria a tela dizer que suspendeu, e a loja continuaria aparecendo para o
  * consumidor.

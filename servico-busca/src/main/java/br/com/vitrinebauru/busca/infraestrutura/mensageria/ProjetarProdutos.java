@@ -17,13 +17,13 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Projeta o catalogo na vitrine.
+ * Projeta o catálogo na vitrine.
  *
- * <p>Trata o caso em que o produto chega antes da loja: os dois topicos sao
+ * <p>Trata o caso em que o produto chega antes da loja: os dois tópicos são
  * independentes e nada garante a ordem entre eles. Quando isso acontece, o
- * produto e gravado invisivel e passa a aparecer quando o evento da loja
- * chegar e completar o nome e o bairro. O caminho contrario tambem funciona,
- * porque a projecao da loja espalha os dados nos produtos que ja existem.
+ * produto é gravado invisível e passa a aparecer quando o evento da loja
+ * chegar e completar o nome e o bairro. O caminho contrário também funciona,
+ * porque a projeção da loja espalha os dados nos produtos que já existem.
  */
 @Component
 public class ProjetarProdutos implements ConsumidorDeEventos {
@@ -64,7 +64,7 @@ public class ProjetarProdutos implements ConsumidorDeEventos {
             case ProdutoRetirado retirado -> produtos.deleteById(retirado.produtoId());
 
             default -> {
-                // Outros eventos do topico nao mudam a vitrine.
+                // Outros eventos do tópico não mudam a vitrine.
             }
         }
     }
@@ -77,8 +77,8 @@ public class ProjetarProdutos implements ConsumidorDeEventos {
 
         produto.atualizarDoCatalogo(nome, descricao, preco, categoria, imagemUrl, disponivel, agora);
 
-        // Completa com o que se sabe da loja. Se ela ainda nao chegou, o
-        // produto fica invisivel ate o evento dela aparecer.
+        // Completa com o que se sabe da loja. Se ela ainda não chegou, o
+        // produto fica invisível até o evento dela aparecer.
         lojas.findById(empreendedorId).ifPresent(loja ->
                 produto.atualizarDaLoja(loja.nomeDoNegocio(), loja.apelidoNaUrl(),
                         loja.bairro(), loja.visivel(), agora));

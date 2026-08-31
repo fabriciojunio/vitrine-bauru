@@ -6,16 +6,16 @@ import br.com.vitrinebauru.plataforma.web.erros.ErrosDeNegocio;
 import org.springframework.stereotype.Component;
 
 /**
- * Escolhe o endereco publico da loja sem pedir nada ao empreendedor.
+ * Escolhe o endereço público da loja sem pedir nada ao empreendedor.
  *
- * <p>Bauru tem mais de uma "Casa do Pastel", e a segunda nao pode ser
- * impedida de se cadastrar por causa disso. Quando o apelido ja existe, entra
- * um numero no fim: casa-do-pastel, casa-do-pastel-2, casa-do-pastel-3.
+ * <p>Bauru tem mais de uma "Casa do Pastel", e a segunda não pode ser
+ * impedida de se cadastrar por causa disso. Quando o apelido já existe, entra
+ * um número no fim: casa-do-pastel, casa-do-pastel-2, casa-do-pastel-3.
  *
- * <p>Existe uma corrida possivel entre conferir e gravar: dois cadastros
- * simultaneos com o mesmo nome podem passar os dois pela verificacao. Quem
- * resolve isso de verdade e a restricao de unicidade no banco, e o cadastro
- * trata o erro dela; este metodo so evita que o caso comum vire erro.
+ * <p>Existe uma corrida possível entre conferir e gravar: dois cadastros
+ * simultâneos com o mesmo nome podem passar os dois pela verificação. Quem
+ * resolve isso de verdade é a restrição de unicidade no banco, e o cadastro
+ * trata o erro dela; este método só evita que o caso comum vire erro.
  */
 @Component
 public class GeradorDeApelido {

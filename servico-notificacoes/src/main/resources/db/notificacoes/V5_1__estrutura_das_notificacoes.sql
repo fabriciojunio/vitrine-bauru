@@ -1,4 +1,4 @@
--- Estrutura do servico de notificacoes.
+-- Estrutura do serviço de notificações.
 
 create schema if not exists notificacoes;
 
@@ -16,7 +16,7 @@ create table notificacoes.notificacao (
     ultimo_erro       varchar(400)
 );
 
--- A consulta do enviador so olha o que ainda nao saiu.
+-- A consulta do enviador só olha o que ainda não saiu.
 create index idx_notificacao_pendente
     on notificacoes.notificacao (criada_em)
     where enviada_em is null;

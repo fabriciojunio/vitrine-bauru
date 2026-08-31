@@ -21,18 +21,18 @@ import java.util.UUID;
 /**
  * Registra o clique em "falar no WhatsApp" e monta o link.
  *
- * <p>Este e o fim do funil do produto. A plataforma nao fecha venda: ela leva
- * o consumidor ate a conversa. Contar quantas vezes isso acontece e a unica
- * medida honesta de impacto que a SEDECON pode levar para a apresentacao
- * final, e e o objetivo especifico numero 5 do projeto.
+ * <p>Este é o fim do funil do produto. A plataforma não fecha venda: ela leva
+ * o consumidor até a conversa. Contar quantas vezes isso acontece é a única
+ * medida honesta de impacto que a SEDECON pode levar para a apresentação
+ * final, e é o objetivo específico número 5 do projeto.
  *
- * <p>O link e montado aqui, e nao no navegador, para a mensagem inicial ser
- * sempre a mesma e o formato do numero nao depender de codigo de tela. O
- * empreendedor recebe uma mensagem que ja diz de onde veio o contato, o que
- * ajuda ele a perceber que a vitrine esta funcionando.
+ * <p>O link é montado aqui, e não no navegador, para a mensagem inicial ser
+ * sempre a mesma e o formato do número não depender de código de tela. O
+ * empreendedor recebe uma mensagem que já diz de onde veio o contato, o que
+ * ajuda ele a perceber que a vitrine está funcionando.
  *
- * <p>Nada do consumidor e guardado: sem IP, sem cookie, sem identificador de
- * sessao. Da para contar sem rastrear.
+ * <p>Nada do consumidor é guardado: sem IP, sem cookie, sem identificador de
+ * sessão. Da para contar sem rastrear.
  */
 @Component
 public class RegistrarContato {

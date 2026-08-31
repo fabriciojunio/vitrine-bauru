@@ -17,16 +17,16 @@ import java.time.Clock;
 import java.util.UUID;
 
 /**
- * O empreendedor mexendo na propria vitrine.
+ * O empreendedor mexendo na própria vitrine.
  *
- * <p>Alterar o perfil nao devolve o cadastro para a fila de moderacao. E uma
- * decisao consciente: mandar de volta para analise a cada correcao de horario
+ * <p>Alterar o perfil não devolve o cadastro para a fila de moderação. É uma
+ * decisão consciente: mandar de volta para análise a cada correção de horário
  * de funcionamento tiraria a loja do ar por dias e ensinaria o empreendedor a
- * nunca mais atualizar nada. O que protege contra abuso e a auditoria, que
- * guarda toda alteracao, e a suspensao, que e imediata.
+ * nunca mais atualizar nada. O que protege contra abuso é a auditoria, que
+ * guarda toda alteração, e a suspensão, que é imediata.
  *
- * <p>Trocar o nome do negocio nao muda o endereco da loja. Quem ja imprimiu o
- * link no cartao de visita continua com um link que funciona.
+ * <p>Trocar o nome do negócio não muda o endereço da loja. Quem já imprimiu o
+ * link no cartão de visita continua com um link que funciona.
  */
 @Component
 public class AtualizarPerfil {
@@ -91,9 +91,9 @@ public class AtualizarPerfil {
     }
 
     /**
-     * Um cadastro rejeitado que foi corrigido volta para a fila por decisao do
-     * proprio empreendedor, e nao automaticamente ao salvar: salvar sem querer
-     * reenviar acontece, e reenviar sem ter corrigido nada so faz a fila da
+     * Um cadastro rejeitado que foi corrigido volta para a fila por decisão do
+     * próprio empreendedor, e não automaticamente ao salvar: salvar sem querer
+     * reenviar acontece, e reenviar sem ter corrigido nada só faz a fila da
      * SEDECON crescer.
      */
     @Transactional

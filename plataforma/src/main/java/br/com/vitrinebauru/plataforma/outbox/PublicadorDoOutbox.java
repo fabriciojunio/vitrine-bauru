@@ -14,20 +14,20 @@ import java.time.Clock;
 import java.time.Duration;
 
 /**
- * Le o outbox e entrega ao transporte.
+ * Lê o outbox e entrega ao transporte.
  *
  * <h2>Publica primeiro, marca depois</h2>
- * A ordem inversa perderia mensagem: se o processo caisse entre marcar e
+ * A ordem inversa perderia mensagem: se o processo caísse entre marcar e
  * entregar, a mensagem ficaria marcada como publicada sem nunca ter saido.
- * Nesta ordem, uma queda no meio faz a mensagem sair de novo na proxima
- * rodada, o que e aceitavel porque o consumidor e idempotente pelo inbox.
+ * Nesta ordem, uma queda no meio faz a mensagem sair de novo na próxima
+ * rodada, o que é aceitável porque o consumidor é idempotente pelo inbox.
  * Entrega ao menos uma vez, nunca zero.
  *
- * <h2>Por que nao usar mais threads</h2>
- * Um lote pequeno, sequencial, mantem a transacao curta e o lock de linha
- * segurando pouco tempo. Publicar mais rapido nao e o gargalo de uma
+ * <h2>Por que não usar mais threads</h2>
+ * Um lote pequeno, sequencial, mantém a transação curta e o lock de linha
+ * segurando pouco tempo. Publicar mais rápido não é o gargalo de uma
  * plataforma com algumas centenas de empreendedores; perder evento de
- * aprovacao, sim.
+ * aprovação, sim.
  */
 @Component
 public class PublicadorDoOutbox {
@@ -84,9 +84,9 @@ public class PublicadorDoOutbox {
     }
 
     /**
-     * Outbox crescendo e o primeiro sinal de que o transporte quebrou, e
-     * aparece antes de qualquer reclamacao de empreendedor. Por isso vira
-     * metrica, e nao so log.
+     * Outbox crescendo é o primeiro sinal de que o transporte quebrou, e
+     * aparece antes de qualquer reclamação de empreendedor. Por isso vira
+     * métrica, e não só log.
      */
     @Scheduled(fixedDelayString = "${vitrine.outbox.intervalo-metrica-ms:15000}")
     public void medirPendentes() {

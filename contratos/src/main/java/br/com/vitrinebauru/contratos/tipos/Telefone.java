@@ -3,11 +3,11 @@ package br.com.vitrinebauru.contratos.tipos;
 /**
  * Telefone brasileiro com DDD.
  *
- * <p>Existe por causa de um detalhe do fluxo principal: o botao de contato
- * monta um link {@code wa.me}, e link torto nao da erro, so leva o consumidor
- * para uma conversa vazia com um numero que nao existe. Validar aqui, no
- * cadastro, e mais barato que descobrir depois pelo empreendedor reclamando
- * que ninguem procura ele.
+ * <p>Existe por causa de um detalhe do fluxo principal: o botão de contato
+ * monta um link {@code wa.me}, e link torto não dá erro, só leva o consumidor
+ * para uma conversa vazia com um número que não existe. Validar aqui, no
+ * cadastro, é mais barato que descobrir depois pelo empreendedor reclamando
+ * que ninguém procura ele.
  */
 public record Telefone(String ddd, String numero) {
 
@@ -48,7 +48,7 @@ public record Telefone(String ddd, String numero) {
         return ddd + numero;
     }
 
-    /** Formato que o link do WhatsApp espera: codigo do pais colado no numero. */
+    /** Formato que o link do WhatsApp espera: código do país colado no número. */
     public String paraWhatsapp() {
         return "55" + somenteDigitos();
     }

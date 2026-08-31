@@ -1,4 +1,4 @@
--- Estrutura do servico de catalogo.
+-- Estrutura do serviço de catálogo.
 
 create schema if not exists catalogo;
 
@@ -9,10 +9,10 @@ create table catalogo.categoria (
     ordem integer     not null
 );
 
--- Os identificadores sao fixos porque o evento de produto carrega o id da
+-- Os identificadores são fixos porque o evento de produto carrega o id da
 -- categoria, e ele precisa ser o mesmo em qualquer ambiente. Categoria com id
--- sorteado a cada implantacao faria a projecao da busca apontar para o vazio
--- depois de uma reinstalacao do banco.
+-- sorteado a cada implantação faria a projeção da busca apontar para o vazio
+-- depois de uma reinstalação do banco.
 insert into catalogo.categoria (id, nome, slug, ordem) values
     ('c0000000-0000-4000-8000-000000000001', 'Alimentação',        'alimentacao',        1),
     ('c0000000-0000-4000-8000-000000000002', 'Artesanato',         'artesanato',         2),
@@ -59,8 +59,8 @@ create index idx_produto_da_loja
 
 create index idx_produto_categoria on catalogo.produto (categoria_id);
 
--- Preco negativo nao existe. A trava fica tambem no banco porque regra que so
--- existe na aplicacao some no dia em que alguem corrige dado por SQL.
+-- Preço negativo não existe. A trava fica também no banco porque regra que só
+-- existe na aplicação some no dia em que alguém corrige dado por SQL.
 alter table catalogo.produto
     add constraint preco_nao_negativo check (preco_em_centavos is null or preco_em_centavos >= 0);
 

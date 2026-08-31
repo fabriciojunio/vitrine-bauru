@@ -3,12 +3,12 @@ package br.com.vitrinebauru.plataforma.seguranca;
 import java.util.UUID;
 
 /**
- * Quem esta do outro lado da requisicao, ja extraido do token.
+ * Quem está do outro lado da requisição, já extraído do token.
  *
- * <p>Carrega o {@code empreendedorId} junto para o servico de catalogo nao
- * precisar perguntar ao cadastro quem e o dono da loja a cada produto salvo.
- * Isso e proposital: um servico que precisa de outro no ar para responder
- * qualquer coisa nao e um servico separado, e um monolito distribuido.
+ * <p>Carrega o {@code empreendedorId} junto para o serviço de catálogo não
+ * precisar perguntar ao cadastro quem é o dono da loja a cada produto salvo.
+ * Isso é proposital: um serviço que precisa de outro no ar para responder
+ * qualquer coisa não é um serviço separado, é um monolito distribuído.
  */
 public record UsuarioAutenticado(UUID id, String email, Papel papel, UUID empreendedorId) {
 

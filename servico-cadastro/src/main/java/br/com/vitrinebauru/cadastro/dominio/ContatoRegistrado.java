@@ -13,16 +13,16 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Um clique em "falar no WhatsApp", guardado para virar numero no painel.
+ * Um clique em "falar no WhatsApp", guardado para virar número no painel.
  *
- * <p>E a medida de impacto do projeto. A venda acontece fora da plataforma, no
- * WhatsApp, entao nao ha pedido nem faturamento para contar; o que da para
+ * <p>É a medida de impacto do projeto. A venda acontece fora da plataforma, no
+ * WhatsApp, então não há pedido nem faturamento para contar; o que da para
  * medir com honestidade e quantas vezes um consumidor quis falar com um
  * empreendedor por causa da vitrine.
  *
- * <p>Nao ha nada aqui que identifique o consumidor. Sem IP, sem cookie, sem
- * sessao. Contar intencao nao exige saber de quem ela partiu, e guardar isso
- * criaria uma base de dado pessoal que a plataforma nao tem motivo para ter.
+ * <p>Não há nada aqui que identifique o consumidor. Sem IP, sem cookie, sem
+ * sessão. Contar intenção não exige saber de quem ela partiu, e guardar isso
+ * criaria uma base de dado pessoal que a plataforma não tem motivo para ter.
  */
 @Entity
 @Table(name = "contato_registrado", schema = "cadastro")

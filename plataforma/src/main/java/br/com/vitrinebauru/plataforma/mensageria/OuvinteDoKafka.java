@@ -15,16 +15,16 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * Liga o consumo do broker aos consumidores registrados no servico.
+ * Liga o consumo do broker aos consumidores registrados no serviço.
  *
- * <p>O container e montado a mao, em vez de usar {@code @KafkaListener}, por
- * uma razao concreta: a lista de topicos so e conhecida em tempo de execucao,
- * somando o que cada {@link ConsumidorDeEventos} do servico assinou. A
- * anotacao exigiria repetir essa lista num lugar que ninguem lembra de
+ * <p>O container é montado a mão, em vez de usar {@code @KafkaListener}, por
+ * uma razão concreta: a lista de tópicos só é conhecida em tempo de execução,
+ * somando o que cada {@link ConsumidorDeEventos} do serviço assinou. A
+ * anotação exigiria repetir essa lista num lugar que ninguém lembra de
  * atualizar ao acrescentar um consumidor.
  *
- * <p>Servico sem nenhum consumidor (o cadastro publica muito e escuta pouco)
- * simplesmente nao abre conexao de consumo.
+ * <p>Serviço sem nenhum consumidor (o cadastro publica muito e escuta pouco)
+ * simplesmente não abre conexão de consumo.
  */
 @Component
 @ConditionalOnProperty(name = "vitrine.mensageria.transporte", havingValue = "kafka", matchIfMissing = true)
@@ -83,8 +83,8 @@ public class OuvinteDoKafka implements SmartLifecycle {
     }
 
     /**
-     * Sobe depois dos outros componentes e desce antes deles: comecar a
-     * consumir com metade do contexto pronto e receita de erro que nao se
+     * Sobe depois dos outros componentes e desce antes deles: começar a
+     * consumir com metade do contexto pronto é receita de erro que não se
      * reproduz.
      */
     @Override

@@ -7,9 +7,9 @@ spring:
     username: ${BANCO_USUARIO:vitrine}
     password: ${BANCO_SENHA:vitrine}
     hikari:
-      # Camada gratuita de banco costuma limitar conexao em algo entre 20 e 60.
-      # Cinco por servico deixa folga para o total nao estourar com quatro
-      # servicos mais migracao rodando ao mesmo tempo.
+      # Camada gratuita de banco costuma limitar conexão em algo entre 20 e 60.
+      # Cinco por serviço deixa folga para o total não estourar com quatro
+      # serviços mais migração rodando ao mesmo tempo.
       maximum-pool-size: ${BANCO_MAXIMO_DE_CONEXOES:5}
       connection-timeout: 10000
 
@@ -57,9 +57,9 @@ vitrine:
     ativo: ${LIMITE_ATIVO:true}
     regras: []
   email:
-    # Padrao desligado: sem isto ligado, o servico escreve no log em vez de
-    # mandar e-mail de verdade, o que e o certo em desenvolvimento e na
-    # demonstracao publica, cheia de endereco ficticio.
+    # Padrão desligado: sem isto ligado, o serviço escreve no log em vez de
+    # mandar e-mail de verdade, o que é o certo em desenvolvimento e na
+    # demonstração pública, cheia de endereço fictício.
     ativo: ${EMAIL_ATIVO:false}
     chave: ${RESEND_CHAVE:}
     remetente: ${EMAIL_REMETENTE:Vitrine Bauru <nao-responda@vitrinebauru.com.br>}
@@ -86,6 +86,6 @@ logging:
   level:
     br.com.vitrinebauru: INFO
   pattern:
-    # A correlacao no padrao do log e o que permite seguir um cadastro pelos
-    # quatro servicos sem cruzar horario a olho.
+    # A correlação no padrão do log é o que permite seguir um cadastro pelos
+    # quatro serviços sem cruzar horário a olho.
     console: "%d{HH:mm:ss.SSS} %-5level [%X{correlacao:-}] %logger{36} - %msg%n"

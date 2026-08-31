@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Preco em centavos.
+ * Preço em centavos.
  *
- * <p>Centavos em {@code long}, e nao {@code double}: preco somado em ponto
- * flutuante vira 24,299999999999997 na tela do consumidor. A formatacao
- * tambem e feita a mao em vez de sair do {@code NumberFormat} porque o
- * formatador do Java devolve espaco nao separavel depois do "R$", que
+ * <p>Centavos em {@code long}, e não {@code double}: preço somado em ponto
+ * flutuante vira 24,299999999999997 na tela do consumidor. A formatação
+ * também é feita a mão em vez de sair do {@code NumberFormat} porque o
+ * formatador do Java devolve espaço não separável depois do "R$", que
  * atravessa o JSON e aparece como caractere estranho em alguns navegadores.
  */
 public record Dinheiro(long centavos) implements Comparable<Dinheiro> {

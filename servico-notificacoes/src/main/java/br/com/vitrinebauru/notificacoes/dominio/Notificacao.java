@@ -14,14 +14,14 @@ import java.util.UUID;
 /**
  * Um e-mail que precisa sair.
  *
- * <p>A mensagem e gravada antes de ser enviada, e o envio acontece depois, por
- * uma tarefa que tenta de novo quando falha. E o mesmo raciocinio do outbox, e
- * pelo mesmo motivo: o servico de e-mail e de terceiro e cai. Enviar dentro do
+ * <p>A mensagem é gravada antes de ser enviada, e o envio acontece depois, por
+ * uma tarefa que tenta de novo quando falha. É o mesmo raciocínio do outbox, e
+ * pelo mesmo motivo: o serviço de e-mail é de terceiro é cai. Enviar dentro do
  * consumo do evento faria a queda do provedor virar evento reprocessado em
- * laco, ou pior, cadastro aprovado sem ninguem avisado.
+ * laço, ou pior, cadastro aprovado sem ninguém avisado.
  *
- * <p>O corpo fica gravado junto. Ocupa espaco e vale a pena: quando o
- * empreendedor disser que nao recebeu, da para ver exatamente o que foi
+ * <p>O corpo fica gravado junto. Ocupa espaço e vale a pena: quando o
+ * empreendedor disser que não recebeu, dá para ver exatamente o que foi
  * enviado, para quem e quando.
  */
 @Entity

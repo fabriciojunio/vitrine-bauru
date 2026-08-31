@@ -1,9 +1,9 @@
--- Estrutura do servico de cadastro.
+-- Estrutura do serviço de cadastro.
 --
--- Esquema proprio, e nao tabelas soltas no publico. Em implantacao separada
--- cada servico tem o proprio banco e o esquema e so organizacao; no processo
--- unico da demonstracao, os quatro dividem a mesma conexao, e o esquema e o
--- que impede o catalogo de ler a tabela de usuario do cadastro por descuido.
+-- Esquema próprio, e não tabelas soltas no público. Em implantação separada
+-- cada serviço tem o próprio banco e o esquema é só organização; no processo
+-- único da demonstração, os quatro dividem a mesma conexão, e o esquema é o
+-- que impede o catálogo de ler a tabela de usuário do cadastro por descuido.
 
 create schema if not exists cadastro;
 
@@ -44,14 +44,14 @@ create table cadastro.empreendedor (
     documento_conferido_em timestamptz
 );
 
--- Documento unico entre cadastros vivos. O parcial e necessario porque a
--- exclusao de dados troca o documento por zeros, e dois cadastros excluidos
+-- Documento único entre cadastros vivos. O parcial é necessário porque a
+-- exclusão de dados troca o documento por zeros, e dois cadastros excluídos
 -- teriam o mesmo valor.
 create unique index idx_empreendedor_documento
     on cadastro.empreendedor (documento)
     where status <> 'EXCLUIDO';
 
--- A fila de moderacao e a consulta mais frequente do painel da SEDECON.
+-- A fila de moderação é a consulta mais frequente do painel da SEDECON.
 create index idx_empreendedor_fila
     on cadastro.empreendedor (criado_em)
     where status = 'PENDENTE';
@@ -108,7 +108,7 @@ create table cadastro.confirmacao_de_expurgo (
     primary key (pedido_id, participante)
 );
 
--- Projecoes alimentadas por evento de outros servicos.
+-- Projeções alimentadas por evento de outros serviços.
 
 create table cadastro.produto_do_empreendedor (
     produto_id      uuid        primary key,

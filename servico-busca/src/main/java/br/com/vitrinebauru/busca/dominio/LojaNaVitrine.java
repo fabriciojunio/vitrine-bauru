@@ -9,21 +9,21 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * A loja como o consumidor a ve.
+ * A loja como o consumidor a vê.
  *
- * <p>Esta tabela e uma projecao: nada aqui e escrito por requisicao de
- * usuario, tudo chega por evento do cadastro. E o lado de leitura do CQRS, e
- * existe por um motivo pratico, nao por gosto de padrao: a busca publica e o
- * unico endereco do sistema que qualquer pessoa acessa sem login, entao ela
- * precisa continuar de pe mesmo com o resto do sistema em manutencao, e
- * precisa responder rapido sem disputar banco com quem esta cadastrando.
+ * <p>Esta tabela é uma projeção: nada aqui é escrito por requisição de
+ * usuário, tudo chega por evento do cadastro. É o lado de leitura do CQRS, e
+ * existe por um motivo prático, não por gosto de padrão: a busca pública é o
+ * único endereço do sistema que qualquer pessoa acessa sem login, então ela
+ * precisa continuar de pé mesmo com o resto do sistema em manutenção, e
+ * precisa responder rápido sem disputar banco com quem está cadastrando.
  *
- * <p>Nao ha documento nem e-mail aqui. O consumidor precisa do nome, do bairro
- * e do WhatsApp; CPF de empreendedor numa tabela consultada sem autenticacao
+ * <p>Não há documento nem e-mail aqui. O consumidor precisa do nome, do bairro
+ * e do WhatsApp; CPF de empreendedor numa tabela consultada sem autenticação
  * seria vazamento esperando acontecer.
  *
- * <p>A coluna {@code visivel} e o que a moderacao controla. Loja suspensa
- * continua na tabela e sai da vitrine: quando a suspensao for revista, ela
+ * <p>A coluna {@code visivel} e o que a moderação controla. Loja suspensa
+ * continua na tabela e sai da vitrine: quando a suspensão for revista, ela
  * volta sem precisar reconstruir nada.
  */
 @Entity
@@ -57,7 +57,7 @@ public class LojaNaVitrine {
     @Column(nullable = false)
     private boolean visivel;
 
-    /** Texto normalizado com nome, descricao, categoria e bairro. */
+    /** Texto normalizado com nome, descrição, categoria e bairro. */
     @Column(nullable = false, length = 900)
     private String busca;
 

@@ -11,19 +11,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * O servico da vitrine e publico por inteiro.
+ * O serviço da vitrine é público por inteiro.
  *
- * <p>O que protege aqui nao e login, e limite de requisicao: o endereco esta
- * aberto na internet e um robo consegue varrer a base inteira. Como a base e
- * justamente a informacao que a plataforma existe para divulgar, a resposta
- * certa e limitar ritmo, e nao exigir cadastro do consumidor.
+ * <p>O que protege aqui não é login, é limite de requisição: o endereço está
+ * aberto na internet e um robô consegue varrer a base inteira. Como a base é
+ * justamente a informação que a plataforma existe para divulgar, a resposta
+ * certa é limitar ritmo, e não exigir cadastro do consumidor.
  *
- * <p>O actuator fica de fora dessa regra: metrica e detalhe de saude nao sao
- * conteudo de vitrine.
+ * <p>O actuator fica de fora dessa regra: métrica e detalhe de saúde não são
+ * conteúdo de vitrine.
  *
- * <p>Desligado quando os quatro servicos rodam num processo so: la existe uma
- * cadeia de seguranca unica, cobrindo todos os caminhos de uma vez. Duas
- * cadeias no mesmo contexto sem separacao por caminho fariam a primeira
+ * <p>Desligado quando os quatro serviços rodam num processo só: lá existe uma
+ * cadeia de segurança única, cobrindo todos os caminhos de uma vez. Duas
+ * cadeias no mesmo contexto sem separação por caminho fariam a primeira
  * responder por tudo, e a segunda nunca valeria.
  */
 @Configuration

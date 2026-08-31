@@ -24,15 +24,15 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Segura forca bruta no login e abuso nos endpoints publicos.
+ * Segura força bruta no login e abuso nos endpoints públicos.
  *
- * <p>O balde vive na memoria do processo. Com varias instancias, cada uma tem
- * o proprio balde, e o limite efetivo multiplica pelo numero de instancias.
- * Isso e aceitavel aqui e a alternativa nao seria: um contador compartilhado
- * exigiria Redis, que custa dinheiro e ainda vira ponto unico de falha num
- * projeto que precisa caber em camada gratuita. Contra ataque de forca bruta,
- * limite aproximado resolve; contra tentativa distribuida de verdade, quem
- * resolve e a senha com bcrypt e o bloqueio de conta, que existem no cadastro.
+ * <p>O balde vive na memória do processo. Com várias instâncias, cada uma tem
+ * o próprio balde, e o limite efetivo multiplica pelo número de instâncias.
+ * Isso é aceitável aqui e a alternativa não seria: um contador compartilhado
+ * exigiria Redis, que custa dinheiro e ainda vira ponto único de falha num
+ * projeto que precisa caber em camada gratuita. Contra ataque de força bruta,
+ * limite aproximado resolve; contra tentativa distribuída de verdade, quem
+ * resolve é a senha com bcrypt e o bloqueio de conta, que existem no cadastro.
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
@@ -90,9 +90,9 @@ public class FiltroDeLimite extends OncePerRequestFilter {
     }
 
     /**
-     * Atras do proxy da hospedagem, {@code getRemoteAddr} devolve o IP do
-     * proprio proxy e todo mundo compartilharia o mesmo balde. O primeiro
-     * endereco do X-Forwarded-For e o do cliente.
+     * Atrás do proxy da hospedagem, {@code getRemoteAddr} devolve o IP do
+     * próprio proxy e todo mundo compartilharia o mesmo balde. O primeiro
+     * endereço do X-Forwarded-For é o do cliente.
      */
     private String origem(HttpServletRequest requisicao) {
         String encaminhado = requisicao.getHeader("X-Forwarded-For");
@@ -112,7 +112,7 @@ public class FiltroDeLimite extends OncePerRequestFilter {
                 "detail":"Você tentou vezes demais em pouco tempo. Aguarde um minuto e tente de novo."}""");
     }
 
-    /** Balde de quem parou de aparecer nao precisa ocupar memoria para sempre. */
+    /** Balde de quem parou de aparecer não precisa ocupar memória para sempre. */
     @Scheduled(fixedDelay = 600_000)
     public void descartarBaldesParados() {
         Instant limite = Instant.now().minusSeconds(MINUTOS_SEM_USO_PARA_DESCARTAR * 60);

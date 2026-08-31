@@ -3,7 +3,7 @@ package br.com.vitrinebauru.contratos;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Tira a loja do ar por denuncia, golpe ou pedido do proprio empreendedor. */
+/** Tira a loja do ar por denúncia, golpe ou pedido do próprio empreendedor. */
 public record EmpreendedorSuspenso(
         UUID id,
         UUID correlacao,

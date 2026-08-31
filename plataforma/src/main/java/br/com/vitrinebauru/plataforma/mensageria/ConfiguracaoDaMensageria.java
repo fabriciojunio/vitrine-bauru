@@ -27,16 +27,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Configuracao do broker.
+ * Configuração do broker.
  *
- * <p>So entra em cena quando o transporte e o Kafka. Na implantacao gratuita
- * nada disto e criado, e o servico sobe sem nenhuma dependencia de broker.
+ * <p>Só entra em cena quando o transporte é o Kafka. Na implantação gratuita
+ * nada disto é criado, e o serviço sobe sem nenhuma dependência de broker.
  */
 @Configuration
 @ConditionalOnProperty(name = "vitrine.mensageria.transporte", havingValue = "kafka", matchIfMissing = true)
 public class ConfiguracaoDaMensageria {
 
-    /** Tres tentativas com um segundo de espera, e depois a fila morta. */
+    /** Três tentativas com um segundo de espera, e depois a fila morta. */
     private static final long ESPERA_ENTRE_TENTATIVAS_MS = 1000L;
     private static final long TENTATIVAS = 3L;
 
@@ -45,7 +45,7 @@ public class ConfiguracaoDaMensageria {
         Map<String, Object> configuracao = new HashMap<>(propriedades.buildProducerProperties(null));
         configuracao.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configuracao.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        // Confirmacao de todas as replicas: perder evento de aprovacao de
+        // Confirmação de todas as réplicas: perder evento de aprovação de
         // cadastro custa mais caro que os milissegundos de espera.
         configuracao.put(ProducerConfig.ACKS_CONFIG, "all");
         configuracao.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
@@ -64,18 +64,18 @@ public class ConfiguracaoDaMensageria {
         configuracao.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configuracao.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configuracao.put(ConsumerConfig.GROUP_ID_CONFIG, grupo);
-        // Comeca do inicio quando o grupo e novo: um servico que sobe pela
-        // primeira vez precisa ver o que ja aconteceu, senao a projecao da
-        // busca nasce vazia e ninguem entende por que a loja sumiu.
+        // Começa do início quando o grupo é novo: um serviço que sobe pela
+        // primeira vez precisa ver o que já aconteceu, senão a projeção da
+        // busca nasce vazia e ninguém entende por que a loja sumiu.
         configuracao.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         configuracao.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         return new DefaultKafkaConsumerFactory<>(configuracao);
     }
 
     /**
-     * Depois de tres tentativas a mensagem vai para a fila morta do topico, em
-     * vez de bloquear a particao para sempre. Mensagem envenenada trava fila,
-     * e fila travada e o jeito silencioso de um sistema de eventos parar.
+     * Depois de três tentativas a mensagem vai para a fila morta do tópico, em
+     * vez de bloquear a partição para sempre. Mensagem envenenada trava fila,
+     * e fila travada é o jeito silencioso de um sistema de eventos parar.
      */
     @Bean
     public CommonErrorHandler tratadorDeErroDoConsumo(KafkaTemplate<String, String> kafka) {

@@ -4,10 +4,10 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Resposta de um participante da saga: "a minha parte dos dados ja foi".
+ * Resposta de um participante da saga: "a minha parte dos dados já foi".
  *
- * <p>Reenviar isto e inofensivo. O coordenador guarda quem ja respondeu, entao
- * a mesma confirmacao chegando duas vezes nao adianta nem atrasa a saga.
+ * <p>Reenviar isto é inofensivo. O coordenador guarda quem já respondeu, então
+ * a mesma confirmação chegando duas vezes não adianta nem atrasa a saga.
  */
 public record ExpurgoConcluido(
         UUID id,

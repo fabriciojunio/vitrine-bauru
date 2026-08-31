@@ -63,8 +63,8 @@ public class AutenticacaoController {
     }
 
     /**
-     * Entrada da demonstracao. Devolve 404 quando o modo esta desligado, o que
-     * e o comportamento do endereco inexistente que ele de fato e naquele
+     * Entrada da demonstração. Devolve 404 quando o modo está desligado, o que
+     * é o comportamento do endereço inexistente que ele de fato é naquele
      * ambiente.
      */
     @PostMapping("/demonstracao")

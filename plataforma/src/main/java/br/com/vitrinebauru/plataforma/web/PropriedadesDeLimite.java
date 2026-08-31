@@ -6,14 +6,14 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * Regras de limite de requisicao, por endereco.
+ * Regras de limite de requisição, por endereço.
  *
- * <p>Fica em configuracao, e nao no codigo, porque o numero certo depende do
- * ambiente: a demonstracao aberta ao publico aperta mais que o
- * desenvolvimento local, onde apertar so atrapalha quem esta programando.
+ * <p>Fica em configuração, e não no código, porque o número certo depende do
+ * ambiente: a demonstração aberta ao público aperta mais que o
+ * desenvolvimento local, onde apertar só atrapalha quem está programando.
  *
- * @param ativo  desliga tudo, util para teste de carga proprio
- * @param regras primeira regra que casar com o caminho e a que vale
+ * @param ativo  desliga tudo, útil para teste de carga próprio
+ * @param regras primeira regra que casar com o caminho é a que vale
  */
 @ConfigurationProperties(prefix = "vitrine.limite")
 public record PropriedadesDeLimite(boolean ativo, List<Regra> regras) {
@@ -25,8 +25,8 @@ public record PropriedadesDeLimite(boolean ativo, List<Regra> regras) {
     }
 
     /**
-     * @param padrao     caminho no formato do Spring, por exemplo /api/cadastro/auth/**
-     * @param capacidade quantas requisicoes cabem na janela
+     * @param padrão     caminho no formato do Spring, por exemplo /api/cadastro/auth/**
+     * @param capacidade quantas requisições cabem na janela
      * @param janela     tempo para o balde encher de novo
      */
     public record Regra(String padrao, int capacidade, Duration janela) {

@@ -4,12 +4,12 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Estado novo e completo do produto, e nao a lista do que mudou.
+ * Estado novo e completo do produto, e não a lista do que mudou.
  *
- * <p>Mandar o estado inteiro deixa o consumidor idempotente por construcao:
- * aplicar o mesmo evento duas vezes da no mesmo resultado. Mandar so o delta
- * exigiria que a projecao soubesse a ordem exata de chegada, garantia que o
- * broker nao da entre particoes.
+ * <p>Mandar o estado inteiro deixa o consumidor idempotente por construção:
+ * aplicar o mesmo evento duas vezes da no mesmo resultado. Mandar só o delta
+ * exigiria que a projeção soubesse a ordem exata de chegada, garantia que o
+ * broker não da entre partições.
  */
 public record ProdutoAtualizado(
         UUID id,

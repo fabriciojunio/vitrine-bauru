@@ -5,19 +5,19 @@ import java.text.Normalizer;
 /**
  * Deixa o texto pronto para comparar.
  *
- * <p>Quem procura "acai" precisa achar "Açaí", e quem procura "PASTEL" precisa
- * achar "Pastel de feira". A normalizacao acontece nos dois lados: no texto
+ * <p>Quem procura "açaí" precisa achar "Açaí", e quem procura "PASTEL" precisa
+ * achar "Pastel de feira". A normalização acontece nos dois lados: no texto
  * guardado, quando o evento chega, e no termo digitado, na hora da busca.
  *
- * <p>Fazer isso em Java, e nao com a extensao {@code unaccent} do PostgreSQL,
- * e escolha consciente. A extensao seria mais elegante e amarraria a busca a
- * um recurso que nem toda hospedagem gratuita habilita. Com o texto ja
- * normalizado na gravacao, a consulta e um {@code like} comum que funciona em
+ * <p>Fazer isso em Java, e não com a extensão {@code unaccent} do PostgreSQL,
+ * é escolha consciente. A extensão seria mais elegante e amarraria a busca a
+ * um recurso que nem toda hospedagem gratuita habilita. Com o texto já
+ * normalizado na gravação, a consulta é um {@code like} comum que funciona em
  * qualquer PostgreSQL.
  *
- * <p>Na escala deste projeto (algumas centenas de lojas de um municipio), o
+ * <p>Na escala deste projeto (algumas centenas de lojas de um município), o
  * {@code like} varre a tabela em milissegundos. Quando isso deixar de ser
- * verdade, o passo seguinte e um indice GIN com {@code pg_trgm} sobre esta
+ * verdade, o passo seguinte é um índice GIN com {@code pg_trgm} sobre esta
  * mesma coluna, sem mexer em mais nada.
  */
 public final class Normalizacao {

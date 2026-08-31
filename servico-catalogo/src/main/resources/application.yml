@@ -7,9 +7,9 @@ spring:
     username: ${BANCO_USUARIO:vitrine}
     password: ${BANCO_SENHA:vitrine}
     hikari:
-      # Camada gratuita de banco costuma limitar conexao em algo entre 20 e 60.
-      # Cinco por servico deixa folga para o total nao estourar com quatro
-      # servicos mais migracao rodando ao mesmo tempo.
+      # Camada gratuita de banco costuma limitar conexão em algo entre 20 e 60.
+      # Cinco por serviço deixa folga para o total não estourar com quatro
+      # serviços mais migração rodando ao mesmo tempo.
       maximum-pool-size: ${BANCO_MAXIMO_DE_CONEXOES:5}
       connection-timeout: 10000
 
@@ -38,8 +38,8 @@ spring:
 
   servlet:
     multipart:
-      # Precisa bater com o limite de 5 MB do dominio. Se o servidor aceitasse
-      # mais, o arquivo grande seria lido inteiro para so entao ser recusado.
+      # Precisa bater com o limite de 5 MB do domínio. Se o servidor aceitasse
+      # mais, o arquivo grande seria lido inteiro para só então ser recusado.
       max-file-size: 5MB
       max-request-size: 6MB
 
@@ -62,9 +62,9 @@ vitrine:
   limite:
     ativo: ${LIMITE_ATIVO:true}
     regras:
-      # Envio de foto e a operacao mais cara do servico: descomprime, grava
-      # megabytes e ocupa conexao de banco. Vinte por hora por loja e mais que
-      # generoso para quem esta cadastrando produto de verdade.
+      # Envio de foto é a operação mais cara do serviço: descomprime, grava
+      # megabytes e ocupa conexão de banco. Vinte por hora por loja é mais que
+      # generoso para quem está cadastrando produto de verdade.
       - padrao: /api/catalogo/meus-produtos/*/imagem
         capacidade: 20
         janela: 1h
@@ -96,6 +96,6 @@ logging:
   level:
     br.com.vitrinebauru: INFO
   pattern:
-    # A correlacao no padrao do log e o que permite seguir um cadastro pelos
-    # quatro servicos sem cruzar horario a olho.
+    # A correlação no padrão do log é o que permite seguir um cadastro pelos
+    # quatro serviços sem cruzar horário a olho.
     console: "%d{HH:mm:ss.SSS} %-5level [%X{correlacao:-}] %logger{36} - %msg%n"

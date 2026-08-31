@@ -10,8 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Os documentos usados aqui sao numeros de teste conhecidos, escolhidos por
- * fecharem o digito verificador, e nao documentos de pessoas reais.
+ * Os documentos usados aqui são números de teste conhecidos, escolhidos por
+ * fecharem o dígito verificador, e não documentos de pessoas reais.
  */
 @DisplayName("Documento (CPF e CNPJ)")
 class DocumentoTest {

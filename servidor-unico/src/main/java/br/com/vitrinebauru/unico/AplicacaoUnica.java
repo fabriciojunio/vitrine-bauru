@@ -35,10 +35,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * banco, que é exatamente o que o docker-compose e os manifestos do Kubernetes
  * fazem. Ver docs/adr/0002-transporte-de-eventos.md.
  */
-// As tres anotacoes que o @SpringBootApplication junta, escritas a mao. O
-// atalho nao serve aqui porque ele nao aceita filtro de varredura, e este
-// modulo precisa de um: cada servico tem a propria classe de aplicacao, e sem
-// exclui-las a varredura traria a configuracao automatica quatro vezes.
+// As três anotações que o @SpringBootApplication junta, escritas a mão. O
+// atalho não serve aqui porque ele não aceita filtro de varredura, e este
+// módulo precisa de um: cada serviço tem a própria classe de aplicação, e sem
+// exclui-las a varredura traria a configuração automática quatro vezes.
 @SpringBootConfiguration
 @EnableAutoConfiguration
 @ComponentScan(

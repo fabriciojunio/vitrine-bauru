@@ -14,12 +14,12 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * O que todo servico configura igual.
+ * O que todo serviço configura igual.
  *
- * <p>Existe para a regra de seguranca nao ser copiada e colada quatro vezes,
- * porque regra copiada e regra que fica desatualizada em tres dos quatro
- * lugares. Cada servico ainda declara suas proprias rotas publicas e
- * protegidas; o que vem daqui e o resto.
+ * <p>Existe para a regra de segurança não ser copiada e colada quatro vezes,
+ * porque regra copiada é regra que fica desatualizada em três dos quatro
+ * lugares. Cada serviço ainda declara suas próprias rotas públicas e
+ * protegidas; o que vem daqui é o resto.
  */
 public final class PadraoDeSeguranca {
 
@@ -29,10 +29,10 @@ public final class PadraoDeSeguranca {
     public static void aplicar(HttpSecurity http, PropriedadesDeSeguranca propriedades,
                                FiltroDeToken filtroDeToken, ObjectMapper mapeador) throws Exception {
         http
-                // Sem CSRF porque a autenticacao vai no cabecalho Authorization,
-                // e nao em cookie. Token que o navegador nao anexa sozinho nao
-                // e vulneravel a requisicao forjada de outro site. Se um dia a
-                // sessao virar cookie, esta linha precisa voltar.
+                // Sem CSRF porque a autenticação vai no cabeçalho Authorization,
+                // e não em cookie. Token que o navegador não anexa sozinho não
+                // é vulnerável a requisição forjada de outro site. Se um dia a
+                // sessão virar cookie, esta linha precisa voltar.
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(origensPermitidas(propriedades)))
                 .sessionManagement(sessao -> sessao.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -60,8 +60,8 @@ public final class PadraoDeSeguranca {
 
     private static UrlBasedCorsConfigurationSource origensPermitidas(PropriedadesDeSeguranca propriedades) {
         var configuracao = new CorsConfiguration();
-        // Lista explicita, nunca "*". Em producao o valor vem do ambiente e
-        // aponta so para o dominio do frontend.
+        // Lista explícita, nunca "*". Em produção o valor vem do ambiente e
+        // aponta só para o domínio do frontend.
         configuracao.setAllowedOrigins(propriedades.origensPermitidas());
         configuracao.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuracao.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Correlacao"));

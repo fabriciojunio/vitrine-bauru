@@ -17,16 +17,16 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Entrega o evento a quem assinou o topico, uma transacao por consumidor.
+ * Entrega o evento a quem assinou o tópico, uma transação por consumidor.
  *
- * <p>E o mesmo caminho com broker e sem broker. O transporte muda o jeito de a
- * mensagem chegar aqui; daqui para a frente, idempotencia, transacao e
- * tratamento de falha sao identicos.
+ * <p>É o mesmo caminho com broker e sem broker. O transporte muda o jeito de a
+ * mensagem chegar aqui; daqui para a frente, idempotência, transação e
+ * tratamento de falha são idênticos.
  *
- * <h2>Uma transacao por consumidor, e nao uma para todos</h2>
+ * <h2>Uma transação por consumidor, e não uma para todos</h2>
  * Se dois consumidores reagem ao mesmo evento e o segundo falha, o trabalho do
- * primeiro nao deve ser desfeito: ele deu certo. Com transacoes separadas, a
- * reentrega refaz so o que falhou, e o inbox faz o que ja deu certo ser
+ * primeiro não deve ser desfeito: ele deu certo. Com transações separadas, a
+ * reentrega refaz só o que falhou, e o inbox faz o que já deu certo ser
  * pulado.
  */
 @Component
@@ -51,9 +51,9 @@ public class Despachante {
         this.metricas = metricas;
 
         this.transacao = new TransactionTemplate(gerenteDeTransacao);
-        // Sem broker, quem chama isto e o publicador do outbox, que ja esta
-        // dentro de uma transacao. Sem REQUIRES_NEW, uma falha do consumidor
-        // marcaria a transacao inteira para desfazer e o proprio registro da
+        // Sem broker, quem chama isto é o publicador do outbox, que já está
+        // dentro de uma transação. Sem REQUIRES_NEW, uma falha do consumidor
+        // marcaria a transação inteira para desfazer e o próprio registro da
         // tentativa que falhou seria perdido, deixando a mensagem em retry
         // infinito sem nunca contar as tentativas.
         this.transacao.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
@@ -90,7 +90,7 @@ public class Despachante {
         return consumidores.stream().filter(consumidor -> consumidor.topicos().contains(topico)).toList();
     }
 
-    /** Topicos que este servico precisa escutar. Vazio significa nao assinar nada. */
+    /** Tópicos que este serviço precisa escutar. Vazio significa não assinar nada. */
     public Set<String> topicosAssinados() {
         Set<String> topicos = new TreeSet<>();
         consumidores.forEach(consumidor -> topicos.addAll(consumidor.topicos()));

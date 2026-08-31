@@ -21,15 +21,15 @@ import java.time.Duration;
 import java.util.UUID;
 
 /**
- * O coordenador da saga de exclusao.
+ * O coordenador da saga de exclusão.
  *
- * <p>Duas entradas: a confirmacao que chega de cada servico e o relogio. A
- * primeira faz a saga avancar; o segundo existe porque confirmacao que nunca
- * chega tambem e um final possivel, e o unico jeito de perceber isso e alguem
+ * <p>Duas entradas: a confirmação que chega de cada serviço e o relógio. A
+ * primeira faz a saga avançar; o segundo existe porque confirmação que nunca
+ * chega também é um final possível, e o único jeito de perceber isso é alguém
  * olhando o tempo passar.
  *
- * <p>Reenviar o pedido para quem nao respondeu e seguro porque apagar dado que
- * ja foi apagado nao faz nada. Essa e a propriedade que permite o coordenador
+ * <p>Reenviar o pedido para quem não respondeu é seguro porque apagar dado que
+ * já foi apagado não faz nada. Essa é a propriedade que permite o coordenador
  * insistir sem medo em vez de esperar para sempre.
  */
 @Component
@@ -37,7 +37,7 @@ public class ConduzirExclusao {
 
     private static final Logger log = LoggerFactory.getLogger(ConduzirExclusao.class);
 
-    /** Depois disso, quem nao respondeu recebe o pedido de novo. */
+    /** Depois disso, quem não respondeu recebe o pedido de novo. */
     private static final Duration ESPERA_ANTES_DE_INSISTIR = Duration.ofMinutes(10);
 
     private final PedidoDeExclusaoRepository pedidos;
@@ -60,7 +60,7 @@ public class ConduzirExclusao {
         this.relogio = relogio;
     }
 
-    /** Chamado pelo consumidor de eventos, ja dentro de transacao. */
+    /** Chamado pelo consumidor de eventos, já dentro de transação. */
     public void registrarConfirmacao(UUID empreendedorId, Participante participante, int removidos) {
         var pedido = pedidos.findByEmpreendedorId(empreendedorId).orElse(null);
         if (pedido == null) {
@@ -101,10 +101,10 @@ public class ConduzirExclusao {
     /**
      * Varredura das sagas paradas.
      *
-     * <p>Roda de dez em dez minutos. Nao e o caminho normal: no caminho normal
-     * os tres servicos respondem em segundos. Isto existe para o dia em que um
-     * deles ficou fora do ar durante o pedido, que e justamente o dia em que
-     * ninguem vai lembrar de conferir na mao.
+     * <p>Roda de dez em dez minutos. Não é o caminho normal: no caminho normal
+     * os três serviços respondem em segundos. Isto existe para o dia em que um
+     * deles ficou fora do ar durante o pedido, que é justamente o dia em que
+     * ninguém vai lembrar de conferir na mão.
      */
     @Scheduled(fixedDelayString = "${vitrine.exclusao.intervalo-da-varredura-ms:600000}")
     @Transactional
@@ -141,7 +141,7 @@ public class ConduzirExclusao {
         }
     }
 
-    /** Vira metrica para o alerta existir antes de alguem reclamar. */
+    /** Vira métrica para o alerta existir antes de alguém reclamar. */
     @Scheduled(fixedDelayString = "${vitrine.exclusao.intervalo-da-metrica-ms:60000}")
     public void medirPendentes() {
         metricas.gauge("vitrine.exclusao.em_andamento", pedidos.emAndamento().size());

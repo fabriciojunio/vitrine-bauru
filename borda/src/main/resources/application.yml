@@ -7,9 +7,9 @@ spring:
       server:
         webmvc:
           routes:
-            # O roteamento e por prefixo de caminho, e nao por descoberta de
-            # servico. Com quatro servicos fixos, um registro (Eureka,
-            # Consul) seria mais uma peca para manter no ar e mais um ponto de
+            # O roteamento é por prefixo de caminho, e não por descoberta de
+            # serviço. Com quatro serviços fixos, um registro (Eureka,
+            # Consul) seria mais uma peça para manter no ar e mais um ponto de
             # falha, sem resolver nenhum problema que este projeto tenha.
             - id: cadastro
               uri: ${SERVICO_CADASTRO:http://localhost:8081}

@@ -13,15 +13,15 @@ import java.util.UUID;
 /**
  * O que o empreendedor vende.
  *
- * <p>Duas decisoes de produto viram regra aqui dentro.
+ * <p>Duas decisões de produto viram regra aqui dentro.
  *
- * <p>A primeira e o preco opcional. Marceneiro que faz movel sob medida,
+ * <p>A primeira é o preço opcional. Marceneiro que faz móvel sob medida,
  * costureira que ajusta vestido de festa e eletricista que precisa ver o
- * problema antes nao tem preco de tabela, e obrigar um numero faria os tres
- * inventarem um. Sem preco, a vitrine mostra "sob consulta", que e a verdade.
+ * problema antes não tem preço de tabela, e obrigar um número faria os três
+ * inventarem um. Sem preço, a vitrine mostra "sob consulta", que é a verdade.
  *
- * <p>A segunda e a diferenca entre indisponivel e retirado. Bolo de pote que
- * acabou hoje volta amanha; obrigar o empreendedor a apagar e recadastrar o
+ * <p>A segunda é a diferença entre indisponível e retirado. Bolo de pote que
+ * acabou hoje volta amanhã; obrigar o empreendedor a apagar e recadastrar o
  * produto a cada fim de estoque garantiria que ele parasse de atualizar.
  */
 @Entity
@@ -71,7 +71,7 @@ public class Produto {
         return comId(UUID.randomUUID(), empreendedorId, nome, descricao, preco, categoriaId, agora);
     }
 
-    /** Ver a semeadura da demonstracao: precisa dos mesmos ids nos servicos. */
+    /** Ver a semeadura da demonstração: precisa dos mesmos ids nos serviços. */
     public static Produto comId(UUID id, UUID empreendedorId, String nome, String descricao,
                                 Dinheiro preco, UUID categoriaId, Instant agora) {
         Produto produto = new Produto();
@@ -121,7 +121,7 @@ public class Produto {
         return retiradoEm != null;
     }
 
-    /** Aparece na busca publica so o que esta no catalogo e disponivel. */
+    /** Aparece na busca pública só o que está no catálogo e disponível. */
     public boolean apareceNaVitrine() {
         return !foiRetirado() && disponivel;
     }

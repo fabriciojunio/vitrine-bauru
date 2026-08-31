@@ -29,10 +29,10 @@ import java.util.UUID;
 /**
  * O lado da SEDECON.
  *
- * <p>Tudo aqui exige o papel de administrador, declarado endereco por
- * endereco. A configuracao de seguranca ja protege o caminho inteiro; a
- * anotacao repete a regra de proposito, porque uma mudanca futura no mapa de
- * rotas nao pode abrir a moderacao sem que alguem tenha que apagar uma linha
+ * <p>Tudo aqui exige o papel de administrador, declarado endereço por
+ * endereço. A configuração de segurança já protege o caminho inteiro; a
+ * anotação repete a regra de propósito, porque uma mudança futura no mapa de
+ * rotas não pode abrir a moderação sem que alguém tenha que apagar uma linha
  * dizendo explicitamente quem pode entrar.
  */
 @RestController
@@ -146,7 +146,7 @@ public class ModeracaoController {
         });
     }
 
-    /** Teto de pagina: sem isso, {@code ?tamanho=100000} vira negacao de servico gratuita. */
+    /** Teto de página: sem isso, {@code ?tamanho=100000} vira negação de serviço gratuita. */
     private int limitar(int tamanho) {
         return Math.min(Math.max(tamanho, 1), TAMANHO_MAXIMO_DA_PAGINA);
     }

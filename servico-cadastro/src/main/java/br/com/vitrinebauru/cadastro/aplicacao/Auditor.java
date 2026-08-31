@@ -11,9 +11,9 @@ import java.util.UUID;
 /**
  * Grava o rastro de quem fez o que.
  *
- * <p>Sempre chamado de dentro da transacao que executou a acao, e nunca
- * depois. Auditoria escrita em transacao separada e auditoria que registra
- * coisa que nao aconteceu (quando a acao falha em seguida) ou que perde coisa
+ * <p>Sempre chamado de dentro da transação que executou a ação, e nunca
+ * depois. Auditoria escrita em transação separada é auditoria que registra
+ * coisa que não aconteceu (quando a ação falha em seguida) ou que perde coisa
  * que aconteceu (quando o registro falha sozinho).
  */
 @Component

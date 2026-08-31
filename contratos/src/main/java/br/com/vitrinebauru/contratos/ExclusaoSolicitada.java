@@ -4,14 +4,14 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Abre a saga de exclusao de dados (LGPD, art. 18, VI).
+ * Abre a saga de exclusão de dados (LGPD, art. 18, VI).
  *
- * <p>Quem coordena e o cadastro, mas ele nao pode apagar sozinho: o produto do
- * empreendedor esta no catalogo, a projecao dele esta na busca e o historico
- * de e-mail esta em notificacoes, cada um no seu banco. Este evento pede que
- * cada servico limpe a sua parte e responda com {@link ExpurgoConcluido}.
+ * <p>Quem coordena é o cadastro, mas ele não pode apagar sozinho: o produto do
+ * empreendedor está no catálogo, a projeção dele está na busca e o histórico
+ * de e-mail está em notificações, cada um no seu banco. Este evento pede que
+ * cada serviço limpe a sua parte e responda com {@link ExpurgoConcluido}.
  *
- * <p>O {@code prazoLimite} nao e enfeite: a lei fala em prazo, e o coordenador
+ * <p>O {@code prazoLimite} não é enfeite: a lei fala em prazo, e o coordenador
  * usa essa data para saber quando parar de esperar e escalar para uma pessoa.
  */
 public record ExclusaoSolicitada(

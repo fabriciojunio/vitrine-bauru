@@ -4,11 +4,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Produto novo no catalogo de alguem.
+ * Produto novo no catálogo de alguém.
  *
- * <p>O preco e opcional de proposito: "sob consulta" e uma resposta legitima
- * de quem vende bolo por encomenda ou conserta maquina de lavar, e obrigar um
- * numero ali dentro empurraria o empreendedor a inventar um.
+ * <p>O preço é opcional de propósito: "sob consulta" é uma resposta legítima
+ * de quem vende bolo por encomenda ou conserta máquina de lavar, e obrigar um
+ * número ali dentro empurraria o empreendedor a inventar um.
  */
 public record ProdutoPublicado(
         UUID id,

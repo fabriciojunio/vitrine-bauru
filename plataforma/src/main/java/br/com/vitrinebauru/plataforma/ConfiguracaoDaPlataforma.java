@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * O que a plataforma liga sozinha em qualquer servico que a inclua.
+ * O que a plataforma liga sozinha em qualquer serviço que a inclua.
  *
- * <p>O agendamento entra aqui porque o outbox depende dele: um servico que
+ * <p>O agendamento entra aqui porque o outbox depende dele: um serviço que
  * esquecesse de habilitar tarefas agendadas gravaria evento no banco e nunca
- * publicaria, sem erro nenhum aparecer. Esse tipo de falha silenciosa e a que
- * custa mais caro para descobrir, entao ela nao pode depender de cada servico
- * lembrar de uma anotacao.
+ * publicaria, sem erro nenhum aparecer. Esse tipo de falha silenciosa é a que
+ * custa mais caro para descobrir, então ela não pode depender de cada serviço
+ * lembrar de uma anotação.
  */
 @Configuration
 @EnableScheduling

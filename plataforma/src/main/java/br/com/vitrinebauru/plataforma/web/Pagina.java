@@ -8,10 +8,10 @@ import java.util.function.Function;
 /**
  * Resposta paginada da API.
  *
- * <p>E um tipo do projeto, e nao o {@code Page} do Spring Data, porque o
+ * <p>É um tipo do projeto, e não o {@code Page} do Spring Data, porque o
  * {@code Page} serializa uma dezena de campos internos (pageable, sort,
- * numberOfElements) que viram contrato publico sem ninguem ter decidido isso.
- * Aqui o formato e escolhido e pequeno.
+ * numberOfElements) que viram contrato público sem ninguém ter decidido isso.
+ * Aqui o formato é escolhido e pequeno.
  */
 public record Pagina<T>(
         List<T> conteudo,

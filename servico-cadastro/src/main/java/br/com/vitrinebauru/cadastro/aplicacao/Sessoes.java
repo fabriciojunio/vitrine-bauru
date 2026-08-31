@@ -19,12 +19,12 @@ import java.util.HexFormat;
 import java.util.UUID;
 
 /**
- * Cria e guarda sessao, para os casos de uso de login e renovacao nao
+ * Cria e guarda sessão, para os casos de uso de login e renovação não
  * repetirem o mesmo par de token.
  *
- * <p>O token de renovacao e sorteado com {@link SecureRandom}, e nao derivado
- * do usuario nem de contador. Sao 256 bits sem significado nenhum: e o que
- * garante que ninguem adivinhe o token de outra pessoa a partir do proprio.
+ * <p>O token de renovação é sorteado com {@link SecureRandom}, e não derivado
+ * do usuário nem de contador. São 256 bits sem significado nenhum: é o que
+ * garante que ninguém adivinhe o token de outra pessoa a partir do próprio.
  */
 @Component
 public class Sessoes {
@@ -72,9 +72,9 @@ public class Sessoes {
     }
 
     /**
-     * SHA-256 basta aqui, e bcrypt seria desperdicio: o valor original ja e
-     * aleatorio de ponta a ponta, entao nao ha dicionario que ataque isso e
-     * nao ha por que tornar cada renovacao cara.
+     * SHA-256 basta aqui, e bcrypt seria desperdício: o valor original já é
+     * aleatório de ponta a ponta, então não há dicionário que ataque isso e
+     * não há por que tornar cada renovação cara.
      */
     public String resumo(String token) {
         try {

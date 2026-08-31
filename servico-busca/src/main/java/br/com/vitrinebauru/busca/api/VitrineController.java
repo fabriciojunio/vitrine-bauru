@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * A vitrine publica. Nenhum endereco daqui pede login.
+ * A vitrine publica. Nenhum endereço daqui pede login.
  *
- * <p>Essa e a decisao de produto mais importante do projeto: obrigar cadastro
+ * <p>Essa é a decisão de produto mais importante do projeto: obrigar cadastro
  * para ver o que a padaria do bairro vende afastaria o consumidor e, com ele,
- * o empreendedor. O que existe de conta na plataforma e do lado de quem vende.
+ * o empreendedor. O que existe de conta na plataforma é do lado de quem vende.
  */
 @RestController
 @RequestMapping("/api/busca")
@@ -88,12 +88,12 @@ public class VitrineController {
     }
 
     /**
-     * Registra a intencao de contato e devolve o link do WhatsApp.
+     * Registra a intenção de contato e devolve o link do WhatsApp.
      *
-     * <p>E POST porque muda estado (grava um evento), mesmo sendo disparado por
+     * <p>É POST porque muda estado (grava um evento), mesmo sendo disparado por
      * um clique num link. O frontend abre o link do WhatsApp direto na
-     * ancora e manda este aviso em paralelo, para o bloqueador de janela do
-     * navegador nao atrapalhar o unico fluxo que importa.
+     * âncora e manda este aviso em paralelo, para o bloqueador de janela do
+     * navegador não atrapalhar o único fluxo que importa.
      */
     @PostMapping("/contatos")
     @Operation(summary = "Registrar o clique em falar no WhatsApp")

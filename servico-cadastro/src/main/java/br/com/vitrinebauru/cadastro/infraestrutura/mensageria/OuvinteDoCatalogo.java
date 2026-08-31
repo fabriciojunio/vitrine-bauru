@@ -13,16 +13,16 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * Mantem, no cadastro, a contagem de produtos de cada empreendedor.
+ * Mantém, no cadastro, a contagem de produtos de cada empreendedor.
  *
- * <p>O painel da SEDECON precisa saber quem publicou produto e quem nao
- * publicou. Perguntar isso ao servico de catalogo a cada abertura do painel
- * colocaria os dois servicos no mesmo caminho critico: catalogo fora do ar,
+ * <p>O painel da SEDECON precisa saber quem publicou produto e quem não
+ * publicou. Perguntar isso ao serviço de catálogo a cada abertura do painel
+ * colocaria os dois serviços no mesmo caminho crítico: catálogo fora do ar,
  * painel fora do ar. Guardando por evento, o painel continua respondendo.
  *
- * <p>O preco e conhecido: entre a publicacao do produto e a chegada do evento
+ * <p>O preço é conhecido: entre a publicação do produto e a chegada do evento
  * a contagem fica velha por alguns segundos. Para uma pergunta como "quem
- * ainda nao cadastrou nada", segundos de atraso nao mudam nenhuma decisao.
+ * ainda não cadastrou nada", segundos de atraso não mudam nenhuma decisão.
  */
 @Component
 public class OuvinteDoCatalogo implements ConsumidorDeEventos {
@@ -55,9 +55,9 @@ public class OuvinteDoCatalogo implements ConsumidorDeEventos {
             case ProdutoRetirado retirado -> produtos.deleteById(retirado.produtoId());
 
             default -> {
-                // Outros eventos do topico nao interessam a contagem. Ignorar
-                // aqui e melhor que filtrar antes: quando um evento novo
-                // aparecer, este consumidor continua funcionando sem mudanca.
+                // Outros eventos do tópico não interessam a contagem. Ignorar
+                // aqui é melhor que filtrar antes: quando um evento novo
+                // aparecer, este consumidor continua funcionando sem mudança.
             }
         }
     }

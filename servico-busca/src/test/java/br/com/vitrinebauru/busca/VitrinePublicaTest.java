@@ -41,11 +41,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * A vitrine montada do jeito que ela se monta em producao: so por evento.
+ * A vitrine montada do jeito que ela se monta em produção: só por evento.
  *
- * <p>Nenhum teste daqui grava na tabela de projecao. Tudo entra pelo topico,
- * como entraria vindo do cadastro e do catalogo. E o unico jeito de provar que
- * a vitrine que o consumidor ve corresponde ao que a SEDECON aprovou.
+ * <p>Nenhum teste daqui grava na tabela de projeção. Tudo entra pelo tópico,
+ * como entraria vindo do cadastro e do catálogo. É o único jeito de provar que
+ * a vitrine que o consumidor vê corresponde ao que a SEDECON aprovou.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -292,7 +292,7 @@ class VitrinePublicaTest {
             montarVitrine();
 
             // A asserção olha o conjunto, e não a primeira posição: termo curto
-            // casa com mais de um produto (a própria palavra "alimentacao"
+            // casa com mais de um produto (a própria palavra "alimentação"
             // contém "aca"), e ordenar por relevância é assunto de outra etapa.
             mockMvc.perform(get("/api/busca/produtos").param("termo", termo))
                     .andExpect(status().isOk())

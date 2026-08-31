@@ -1,10 +1,10 @@
 -- Tabelas do outbox e do inbox.
 --
--- Ficam no esquema padrao, e nao num esquema por servico, de proposito: em
--- implantacao separada cada servico tem o proprio banco e estas tabelas sao
--- dele; num processo unico, os servicos compartilham a mesma conexao e o mesmo
--- gerenciador de transacao, entao compartilhar as duas tabelas mantem a
--- garantia do padrao intacta.
+-- Ficam no esquema padrão, e não num esquema por serviço, de propósito: em
+-- implantação separada cada serviço tem o próprio banco e estas tabelas são
+-- dele; num processo único, os serviços compartilham a mesma conexão e o mesmo
+-- gerenciador de transação, então compartilhar as duas tabelas mantém a
+-- garantia do padrão intacta.
 
 create table outbox (
     id                uuid         primary key,
@@ -19,9 +19,9 @@ create table outbox (
     ultimo_erro       varchar(500)
 );
 
--- Indice parcial: a consulta do publicador so olha o que ainda nao saiu, e
--- essa fatia e minuscula perto do historico. Indexar a tabela inteira faria o
--- indice crescer para sempre sem acelerar nada.
+-- Índice parcial: a consulta do publicador só olha o que ainda não saiu, e
+-- essa fatia é minúscula perto do histórico. Indexar a tabela inteira faria o
+-- índice crescer para sempre sem acelerar nada.
 create index idx_outbox_pendentes
     on outbox (criada_em)
     where publicada_em is null;

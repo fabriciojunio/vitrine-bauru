@@ -209,11 +209,11 @@ class ArquiteturaTest {
         @Test
         @DisplayName("nenhum endereço da API devolve entidade JPA")
         void entidadeNaoViraResposta() {
-            // A regra e sobre o que sai como JSON, e nao sobre o que o
-            // controller toca: converter a entidade em resposta e justamente o
-            // trabalho dele. O que nao pode e a entidade ser serializada, com
-            // senha, documento inteiro e todo campo que alguem acrescentar
-            // nela amanha.
+            // A regra é sobre o que sai como JSON, e não sobre o que o
+            // controller toca: converter a entidade em resposta é justamente o
+            // trabalho dele. O que não pode é a entidade ser serializada, com
+            // senha, documento inteiro e todo campo que alguém acrescentar
+            // nela amanhã.
             noMethods()
                     .that().arePublic()
                     .and().areDeclaredInClassesThat().haveSimpleNameEndingWith("Controller")

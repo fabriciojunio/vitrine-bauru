@@ -19,11 +19,11 @@ import java.util.UUID;
 /**
  * A loja: quem vende, o que vende e em que bairro.
  *
- * <p>As transicoes de estado ficam aqui dentro, e nao no servico de
- * aplicacao, porque sao a regra que nao pode variar: aprovar duas vezes,
- * suspender quem nunca foi aprovado ou reativar um cadastro rejeitado sao
- * erros de operacao que precisam falhar do mesmo jeito venham da tela do
- * administrador, de um script de correcao ou de um evento reprocessado.
+ * <p>As transições de estado ficam aqui dentro, e não no serviço de
+ * aplicação, porque são a regra que não pode variar: aprovar duas vezes,
+ * suspender quem nunca foi aprovado ou reativar um cadastro rejeitado são
+ * erros de operação que precisam falhar do mesmo jeito venham da tela do
+ * administrador, de um script de correção ou de um evento reprocessado.
  */
 @Entity
 @Table(name = "empreendedor", schema = "cadastro")
@@ -88,10 +88,10 @@ public class Empreendedor {
     private String motivoDaModeracao;
 
     /**
-     * Resultado da consulta a base publica da Receita. Fica como texto porque
-     * e informativo para quem modera, e nao regra automatica: reprovar
+     * Resultado da consulta a base pública da Receita. Fica como texto porque
+     * é informativo para quem modera, e não regra automática: reprovar
      * cadastro sozinho por causa de uma API de terceiro fora do ar seria pior
-     * que deixar a decisao com a pessoa.
+     * que deixar a decisão com a pessoa.
      */
     @Column(name = "situacao_do_documento", length = 120)
     private String situacaoDoDocumento;
@@ -109,7 +109,7 @@ public class Empreendedor {
                 categoriaPrincipal, bairro, cep, telefone, documento, agora);
     }
 
-    /** Ver {@link Usuario#comId}: existe para a semeadura da demonstracao. */
+    /** Ver {@link Usuario#comId}: existe para a semeadura da demonstração. */
     public static Empreendedor comId(UUID id, UUID usuarioId, String nomeDoNegocio, ApelidoNaUrl apelido,
                                      String descricao, String categoriaPrincipal, String bairro,
                                      String cep, Telefone telefone, Documento documento, Instant agora) {
@@ -180,7 +180,7 @@ public class Empreendedor {
         this.atualizadoEm = agora;
     }
 
-    /** Tira o que identifica o negocio, mantendo a linha para a auditoria. */
+    /** Tira o que identifica o negócio, mantendo a linha para a auditoria. */
     public void anonimizar(Instant agora) {
         this.nomeDoNegocio = "Cadastro removido";
         this.apelidoNaUrl = "removido-" + id;

@@ -17,11 +17,11 @@ import java.time.Clock;
 /**
  * Tira da fila e manda, com nova tentativa quando falha.
  *
- * <p>Mesma forma do publicador do outbox, e pela mesma razao: a entrega
- * depende de um servico de terceiro, e falha de terceiro nao pode virar evento
- * reprocessado nem cadastro sem aviso. Aqui a espera entre tentativas comeca
- * em um minuto e vai ate duas horas, porque e-mail atrasado alguns minutos nao
- * incomoda ninguem e provedor fora do ar costuma demorar mais que segundos
+ * <p>Mesma forma do publicador do outbox, e pela mesma razão: a entrega
+ * depende de um serviço de terceiro, e falha de terceiro não pode virar evento
+ * reprocessado nem cadastro sem aviso. Aqui a espera entre tentativas começa
+ * em um minuto e vai até duas horas, porque e-mail atrasado alguns minutos não
+ * incomoda ninguém e provedor fora do ar costuma demorar mais que segundos
  * para voltar.
  */
 @Component

@@ -26,20 +26,20 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 /**
- * Enche a demonstracao com as lojas ficticias na primeira subida.
+ * Enche a demonstração com as lojas fictícias na primeira subida.
  *
  * <p>Semeia pelos mesmos caminhos que o sistema usa de verdade: cria a conta,
- * cria o cadastro, chama {@code aprovar} do dominio e grava os eventos no
- * outbox. Nao ha atalho por SQL. Assim a demonstracao exercita o fluxo
- * completo, e a busca publica se enche sozinha por evento, do jeito que
+ * cria o cadastro, chama {@code aprovar} do domínio e grava os eventos no
+ * outbox. Não há atalho por SQL. Assim a demonstração exercita o fluxo
+ * completo, e a busca pública se enche sozinha por evento, do jeito que
  * aconteceria com um cadastro real.
  *
- * <p>Duas lojas ficam pendentes de proposito: sem elas, quem entra como
- * SEDECON encontra uma fila de moderacao vazia e nao consegue ver a parte mais
+ * <p>Duas lojas ficam pendentes de propósito: sem elas, quem entra como
+ * SEDECON encontra uma fila de moderação vazia e não consegue ver a parte mais
  * importante do sistema funcionando.
  *
- * <p>Roda so quando as tabelas estao vazias. Reiniciar a demonstracao e
- * apagar o banco, e nao rodar isto de novo por cima.
+ * <p>Roda só quando as tabelas estão vazias. Reiniciar a demonstração é
+ * apagar o banco, e não rodar isto de novo por cima.
  */
 @Component
 @ConditionalOnProperty(name = "vitrine.demo.ativo", havingValue = "true")
@@ -47,7 +47,7 @@ public class SemeadorDaDemonstracao implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(SemeadorDaDemonstracao.class);
 
-    /** As duas ultimas lojas da lista ficam esperando analise. */
+    /** As duas últimas lojas da lista ficam esperando análise. */
     private static final int LOJAS_PENDENTES = 2;
 
     private final UsuarioRepository usuarios;
@@ -88,8 +88,8 @@ public class SemeadorDaDemonstracao implements ApplicationRunner {
 
         for (int posicao = 0; posicao < lojas.size(); posicao++) {
             var loja = lojas.get(posicao);
-            // Espalha as datas de cadastro pelos ultimos meses para o painel de
-            // indicadores nao mostrar tudo criado no mesmo segundo.
+            // Espalha as datas de cadastro pelos últimos meses para o painel de
+            // indicadores não mostrar tudo criado no mesmo segundo.
             var cadastradoEm = agora.minus(90L - posicao * 7L, ChronoUnit.DAYS);
 
             var dono = usuarios.save(Usuario.comId(loja.usuarioId(), loja.responsavel(),

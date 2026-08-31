@@ -20,14 +20,14 @@ import java.util.UUID;
 /**
  * Aprende quem existe e quem pode publicar.
  *
- * <p>O empreendedor entra aqui ja no cadastro, e nao so na aprovacao. E de
- * proposito: enquanto espera a analise da SEDECON ele pode montar o catalogo,
+ * <p>O empreendedor entra aqui já no cadastro, e não só na aprovação. É de
+ * propósito: enquanto espera a análise da SEDECON ele pode montar o catálogo,
  * e assim, no minuto em que for aprovado, a loja aparece na vitrine com
- * produto dentro. Se so pudesse cadastrar produto depois de aprovado, toda
+ * produto dentro. Se só pudesse cadastrar produto depois de aprovado, toda
  * loja nova estrearia vazia.
  *
- * <p>Suspenso e excluido perdem o direito de publicar, mas os produtos ficam:
- * suspensao costuma ser temporaria, e apagar catalogo de quem foi suspenso por
+ * <p>Suspenso e excluído perdem o direito de publicar, mas os produtos ficam:
+ * suspensão costuma ser temporária, e apagar catálogo de quem foi suspenso por
  * engano seria um estrago sem volta.
  */
 @Component
@@ -70,7 +70,7 @@ public class RegistrarEmpreendedoresConhecidos implements ConsumidorDeEventos {
             case EmpreendedorSuspenso suspenso ->
                     registrar(suspenso.empreendedorId(), suspenso.nomeDoNegocio(), false);
             default -> {
-                // Evento de outro assunto no mesmo topico nao muda nada aqui.
+                // Evento de outro assunto no mesmo tópico não muda nada aqui.
             }
         }
     }

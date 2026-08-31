@@ -16,16 +16,16 @@ import java.util.UUID;
 /**
  * A conta de quem entra na plataforma.
  *
- * <p>Separada do {@link Empreendedor} porque sao coisas diferentes: o
- * administrador da SEDECON tem conta e nao tem loja, e a conta guarda o que
- * diz respeito a entrar (senha, bloqueio, ultimo acesso), enquanto o
+ * <p>Separada do {@link Empreendedor} porque são coisas diferentes: o
+ * administrador da SEDECON tem conta e não tem loja, e a conta guarda o que
+ * diz respeito a entrar (senha, bloqueio, último acesso), enquanto o
  * empreendedor guarda o que diz respeito a vender.
  */
 @Entity
 @Table(name = "usuario", schema = "cadastro")
 public class Usuario {
 
-    /** Depois disso a conta trava por um tempo, para forca bruta nao compensar. */
+    /** Depois disso a conta trava por um tempo, para força bruta não compensar. */
     public static final int TENTATIVAS_ATE_BLOQUEAR = 5;
     public static final Duration DURACAO_DO_BLOQUEIO = Duration.ofMinutes(15);
 
@@ -73,9 +73,9 @@ public class Usuario {
     /**
      * Cria a conta com um identificador escolhido.
      *
-     * <p>Existe para a semeadura do modo demonstracao, que precisa dos mesmos
-     * identificadores nos quatro servicos. Fora dali, use {@link #novo}: id
-     * vindo de fora em cadastro de verdade e caminho para colisao.
+     * <p>Existe para a semeadura do modo demonstração, que precisa dos mesmos
+     * identificadores nos quatro serviços. Fora dali, use {@link #novo}: id
+     * vindo de fora em cadastro de verdade é caminho para colisão.
      */
     public static Usuario comId(UUID id, String nome, String email, String senhaHash,
                                 Papel papel, Instant agora) {
@@ -92,8 +92,8 @@ public class Usuario {
     }
 
     /**
-     * E-mail e comparado em minusculas porque ninguem lembra se digitou
-     * maiuscula no cadastro, e "nao consigo entrar" por causa disso e o tipo
+     * E-mail é comparado em minúsculas porque ninguém lembra se digitou
+     * maiúscula no cadastro, e "não consigo entrar" por causa disso é o tipo
      * de problema que faz o empreendedor desistir da plataforma em vez de
      * abrir chamado.
      */
@@ -125,13 +125,13 @@ public class Usuario {
     }
 
     /**
-     * Apaga o que identifica a pessoa e mantem a linha.
+     * Apaga o que identifica a pessoa e mantém a linha.
      *
      * <p>Apagar a linha inteira parece mais respeitoso com o pedido, mas
      * quebraria o registro de auditoria que aponta para ela, e a auditoria de
-     * quem aprovou o que precisa sobreviver ao pedido de exclusao. O caminho
-     * usado aqui e o que a LGPD chama de anonimizacao: o dado deixa de
-     * identificar alguem, e o historico continua auditavel.
+     * quem aprovou o que precisa sobreviver ao pedido de exclusão. O caminho
+     * usado aqui é o que a LGPD chama de anonimização: o dado deixa de
+     * identificar alguém, e o histórico continua auditável.
      */
     public void anonimizar(Instant agora) {
         this.nome = "Conta removida";
