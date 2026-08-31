@@ -1,0 +1,115 @@
+---
+# Notificações: o e-mail transacional disparado por evento.
+# Uma réplica basta: o envio sai de uma fila no banco, com tentativa
+# repetida, e duas instâncias só disputariam as mesmas linhas.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servico-notificacoes
+  namespace: vitrine-bauru
+  labels:
+    app.kubernetes.io/name: servico-notificacoes
+    app.kubernetes.io/part-of: vitrine-bauru
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: servico-notificacoes
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: servico-notificacoes
+      annotations:
+        # O Prometheus raspa a métrica do outbox e a de negócio direto do pod.
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8084"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: servico-notificacoes
+          image: ghcr.io/fabriciojunio/vitrine-bauru/servico-notificacoes:1.0.0
+          ports:
+            - name: http
+              containerPort: 8084
+          env:
+            - name: PORTA
+              value: "8084"
+            # Um banco por serviço: o host muda, e nenhum deles enxerga a
+            # tabela do vizinho nem por engano de configuração.
+            - name: BANCO_URL
+              value: jdbc:postgresql://banco-notificacoes:5432/vitrine_notificacoes
+            - name: BANCO_USUARIO
+              valueFrom:
+                secretKeyRef: { name: vitrine-banco, key: usuario }
+            - name: BANCO_SENHA
+              valueFrom:
+                secretKeyRef: { name: vitrine-banco, key: senha }
+            - name: VITRINE_SEGREDO_JWT
+              valueFrom:
+                secretKeyRef: { name: vitrine-seguranca, key: segredo-jwt }
+            - name: RESEND_CHAVE
+              valueFrom:
+                secretKeyRef: { name: vitrine-seguranca, key: resend-chave }
+          envFrom:
+            - configMapRef:
+                name: vitrine-configuracao
+          resources:
+            requests:
+              cpu: 100m
+              memory: 384Mi
+            limits:
+              memory: 384Mi
+          # A partida é lenta de propósito: o Flyway roda as migrações antes de
+          # o serviço aceitar tráfego. O startupProbe dá esse tempo sem que o
+          # liveness derrube o pod no meio da migração.
+          startupProbe:
+            httpGet: { path: /actuator/health/readiness, port: http }
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: http }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: http }
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: temporario
+              mountPath: /tmp
+      volumes:
+        - name: temporario
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: servico-notificacoes
+  namespace: vitrine-bauru
+spec:
+  selector:
+    app.kubernetes.io/name: servico-notificacoes
+  ports:
+    - name: http
+      port: 8084
+      targetPort: http
+
+---
+# Garante que uma manutenção de nó não derrube o serviço inteiro de uma vez.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: servico-notificacoes
+  namespace: vitrine-bauru
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: servico-notificacoes

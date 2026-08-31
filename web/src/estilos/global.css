@@ -46,8 +46,8 @@
      o texto quase preto e a moldura na mesma cor, numa fila de etiquetas o
      olho lê primeiro as molduras. Um tom mais claro e um pixel em vez de dois
      mantêm o desenho de placa sem o peso. */
-  --color-borda: #616a65;
-  --color-borda-forte: #3b423e;
+  --color-borda: #4b544f;
+  --color-borda-forte: #2b312e;
 
   /* Verde institucional da SEDECON, escurecido para o texto branco passar em AA. */
   --color-selo: #0b5d3b;
@@ -132,7 +132,7 @@
   }
 
   .quadro {
-    border: 1px solid var(--color-borda);
+    border: 1.5px solid var(--color-borda);
     background: var(--color-chapa);
     border-radius: var(--radius-caixa);
   }
@@ -179,7 +179,7 @@
     font-weight: 700;
     font-stretch: 88%;
     letter-spacing: 0.01em;
-    border: 1px solid var(--color-borda-forte);
+    border: 1.5px solid var(--color-borda-forte);
     border-radius: var(--radius-caixa);
     padding: 0.7rem 1.3rem;
     display: inline-flex;
@@ -270,7 +270,7 @@
 
   .campo {
     width: 100%;
-    border: 1px solid var(--color-borda-forte);
+    border: 1.5px solid var(--color-borda-forte);
     border-radius: var(--radius-caixa);
     background: var(--color-chapa);
     padding: 0.7rem 0.85rem;
@@ -316,7 +316,7 @@
     font-size: 1.15rem;
     color: var(--color-tinta);
     background: var(--color-sinal-claro);
-    border: 1px solid var(--color-borda);
+    border: 1.5px solid var(--color-borda);
     padding: 0.1rem 0.5rem;
     display: inline-block;
     border-radius: var(--radius-caixa);
@@ -337,7 +337,7 @@
     font-stretch: 80%;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    border: 1px solid var(--color-borda);
+    border: 1.5px solid var(--color-borda);
     padding: 0.15rem 0.5rem;
     border-radius: var(--radius-caixa);
     background: var(--color-chapa);
@@ -352,7 +352,7 @@
   }
 
   .aviso {
-    border: 1px solid var(--color-borda);
+    border: 1.5px solid var(--color-borda);
     border-left-width: 6px;
     padding: 0.85rem 1rem;
     border-radius: var(--radius-caixa);

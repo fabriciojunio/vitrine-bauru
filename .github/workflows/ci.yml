@@ -131,6 +131,11 @@ jobs:
           tail -50 /tmp/aplicacao.log
           exit 1
 
+      - name: Conferir os manifestos do Kubernetes
+        run: |
+          pip install pyyaml
+          python k8s/conferir-manifestos.py
+
       - name: Instalar o front-end e o navegador
         working-directory: web
         run: |

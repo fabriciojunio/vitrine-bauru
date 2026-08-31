@@ -138,7 +138,7 @@ build, e não quando alguém lembra de subir a infraestrutura.
 |---|---|
 | Docker | imagem de duas etapas: compila numa, e a que sobe leva só o JRE |
 | Docker Compose | os quatro serviços separados, com Redpanda e quatro bancos |
-| Kubernetes | manifestos com Ingress e HPA, para mostrar a topologia real |
+| Kubernetes | os cinco serviços com Service, PDB, Ingress e HPA, conferidos no CI |
 | GitHub Actions | três jobs: back-end, front-end e ponta a ponta |
 | Neon | o PostgreSQL da implantação gratuita |
 | Render | o back-end, em contêiner |
@@ -206,6 +206,7 @@ mvn verify                    # 813 testes de back-end
 cd web && npm test            # 193 testes de front-end
 cd web && npm run e2e         # 36 testes com navegador de verdade
 node web/scripts/auditoria-de-celular.mjs   # varredura de tela estreita
+python k8s/conferir-manifestos.py           # coerência dos manifestos
 ```
 
 A varredura de celular abre as sete telas em 320px e 393px e reporta o que
