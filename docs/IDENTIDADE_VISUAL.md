@@ -44,10 +44,12 @@ lê o token.
 | `--color-fundo` | `#e8ebe6` | fundo da página, concreto pintado |
 | `--color-faixa` | `#dbe0da` | seções alternadas, botão neutro no hover |
 | `--color-chapa` | `#ffffff` | fundo de painel e de cartão |
-| `--color-tinta` | `#15181a` | texto e todas as bordas |
+| `--color-tinta` | `#15181a` | texto |
 | `--color-tinta-suave` | `#454b4a` | texto secundário |
 | `--color-concreto` | `#5c625f` | texto de apoio, contagem |
 | `--color-linha` | `#c2cac2` | divisórias e o filete da placa |
+| `--color-borda` | `#616a65` | contorno de painel e de etiqueta |
+| `--color-borda-forte` | `#3b423e` | contorno de botão, de campo e as separações estruturais |
 | `--color-selo` | `#0b5d3b` | verde SEDECON: topo, rodapé, herói |
 | `--color-selo-escuro` | `#073d27` | rodapé, faixa de números, menu no celular |
 | `--color-selo-claro` | `#dbe9df` | fundo de bloco informativo |
@@ -55,12 +57,15 @@ lê o token.
 | `--color-sinal-claro` | `#fbf0d2` | fundo de destaque, etiqueta de preço |
 | `--color-alerta` | `#b3261e` | erro |
 
-Duas regras que valem a pena manter:
+Três regras que valem a pena manter:
 
 1. **Amarelo nunca é texto sobre fundo claro.** `text-sinal` só existe sobre o
    verde, no topo e no rodapé. Sobre branco ele fica em 1,9:1 e some.
 2. **Texto claro só sobre `selo` ou `selo-escuro`.** Os dois passam em AA com
    branco. Verde mais claro que isso não passa.
+3. **Contorno não é tinta.** Todo contorno tem 1px e usa `borda` ou
+   `borda-forte`, nunca `tinta`. Com a moldura na mesma cor do texto, numa fila
+   de doze etiquetas de categoria o olho lê primeiro as molduras.
 
 ## Trocar a fonte
 
@@ -94,7 +99,7 @@ combinação de utilitário solta:
 - `.arcada`, `.arcada-faixa`, `.arcada-tinta` — a arcada do calçadão. A primeira
   é a faixa alta do herói, a segunda a versão baixa do rodapé, a terceira o
   contorno escuro para fundo claro.
-- `.quadro` — painel de borda preta, o recipiente padrão de tudo.
+- `.quadro` — painel de contorno fino, o recipiente padrão de tudo.
 - `.placa`, `.placa-leve`, `.placa-no-verde` — o filete interno da placa
   esmaltada, desenhado por um `::before` inset. **Só em painel de texto**: em
   cartão com foto encostada na borda o filete atravessa a imagem.
@@ -152,7 +157,14 @@ iniciais escuras aparecerem por cima.
 cd web
 npm test          # inclui teste de acessibilidade nos componentes
 npx playwright test --project=celular
+node scripts/auditoria-de-celular.mjs
 ```
+
+A varredura abre as sete telas em 320px e 393px e reporta rolagem horizontal,
+alvo de toque pequeno, texto abaixo de 12px e erro de script. Link no meio de
+uma frase aparece com altura pequena e não é defeito: a norma isenta esse caso,
+e forçá-lo a 44px estragaria o parágrafo. O que precisa de folga é controle de
+verdade, como a lista do rodapé e os atalhos de categoria.
 
 O projeto `celular` roda num Pixel 5 e verifica o que mais quebra em mudança de
 layout: rolagem horizontal, alvo de toque menor que 44px e menu que não abre.

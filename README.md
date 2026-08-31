@@ -64,6 +64,86 @@ Cada serviço tem o próprio banco e nunca lê a tabela do vizinho. Existe um
 que quebra o build se alguém tentar, o que importa porque na implantação
 gratuita todos rodam no mesmo processo, e ali nada impediria o atalho.
 
+## Tecnologias
+
+Tudo que está aqui está no `pom.xml` ou no `package.json`, e nada foi escolhido
+por catálogo: cada linha resolve um problema que aparece no projeto.
+
+### Back-end
+
+| O que | Versão | Para quê |
+|---|---|---|
+| Java | 21 | records, `sealed interface` e pattern matching nos contratos de evento |
+| Spring Boot | 3.5.16 | base dos quatro serviços e do servidor único |
+| Spring Web (MVC) | starter | a API REST de cada serviço |
+| Spring Data JPA + Hibernate | starter | persistência e o mapeamento das entidades |
+| Spring Security | starter | cadeia de filtros, autorização por papel e bcrypt |
+| Spring Validation | starter | validação de entrada nos controladores |
+| Spring AOP | starter | corte transversal do disjuntor e da auditoria |
+| Spring Kafka | starter | o adaptador de transporte quando existe corretor |
+| Spring Cloud Gateway MVC | 2025.0.0 | a borda: um endereço só, CORS e limite de ritmo |
+| Spring Boot Actuator | starter | `/health` para o Render e para o Kubernetes |
+| PostgreSQL (driver JDBC) | do Boot | o banco de todos os serviços |
+| Flyway | core + postgresql | migração versionada, uma faixa de versões por serviço |
+| Apache Kafka | via Spring Kafka | tópico por assunto, partição por empreendedor |
+| jjwt | 0.12.6 | emissão e conferência do token de acesso |
+| Bucket4j | `bucket4j_jdk17-core` | limite de requisições por endereço, em balde de fichas |
+| jsoup | 1.21.1 | sanitização do texto que o empreendedor escreve |
+| Resilience4j | Spring Boot 3 | disjuntor na consulta de CNPJ, que é serviço de terceiro |
+| Micrometer + Prometheus | registry | métrica do outbox, dos contatos e da fila de moderação |
+| springdoc-openapi | 2.8.6 | a documentação da API que sai do próprio código |
+
+### Testes do back-end
+
+| O que | Para quê |
+|---|---|
+| JUnit 5 | base de tudo, com teste parametrizado sobre amostra gerada |
+| AssertJ | asserção legível, que vem no starter de teste |
+| Mockito | dublê onde a dependência é de terceiro |
+| Spring Boot Test + MockMvc | o serviço inteiro no ar, batendo na API de verdade |
+| `embedded-postgres` (zonky) | PostgreSQL de verdade iniciado pelo próprio teste |
+| `spring-kafka-test` | corretor Kafka embutido, também sem Docker |
+| Awaitility | espera o efeito assíncrono chegar, sem `sleep` cravado |
+| ArchUnit | treze regras de arquitetura que quebram o build |
+| JaCoCo | cobertura, com piso configurado |
+
+Não há Testcontainers, e é de propósito: o banco e o corretor sobem embutidos
+dentro do próprio teste, então o build inteiro roda numa máquina sem Docker
+instalado. O teste que prova o outbox de ponta a ponta só vale se rodar em todo
+build, e não quando alguém lembra de subir a infraestrutura.
+
+### Front-end
+
+| O que | Versão | Para quê |
+|---|---|---|
+| React | 19 | a interface inteira |
+| TypeScript | 5.7 | modo estrito, sem `any` solto |
+| Vite | 7 | construção e o repasse de `/api` no desenvolvimento |
+| React Router | 7 | as rotas, com o filtro da vitrine morando na URL |
+| Tailwind CSS | 4 | os tokens de cor e tipografia ficam no CSS, em `@theme` |
+| Fontsource | Besley e Archivo | fonte servida do próprio domínio, sem chamar o Google |
+
+### Testes do front-end
+
+| O que | Para quê |
+|---|---|
+| Vitest | os testes de unidade e de componente |
+| Testing Library | consulta por papel e por rótulo, como o leitor de tela faz |
+| jsdom | o navegador de mentira dos testes de componente |
+| Playwright | navegador de verdade, no computador e num Pixel 5 |
+
+### Infraestrutura
+
+| O que | Para quê |
+|---|---|
+| Docker | imagem de duas etapas: compila numa, e a que sobe leva só o JRE |
+| Docker Compose | os quatro serviços separados, com Redpanda e quatro bancos |
+| Kubernetes | manifestos com Ingress e HPA, para mostrar a topologia real |
+| GitHub Actions | três jobs: back-end, front-end e ponta a ponta |
+| Neon | o PostgreSQL da implantação gratuita |
+| Render | o back-end, em contêiner |
+| Vercel | o front-end |
+
 ## Os quatro problemas que este projeto é realmente sobre
 
 **1. Escrever no banco e avisar os outros são duas coisas.** Aprovar um
@@ -125,7 +205,13 @@ BANCO_URL=jdbc:postgresql://localhost:5432/vitrine DEMO_ATIVO=true \
 mvn verify                    # 813 testes de back-end
 cd web && npm test            # 193 testes de front-end
 cd web && npm run e2e         # 36 testes com navegador de verdade
+node web/scripts/auditoria-de-celular.mjs   # varredura de tela estreita
 ```
+
+A varredura de celular abre as sete telas em 320px e 393px e reporta o que
+costuma quebrar no dedo: rolagem horizontal, alvo de toque menor que o mínimo,
+texto abaixo de 12px e erro de script. Precisa do ambiente no ar em
+`localhost:4173`.
 
 Os testes de integração sobem PostgreSQL e Kafka embutidos, iniciados pelo
 próprio teste. Nenhum deles precisa de Docker, e é de propósito: o teste que
@@ -172,19 +258,3 @@ Vale escrever, porque é o tipo de coisa que aparece na banca:
   consulta é um `like` comum, que roda em qualquer PostgreSQL gratuito. Com
   algumas centenas de lojas, a diferença não é perceptível; o dia em que for, o
   índice entra sem mexer em mais nada.
-
-## Equipe
-
-Projeto de extensão do curso de Ciência da Computação do Unisagrado, em
-parceria com a SEDECON.
-
-| Nome | RA |
-|---|---|
-| Camila Pereira Raimundo | 24111685 |
-| Fabrício Júnio Almeida Dias | 24110063 |
-| João Pedro Ferreira | 24110920 |
-| Kauã Limão Nunes | 24110224 |
-| Luan Padilha Miranda | 24110636 |
-
-Orientação: Profa. Dra. Jessica de Cássia Rossi. Contato na SEDECON: Jurandir
-Sérgio Posca, Casa do Empreendedor, Av. Duque de Caxias, 16-55, Vila Cardia.

@@ -57,7 +57,7 @@ export function PaginaDaLoja() {
 
   return (
     <div>
-      <section className="border-b-2 border-tinta bg-faixa">
+      <section className="border-b border-borda bg-faixa">
         <div className="max-w-5xl mx-auto px-4 py-8 grid gap-6 md:grid-cols-[280px_1fr] items-start">
           <div className="quadro overflow-hidden">
             <Foto

@@ -42,6 +42,13 @@
   --color-concreto: #5c625f;
   --color-linha: #c2cac2;
 
+  /* Contorno de painel, botão e etiqueta. Separado da tinta de propósito: com
+     o texto quase preto e a moldura na mesma cor, numa fila de etiquetas o
+     olho lê primeiro as molduras. Um tom mais claro e um pixel em vez de dois
+     mantêm o desenho de placa sem o peso. */
+  --color-borda: #616a65;
+  --color-borda-forte: #3b423e;
+
   /* Verde institucional da SEDECON, escurecido para o texto branco passar em AA. */
   --color-selo: #0b5d3b;
   --color-selo-escuro: #073d27;
@@ -125,7 +132,7 @@
   }
 
   .quadro {
-    border: 2px solid var(--color-tinta);
+    border: 1px solid var(--color-borda);
     background: var(--color-chapa);
     border-radius: var(--radius-caixa);
   }
@@ -172,7 +179,7 @@
     font-weight: 700;
     font-stretch: 88%;
     letter-spacing: 0.01em;
-    border: 2px solid var(--color-tinta);
+    border: 1px solid var(--color-borda-forte);
     border-radius: var(--radius-caixa);
     padding: 0.7rem 1.3rem;
     display: inline-flex;
@@ -242,9 +249,28 @@
     border-bottom-color: var(--color-sinal);
   }
 
+  /*
+   * Link da lista do rodapé.
+   *
+   * Vira bloco com folga vertical: solto no meio do texto ele tinha 15px de
+   * altura, que é o tamanho da letra, e no dedo isso vira erro de clique. A
+   * norma pede 24px e aqui sobra, porque quem usa a plataforma no ônibus
+   * merece um alvo folgado.
+   */
+  .link-do-rodape {
+    display: block;
+    padding: 0.5rem 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .link-do-rodape:hover {
+    color: var(--color-sinal);
+  }
+
   .campo {
     width: 100%;
-    border: 2px solid var(--color-tinta);
+    border: 1px solid var(--color-borda-forte);
     border-radius: var(--radius-caixa);
     background: var(--color-chapa);
     padding: 0.7rem 0.85rem;
@@ -290,7 +316,7 @@
     font-size: 1.15rem;
     color: var(--color-tinta);
     background: var(--color-sinal-claro);
-    border: 2px solid var(--color-tinta);
+    border: 1px solid var(--color-borda);
     padding: 0.1rem 0.5rem;
     display: inline-block;
     border-radius: var(--radius-caixa);
@@ -306,12 +332,12 @@
 
   .selo-categoria {
     font-family: var(--font-corpo);
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 700;
     font-stretch: 80%;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    border: 2px solid var(--color-tinta);
+    border: 1px solid var(--color-borda);
     padding: 0.15rem 0.5rem;
     border-radius: var(--radius-caixa);
     background: var(--color-chapa);
@@ -326,8 +352,8 @@
   }
 
   .aviso {
-    border: 2px solid var(--color-tinta);
-    border-left-width: 10px;
+    border: 1px solid var(--color-borda);
+    border-left-width: 6px;
     padding: 0.85rem 1rem;
     border-radius: var(--radius-caixa);
     background: var(--color-chapa);
