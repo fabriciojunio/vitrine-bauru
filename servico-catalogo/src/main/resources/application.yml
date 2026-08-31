@@ -1,0 +1,101 @@
+spring:
+  application:
+    name: servico-catalogo
+
+  datasource:
+    url: ${BANCO_URL:jdbc:postgresql://localhost:5433/vitrine_catalogo}
+    username: ${BANCO_USUARIO:vitrine}
+    password: ${BANCO_SENHA:vitrine}
+    hikari:
+      # Camada gratuita de banco costuma limitar conexao em algo entre 20 e 60.
+      # Cinco por servico deixa folga para o total nao estourar com quatro
+      # servicos mais migracao rodando ao mesmo tempo.
+      maximum-pool-size: ${BANCO_MAXIMO_DE_CONEXOES:5}
+      connection-timeout: 10000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+          batch_size: 30
+        order_inserts: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/plataforma,classpath:db/catalogo
+    schemas: public
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVIDORES:localhost:9092}
+
+  threads:
+    virtual:
+      enabled: true
+
+  servlet:
+    multipart:
+      # Precisa bater com o limite de 5 MB do dominio. Se o servidor aceitasse
+      # mais, o arquivo grande seria lido inteiro para so entao ser recusado.
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+server:
+  port: ${PORTA:8082}
+  shutdown: graceful
+  error:
+    include-message: never
+    include-stacktrace: never
+
+vitrine:
+  mensageria:
+    transporte: ${TRANSPORTE_DE_EVENTOS:kafka}
+    grupo: vitrine-catalogo
+  seguranca:
+    segredo: ${VITRINE_SEGREDO_JWT:segredo-de-desenvolvimento-com-mais-de-32-bytes}
+    duracao-do-acesso: 15m
+    duracao-do-refresh: 7d
+    origens-permitidas: ${ORIGENS_PERMITIDAS:http://localhost:5173}
+  limite:
+    ativo: ${LIMITE_ATIVO:true}
+    regras:
+      # Envio de foto e a operacao mais cara do servico: descomprime, grava
+      # megabytes e ocupa conexao de banco. Vinte por hora por loja e mais que
+      # generoso para quem esta cadastrando produto de verdade.
+      - padrao: /api/catalogo/meus-produtos/*/imagem
+        capacidade: 20
+        janela: 1h
+      - padrao: /api/catalogo/meus-produtos
+        capacidade: 60
+        janela: 1h
+  demo:
+    ativo: ${DEMO_ATIVO:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when-authorized
+  metrics:
+    tags:
+      servico: catalogo
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    br.com.vitrinebauru: INFO
+  pattern:
+    # A correlacao no padrao do log e o que permite seguir um cadastro pelos
+    # quatro servicos sem cruzar horario a olho.
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{correlacao:-}] %logger{36} - %msg%n"
