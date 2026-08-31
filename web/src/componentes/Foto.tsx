@@ -4,42 +4,40 @@ import { corDaCategoria, iniciais } from '@/lib/formato';
 /**
  * A foto do produto, ou o lugar dela.
  *
- * A maioria das lojas começa sem foto: o empreendedor se cadastra pelo
+ * <p>A maioria das lojas começa sem foto: o empreendedor se cadastra pelo
  * celular, publica os produtos e só depois volta para fotografar. Um retângulo
  * cinza vazio faria a vitrine inteira parecer quebrada justamente no dia da
- * inauguração, então a ausência de foto vira um bloco de cor da categoria com
- * as iniciais do produto. Fica óbvio que falta foto, sem parecer defeito.
+ * inauguração.
  *
- * O carregamento é preguiçoso e o tamanho é reservado por proporção: sem isso,
- * a grade pula enquanto as imagens chegam, o que no celular faz a pessoa
+ * <p>A ausência de foto vira um bloco na cor da categoria, com a arcada do
+ * calçadão desenhada por cima e as iniciais discretas no meio. Fica óbvio que
+ * falta foto, sem parecer defeito, e a grade continua com aspecto de coisa
+ * cuidada.
+ *
+ * <p>O tamanho é reservado por proporção e o carregamento é preguiçoso: sem
+ * isso, a grade pula enquanto as imagens chegam, o que no celular faz a pessoa
  * clicar no produto errado.
  */
 export function Foto({
   url,
   nome,
   categoria,
-  proporcao = 'aspect-[4/3]',
-  arco = true,
+  proporcao = 'aspect-[3/2]',
 }: {
   url: string | null | undefined;
   nome: string;
   categoria?: string | null;
   proporcao?: string;
-  arco?: boolean;
 }) {
-  const formato = arco ? 'arco' : '';
-
   if (!url) {
     return (
       <div
-        className={`${proporcao} ${formato} w-full flex items-center justify-center border-b-2 border-tinta`}
+        className={`${proporcao} sem-foto w-full border-b-2 border-tinta`}
         style={{ backgroundColor: corDaCategoria(categoria) }}
         role="img"
         aria-label={`${nome}: foto ainda não enviada`}
       >
-        <span className="font-display text-4xl font-bold text-tinta/45 select-none">
-          {iniciais(nome)}
-        </span>
+        <span className="iniciais-da-foto select-none">{iniciais(nome)}</span>
       </div>
     );
   }
@@ -50,7 +48,7 @@ export function Foto({
       alt={nome}
       loading="lazy"
       decoding="async"
-      className={`${proporcao} ${formato} w-full object-cover border-b-2 border-tinta bg-papel-fundo`}
+      className={`${proporcao} w-full object-cover border-b-2 border-tinta bg-papel-fundo`}
     />
   );
 }

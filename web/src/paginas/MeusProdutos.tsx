@@ -126,7 +126,7 @@ export function MeusProdutos() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {produtos.map((produto) => (
           <article key={produto.id} className="quadro carimbo-leve overflow-hidden flex flex-col">
-            <Foto url={produto.imagemUrl} nome={produto.nome} arco={false} />
+            <Foto url={produto.imagemUrl} nome={produto.nome} />
 
             <div className="p-3 flex flex-col gap-2 grow">
               <h3 className="text-lg leading-snug">{produto.nome}</h3>

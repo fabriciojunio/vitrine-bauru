@@ -203,27 +203,29 @@ export function Carregando({ texto = 'Carregando…' }: { texto?: string }) {
 }
 
 /**
- * O arco do calçadão, desenhado.
+ * Um arco da arcada do calçadão.
  *
- * Aparece antes de todo título de seção. É pequeno de propósito: identidade
- * que grita atrapalha quem está procurando bolo de pote.
+ * Desenhado com coluna e vão, e não como meia-lua: o que se quer lembrar é a
+ * arquitetura de ferro que cobre as sete quadras da Batista de Carvalho, e uma
+ * meia-lua sozinha não lembra nada.
  */
 export function Arco({ className = '' }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 48 24"
-      className={`w-12 h-6 ${className}`}
+      viewBox="0 0 40 26"
+      className={`w-10 h-[26px] ${className}`}
       aria-hidden="true"
       focusable="false"
     >
       <path
-        d="M2 23V14a22 22 0 0 1 44 0v9"
+        d="M3 25V13a17 17 0 0 1 34 0v12"
         fill="none"
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinecap="square"
       />
-      <path d="M0 23h48" fill="none" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M3 25V13M37 25V13" fill="none" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M0 25.25h40" fill="none" stroke="currentColor" strokeWidth="2.5" />
     </svg>
   );
 }
@@ -236,9 +238,12 @@ export function TituloDeSecao({
   descricao?: string;
 }) {
   return (
-    <div className="mb-5">
-      <Arco className="text-terracota mb-1" />
-      <h2 className="text-2xl sm:text-3xl">{children}</h2>
+    <div className="mb-6">
+      <div className="flex items-end gap-2 text-terracota">
+        <Arco />
+        <span className="h-[2px] grow bg-linha mb-[2px]" aria-hidden="true" />
+      </div>
+      <h2 className="text-2xl sm:text-3xl mt-3">{children}</h2>
       {descricao && <p className="text-tinta-suave mt-1 max-w-2xl">{descricao}</p>}
     </div>
   );

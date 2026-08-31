@@ -153,6 +153,7 @@ O que os testes cobrem, além do caminho feliz:
 | [Decisões](docs/adr/) | Por que cada escolha foi feita, e o que se perdeu com ela |
 | [Implantação](docs/IMPLANTACAO.md) | Como colocar no ar de graça, passo a passo |
 | [Demonstração](docs/DEMONSTRACAO.md) | Como funciona o modo de demonstração e como reiniciá-lo |
+| [Identidade visual](docs/IDENTIDADE_VISUAL.md) | De onde vem o visual e como mexer nele sem quebrar o conjunto |
 | [Segurança](SECURITY.md) | O que foi feito, o que não foi, e como avisar de uma falha |
 | [Contribuindo](CONTRIBUTING.md) | Padrão de branch, commit e revisão do grupo |
 

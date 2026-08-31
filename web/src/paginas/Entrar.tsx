@@ -166,15 +166,40 @@ export function Entrar() {
             Se você tem um negócio em Bauru, pode cadastrar de graça. A SEDECON confere os dados
             e sua loja entra na vitrine.
           </p>
-          <p className="text-tinta-suave mt-2">
-            Precisa de ajuda para cadastrar? A Casa do Empreendedor atende de segunda a sexta,
-            das 8h às 17h, na Av. Duque de Caxias, 16-55.
-          </p>
           <Link to="/cadastrar" className="botao botao-principal mt-4">
             Cadastrar meu negócio
           </Link>
         </div>
       )}
+
+      {/* Fecha a página com o que resolve o problema de quem não conseguiu
+          entrar. Sem isto sobra um vazio embaixo dos dois cartões, e quem
+          travou no login fica sem saída. */}
+      <div className="md:col-span-2 quadro carimbo-leve p-6 bg-selo-claro">
+        <h2 className="text-xl">Não consegue entrar?</h2>
+        <div className="grid gap-6 sm:grid-cols-3 mt-3 text-sm text-tinta-suave">
+          <div>
+            <p className="font-semibold text-tinta">Esqueceu a senha</p>
+            <p className="mt-1">
+              Procure a Casa do Empreendedor levando um documento. A SEDECON reencaminha o acesso.
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold text-tinta">Conta bloqueada</p>
+            <p className="mt-1">
+              Depois de cinco tentativas erradas, a conta trava por quinze minutos. Espere e
+              tente de novo.
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold text-tinta">Atendimento</p>
+            <p className="mt-1">
+              Av. Duque de Caxias, 16-55, Vila Cardia. (14) 3227-7819. De segunda a sexta, das 8h
+              às 17h.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
