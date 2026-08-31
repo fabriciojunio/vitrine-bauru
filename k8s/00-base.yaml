@@ -1,0 +1,70 @@
+---
+# Espaço próprio: mantém a Vitrine Bauru separada de qualquer outra coisa que
+# rode no mesmo agrupamento, inclusive nas regras de rede abaixo.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vitrine-bauru
+  labels:
+    app.kubernetes.io/part-of: vitrine-bauru
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vitrine-configuracao
+  namespace: vitrine-bauru
+data:
+  KAFKA_SERVIDORES: "broker-kafka:9092"
+  TRANSPORTE_DE_EVENTOS: "kafka"
+  ORIGENS_PERMITIDAS: "https://vitrinebauru.vercel.app"
+  LIMITE_ATIVO: "true"
+  DEMO_ATIVO: "false"
+  EMAIL_ATIVO: "true"
+  BRASILAPI_ATIVA: "true"
+  BANCO_MAXIMO_DE_CONEXOES: "10"
+
+---
+# Modelo do segredo. Os valores reais nunca entram no repositório: em produção
+# isto vem de um gerenciador de segredos, e aqui existe só para documentar
+# quais chaves cada serviço espera encontrar.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vitrine-banco
+  namespace: vitrine-bauru
+type: Opaque
+stringData:
+  usuario: TROCAR
+  senha: TROCAR
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vitrine-seguranca
+  namespace: vitrine-bauru
+type: Opaque
+stringData:
+  # Precisa ter no mínimo 32 bytes: a aplicação se recusa a subir com menos.
+  segredo-jwt: TROCAR-POR-UM-SEGREDO-COM-MAIS-DE-32-BYTES
+  resend-chave: TROCAR
+
+---
+# Nenhum pod aceita conexão que não venha de dentro do namespace. Sem isto, o
+# serviço de cadastro fica acessível de qualquer lugar do agrupamento, e a
+# borda deixa de ser a única porta de entrada.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: somente-de-dentro
+  namespace: vitrine-bauru
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/part-of: vitrine-bauru
+        - podSelector: {}

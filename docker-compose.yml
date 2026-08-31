@@ -1,0 +1,223 @@
+# Ambiente local completo: broker, um banco por serviço, os quatro serviços,
+# a borda e o frontend.
+#
+# É a topologia de verdade do sistema, a mesma que os manifestos do Kubernetes
+# descrevem. A implantação gratuita (o servidor único) é a exceção, não a
+# regra, e existe porque não há Kafka gerenciado de graça em 2026.
+#
+#   docker compose up -d
+#   docker compose logs -f servico-cadastro
+#
+# Para desenvolver um serviço na IDE, suba só a infraestrutura:
+#   docker compose up -d broker banco-cadastro banco-catalogo banco-busca banco-notificacoes
+
+name: vitrine-bauru
+
+services:
+  # Redpanda no lugar do Kafka da Apache: mesma API, um binário só, sem
+  # ZooKeeper, e cabe na memória de um notebook de trabalho.
+  broker:
+    image: redpandadata/redpanda:v24.2.7
+    container_name: vitrine-broker
+    command:
+      - redpanda
+      - start
+      - --smp=1
+      - --memory=512M
+      - --overprovisioned
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr=PLAINTEXT://broker:29092,OUTSIDE://localhost:9092
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health | grep -q 'Healthy:.*true'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  console:
+    image: redpandadata/console:v2.7.2
+    container_name: vitrine-console
+    depends_on:
+      broker:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKERS: broker:29092
+    ports:
+      - "8090:8080"
+
+  # Um banco por serviço, e não um banco com quatro esquemas. É o ponto do
+  # desenho: com banco compartilhado, o acoplamento volta pela porta dos
+  # fundos e o outbox perde o sentido, porque daria para escrever na tabela do
+  # vizinho dentro da mesma transação.
+  banco-cadastro:
+    image: postgres:16-alpine
+    container_name: vitrine-banco-cadastro
+    environment:
+      POSTGRES_DB: vitrine_cadastro
+      POSTGRES_USER: vitrine
+      POSTGRES_PASSWORD: vitrine
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vitrine -d vitrine_cadastro"]
+      interval: 5s
+      retries: 10
+
+  banco-catalogo:
+    image: postgres:16-alpine
+    container_name: vitrine-banco-catalogo
+    environment:
+      POSTGRES_DB: vitrine_catalogo
+      POSTGRES_USER: vitrine
+      POSTGRES_PASSWORD: vitrine
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vitrine -d vitrine_catalogo"]
+      interval: 5s
+      retries: 10
+
+  banco-busca:
+    image: postgres:16-alpine
+    container_name: vitrine-banco-busca
+    environment:
+      POSTGRES_DB: vitrine_busca
+      POSTGRES_USER: vitrine
+      POSTGRES_PASSWORD: vitrine
+    ports:
+      - "5435:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vitrine -d vitrine_busca"]
+      interval: 5s
+      retries: 10
+
+  banco-notificacoes:
+    image: postgres:16-alpine
+    container_name: vitrine-banco-notificacoes
+    environment:
+      POSTGRES_DB: vitrine_notificacoes
+      POSTGRES_USER: vitrine
+      POSTGRES_PASSWORD: vitrine
+    ports:
+      - "5436:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vitrine -d vitrine_notificacoes"]
+      interval: 5s
+      retries: 10
+
+  servico-cadastro:
+    build:
+      context: .
+      args:
+        MODULO: servico-cadastro
+    container_name: vitrine-cadastro
+    depends_on:
+      broker:
+        condition: service_healthy
+      banco-cadastro:
+        condition: service_healthy
+    environment:
+      BANCO_URL: jdbc:postgresql://banco-cadastro:5432/vitrine_cadastro
+      BANCO_USUARIO: vitrine
+      BANCO_SENHA: vitrine
+      KAFKA_SERVIDORES: broker:29092
+      TRANSPORTE_DE_EVENTOS: kafka
+      PORTA: 8081
+      DEMO_ATIVO: "true"
+      VITRINE_SEGREDO_JWT: segredo-de-desenvolvimento-com-mais-de-32-bytes
+      ORIGENS_PERMITIDAS: http://localhost:5173
+    ports:
+      - "8081:8081"
+
+  servico-catalogo:
+    build:
+      context: .
+      args:
+        MODULO: servico-catalogo
+    container_name: vitrine-catalogo
+    depends_on:
+      broker:
+        condition: service_healthy
+      banco-catalogo:
+        condition: service_healthy
+    environment:
+      BANCO_URL: jdbc:postgresql://banco-catalogo:5432/vitrine_catalogo
+      BANCO_USUARIO: vitrine
+      BANCO_SENHA: vitrine
+      KAFKA_SERVIDORES: broker:29092
+      TRANSPORTE_DE_EVENTOS: kafka
+      PORTA: 8082
+      DEMO_ATIVO: "true"
+      VITRINE_SEGREDO_JWT: segredo-de-desenvolvimento-com-mais-de-32-bytes
+      ORIGENS_PERMITIDAS: http://localhost:5173
+    ports:
+      - "8082:8082"
+
+  servico-busca:
+    build:
+      context: .
+      args:
+        MODULO: servico-busca
+    container_name: vitrine-busca
+    depends_on:
+      broker:
+        condition: service_healthy
+      banco-busca:
+        condition: service_healthy
+    environment:
+      BANCO_URL: jdbc:postgresql://banco-busca:5432/vitrine_busca
+      BANCO_USUARIO: vitrine
+      BANCO_SENHA: vitrine
+      KAFKA_SERVIDORES: broker:29092
+      TRANSPORTE_DE_EVENTOS: kafka
+      PORTA: 8083
+      VITRINE_SEGREDO_JWT: segredo-de-desenvolvimento-com-mais-de-32-bytes
+      ORIGENS_PERMITIDAS: http://localhost:5173
+    ports:
+      - "8083:8083"
+
+  servico-notificacoes:
+    build:
+      context: .
+      args:
+        MODULO: servico-notificacoes
+    container_name: vitrine-notificacoes
+    depends_on:
+      broker:
+        condition: service_healthy
+      banco-notificacoes:
+        condition: service_healthy
+    environment:
+      BANCO_URL: jdbc:postgresql://banco-notificacoes:5432/vitrine_notificacoes
+      BANCO_USUARIO: vitrine
+      BANCO_SENHA: vitrine
+      KAFKA_SERVIDORES: broker:29092
+      TRANSPORTE_DE_EVENTOS: kafka
+      PORTA: 8084
+      EMAIL_ATIVO: "false"
+      VITRINE_SEGREDO_JWT: segredo-de-desenvolvimento-com-mais-de-32-bytes
+    ports:
+      - "8084:8084"
+
+  borda:
+    build:
+      context: .
+      args:
+        MODULO: borda
+    container_name: vitrine-borda
+    depends_on:
+      - servico-cadastro
+      - servico-catalogo
+      - servico-busca
+      - servico-notificacoes
+    environment:
+      SERVICO_CADASTRO: http://servico-cadastro:8081
+      SERVICO_CATALOGO: http://servico-catalogo:8082
+      SERVICO_BUSCA: http://servico-busca:8083
+      SERVICO_NOTIFICACOES: http://servico-notificacoes:8084
+      PORTA: 8080
+    ports:
+      - "8080:8080"

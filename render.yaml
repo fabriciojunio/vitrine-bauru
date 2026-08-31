@@ -1,0 +1,61 @@
+# Implantação gratuita do back-end no Render.
+#
+# É um "blueprint": no painel do Render, em New > Blueprint, apontando para
+# este repositório, ele lê este arquivo e cria tudo sozinho. Não há passo
+# manual além de colar a URL do banco.
+#
+# O que sobe aqui é o servidor único: os quatro serviços num processo só, com
+# o transporte de eventos dentro do processo. O motivo está em
+# docs/adr/0002-transporte-de-eventos.md, e o resumo é que não existe Kafka
+# gerenciado com camada gratuita permanente, e quatro processos Java não cabem
+# em 750 horas por mês de camada gratuita.
+#
+# O banco não está aqui de propósito: o PostgreSQL gratuito do Render expira
+# em 30 dias, o que mataria a demonstração no meio do semestre. O projeto usa
+# o Neon, cuja camada gratuita não expira. Ver docs/IMPLANTACAO.md.
+
+services:
+  - type: web
+    name: vitrine-bauru-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health
+    autoDeployTrigger: commit
+
+    envVars:
+      - key: BANCO_URL
+        sync: false # colado à mão: vem do painel do Neon
+      - key: BANCO_USUARIO
+        sync: false
+      - key: BANCO_SENHA
+        sync: false
+
+      # Segredo do token: gerado pelo próprio Render, e nunca commitado.
+      - key: VITRINE_SEGREDO_JWT
+        generateValue: true
+
+      - key: TRANSPORTE_DE_EVENTOS
+        value: processo
+      - key: DEMO_ATIVO
+        value: "true"
+      - key: EMAIL_ATIVO
+        value: "false"
+      - key: BRASILAPI_ATIVA
+        value: "true"
+      - key: LIMITE_ATIVO
+        value: "true"
+
+      # Domínio do frontend na Vercel. Trocar aqui depois do primeiro deploy.
+      - key: ORIGENS_PERMITIDAS
+        sync: false
+
+      # A camada gratuita do Neon limita conexão, e o serviço hiberna: um pool
+      # pequeno com vida curta evita conexão morta depois da hibernação.
+      - key: BANCO_MAXIMO_DE_CONEXOES
+        value: "5"
+
+      - key: PORTA
+        value: "8080"
