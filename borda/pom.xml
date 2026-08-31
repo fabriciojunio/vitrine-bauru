@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>br.com.vitrinebauru</groupId>
+    <artifactId>vitrine-bauru</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>borda</artifactId>
+  <name>Vitrine Bauru :: Borda</name>
+  <description>Porta de entrada unica: roteamento por caminho, CORS e limite de requisicoes.</description>
+
+  <dependencies>
+    <!--
+      A borda nao depende do modulo plataforma de proposito. A plataforma traz
+      JPA, seguranca e outbox, e um roteador nao precisa de banco: dando essa
+      dependencia a ele, o gateway passaria a exigir Postgres no ar para
+      subir, e a porta de entrada seria o componente mais fragil do sistema.
+    -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway-server-webmvc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals><goal>repackage</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
