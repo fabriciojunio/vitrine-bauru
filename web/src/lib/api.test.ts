@@ -11,6 +11,22 @@ function resposta(corpo: unknown, status = 200): Response {
   } as unknown as Response;
 }
 
+/**
+ * O que a hospedagem estática responde quando o back-end não está publicado:
+ * 200, mas com o index.html da própria aplicação no corpo.
+ */
+function respostaComPagina(): Response {
+  return {
+    ok: true,
+    status: 200,
+    headers: new Headers({ 'Content-Type': 'text/html; charset=utf-8' }),
+    json: async () => {
+      throw new Error('não é JSON');
+    },
+    text: async () => '<!doctype html><html><body><div id="raiz"></div></body></html>',
+  } as unknown as Response;
+}
+
 function respostaVazia(status: number): Response {
   return {
     ok: status >= 200 && status < 300,
@@ -32,6 +48,20 @@ describe('cliente da API', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(resposta({ total: 3 })));
 
     await expect(chamar('/api/busca/produtos')).resolves.toEqual({ total: 3 });
+  });
+
+  it('trata 200 com HTML como servidor fora do ar', async () => {
+    // Aconteceu de verdade em produção: a regra de reescrita da hospedagem
+    // mandava /api/* para o index.html, o cliente devolvia a página como se
+    // fosse a resposta, e a vitrine lia .bairros de uma string. A tela ficava
+    // em branco com um TypeError no console, em vez de mostrar o aviso de
+    // servidor fora do ar.
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(respostaComPagina()));
+
+    const falha = await chamar('/api/busca/resumo').catch((erro) => erro as ErroDaApi);
+
+    expect(falha).toBeInstanceOf(ErroDaApi);
+    expect((falha as ErroDaApi).ehDeConexao).toBe(true);
   });
 
   it('não manda cabeçalho de autenticação quando não há sessão', async () => {

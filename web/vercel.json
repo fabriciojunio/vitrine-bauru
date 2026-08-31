@@ -5,7 +5,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/((?!assets/|arco.svg|robots.txt).*)",
+      "source": "/((?!api/|assets/|arco.svg|robots.txt).*)",
       "destination": "/index.html"
     }
   ],
