@@ -1,0 +1,146 @@
+spring:
+  application:
+    name: vitrine-bauru
+
+  datasource:
+    # Um banco só, com um esquema por serviço. Em implantação separada cada
+    # serviço tem o próprio banco; aqui a fronteira é o esquema, e nenhum
+    # serviço lê a tabela do vizinho (há teste de arquitetura para isso).
+    url: ${BANCO_URL:jdbc:postgresql://localhost:5432/vitrine}
+    username: ${BANCO_USUARIO:vitrine}
+    password: ${BANCO_SENHA:vitrine}
+    hikari:
+      # Camada gratuita de Postgres costuma dar entre 20 e 60 conexões, e este
+      # processo é o único cliente. Oito atende os quatro módulos com folga.
+      maximum-pool-size: ${BANCO_MAXIMO_DE_CONEXOES:8}
+      connection-timeout: 20000
+      # O banco gratuito hiberna quando fica sem uso; conexão velha volta morta.
+      max-lifetime: 240000
+      idle-timeout: 120000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+          batch_size: 30
+        order_inserts: true
+
+  flyway:
+    enabled: true
+    locations: >
+      classpath:db/plataforma,
+      classpath:db/cadastro,
+      classpath:db/catalogo,
+      classpath:db/busca,
+      classpath:db/notificacoes
+    schemas: public
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: ${PORTA:8080}
+  shutdown: graceful
+  error:
+    include-message: never
+    include-stacktrace: never
+  compression:
+    # A vitrine devolve JSON com dezenas de produtos. Comprimir economiza
+    # banda gratuita e tempo de carregamento no celular com sinal ruim.
+    enabled: true
+    mime-types: application/json,application/problem+json,text/html
+    min-response-size: 1024
+
+vitrine:
+  nome: ${VITRINE_NOME:Vitrine Bauru}
+  # Liga a cadeia de segurança única e desliga as quatro individuais.
+  servidor-unico: true
+  mensageria:
+    # Sem broker: o outbox entrega direto ao despachante, no mesmo processo.
+    transporte: ${TRANSPORTE_DE_EVENTOS:processo}
+    grupo: vitrine-unico
+  outbox:
+    intervalo-ms: ${OUTBOX_INTERVALO_MS:500}
+  seguranca:
+    segredo: ${VITRINE_SEGREDO_JWT:segredo-de-desenvolvimento-com-mais-de-32-bytes}
+    duracao-do-acesso: 15m
+    duracao-do-refresh: 7d
+    origens-permitidas: ${ORIGENS_PERMITIDAS:http://localhost:5173}
+  limite:
+    ativo: ${LIMITE_ATIVO:true}
+    regras:
+      - padrao: /api/cadastro/auth/login
+        capacidade: 5
+        janela: 1m
+      - padrao: /api/cadastro/empreendedores
+        capacidade: 10
+        janela: 1h
+      - padrao: /api/cadastro/auth/renovar
+        capacidade: 30
+        janela: 1m
+      - padrao: /api/catalogo/meus-produtos/*/imagem
+        capacidade: 20
+        janela: 1h
+      - padrao: /api/busca/produtos
+        capacidade: 120
+        janela: 1m
+      - padrao: /api/busca/lojas
+        capacidade: 120
+        janela: 1m
+      - padrao: /api/busca/contatos
+        capacidade: 30
+        janela: 1m
+  demo:
+    ativo: ${DEMO_ATIVO:false}
+    senha: ${DEMO_SENHA:demonstracao2026}
+  brasilapi:
+    ativa: ${BRASILAPI_ATIVA:true}
+    url: https://brasilapi.com.br/api
+  email:
+    ativo: ${EMAIL_ATIVO:false}
+    chave: ${RESEND_CHAVE:}
+    remetente: ${EMAIL_REMETENTE:Vitrine Bauru <nao-responda@vitrinebauru.com.br>}
+    intervalo-ms: 10000
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      brasilapi:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 2
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when-authorized
+  metrics:
+    tags:
+      servico: vitrine-unico
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    br.com.vitrinebauru: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{correlacao:-}] %logger{36} - %msg%n"
