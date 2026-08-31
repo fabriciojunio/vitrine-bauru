@@ -94,8 +94,8 @@ export function Vitrine() {
         baixo. É o que faz a página ler como serviço da prefeitura no primeiro
         segundo, antes de qualquer texto.
       */}
-      <section className="bg-selo text-papel-claro border-b-4 border-tinta relative overflow-hidden">
-        <div className="arcada absolute inset-x-0 bottom-0 h-32" aria-hidden="true" />
+      <section className="bg-selo text-chapa border-b-4 border-tinta relative overflow-hidden">
+        <div className="arcada absolute inset-x-0 bottom-0 h-28" aria-hidden="true" />
 
         <div className="max-w-6xl mx-auto px-4 py-10 sm:py-14 relative">
           <p className="selo-categoria selo-no-verde mb-4">Uma iniciativa da SEDECON Bauru</p>
@@ -104,7 +104,7 @@ export function Vitrine() {
             O comércio do seu bairro, sem intermediário.
           </h1>
 
-          <p className="mt-3 text-lg text-papel/90 max-w-2xl">
+          <p className="mt-3 text-lg text-fundo/90 max-w-2xl">
             Encontre quem produz e presta serviço em Bauru e fale direto no WhatsApp. Sem taxa,
             sem cadastro para comprar, sem carrinho.
           </p>
@@ -131,39 +131,33 @@ export function Vitrine() {
             <Botao type="submit">Procurar</Botao>
           </form>
 
-          {resumo && (
-            <dl className="mt-7 flex flex-wrap gap-x-10 gap-y-4">
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-papel/70">Lojas no ar</dt>
-                <dd className="font-display text-3xl font-bold">{resumo.lojas}</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-papel/70">
-                  Produtos e serviços
-                </dt>
-                <dd className="font-display text-3xl font-bold">{resumo.produtos}</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-papel/70">
-                  Bairros atendidos
-                </dt>
-                <dd className="font-display text-3xl font-bold">{resumo.bairros.length}</dd>
-              </div>
-            </dl>
-          )}
         </div>
+
+        {/* Os números ficam numa faixa própria, embaixo da arcada. Antes eles
+            passavam por baixo dos arcos e não dava para ler nenhum dos dois. */}
+        {resumo && (
+          <div className="relative bg-selo-escuro border-t-2 border-tinta">
+            <div className="max-w-6xl mx-auto px-4 py-4">
+              <dl className="flex flex-wrap gap-x-12 gap-y-3">
+                <Numero rotulo="Lojas no ar" valor={resumo.lojas} />
+                <Numero rotulo="Produtos e serviços" valor={resumo.produtos} />
+                <Numero rotulo="Bairros atendidos" valor={resumo.bairros.length} />
+              </dl>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Atalhos por categoria: quem chegou sem saber o que procurar precisa de
           um ponto de partida, e não de um campo de busca vazio. */}
       {resumo && resumo.categorias.length > 0 && (
         <nav
-          className="bg-papel-fundo border-b-2 border-linha"
+          className="bg-faixa border-b-2 border-linha"
           aria-label="Categorias em destaque"
         >
-          <div className="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto sm:flex-wrap sm:overflow-x-visible">
             <button
-              className={`selo-categoria py-1.5 ${categoria === '' ? 'bg-mostarda' : ''}`}
+              className={`selo-categoria py-1.5 ${categoria === '' ? 'bg-sinal' : ''}`}
               onClick={() => trocarFiltro('categoria', '')}
             >
               Tudo
@@ -171,7 +165,7 @@ export function Vitrine() {
             {resumo.categorias.map((nome) => (
               <button
                 key={nome}
-                className={`selo-categoria py-1.5 ${categoria === nome ? 'bg-mostarda' : ''}`}
+                className={`selo-categoria py-1.5 ${categoria === nome ? 'bg-sinal' : ''}`}
                 onClick={() => trocarFiltro('categoria', nome)}
               >
                 {nome}
@@ -185,14 +179,16 @@ export function Vitrine() {
         {/* A categoria já tem os atalhos acima; aqui fica só o bairro, que é o
             filtro que o consumidor mais usa e que não cabe numa fila de
             botões, porque Bauru tem dezenas deles. */}
-        <div className="grid gap-3 sm:grid-cols-[minmax(0,18rem)_auto] items-end mb-8">
-          <Selecao
-            etiqueta="Bairro"
-            vazio="Todos os bairros"
-            opcoes={resumo?.bairros ?? []}
-            value={bairro}
-            onChange={(evento) => trocarFiltro('bairro', evento.target.value)}
-          />
+        <div className="flex flex-wrap items-end gap-3 mb-8">
+          <div className="w-full sm:w-72">
+            <Selecao
+              etiqueta="Bairro"
+              vazio="Todos os bairros"
+              opcoes={resumo?.bairros ?? []}
+              value={bairro}
+              onChange={(evento) => trocarFiltro('bairro', evento.target.value)}
+            />
+          </div>
 
           {temFiltro && (
             <Botao
@@ -204,6 +200,12 @@ export function Vitrine() {
             >
               Limpar filtros
             </Botao>
+          )}
+
+          {resultado && (
+            <p className="etiqueta mb-3 ml-auto text-concreto">
+              {resultado.total} {resultado.total === 1 ? 'resultado' : 'resultados'}
+            </p>
           )}
         </div>
 
@@ -235,10 +237,6 @@ export function Vitrine() {
 
         {!carregando && resultado && resultado.conteudo.length > 0 && (
           <>
-            <p className="text-sm text-concreto mb-4">
-              {resultado.total} {resultado.total === 1 ? 'resultado' : 'resultados'}
-            </p>
-
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {resultado.conteudo.map((produto) => (
                 <CartaoDeProduto key={produto.id} produto={produto} />
@@ -275,6 +273,16 @@ export function Vitrine() {
   );
 }
 
+/** Um número do resumo, na faixa embaixo do herói. */
+function Numero({ rotulo, valor }: { rotulo: string; valor: number }) {
+  return (
+    <div>
+      <dt className="etiqueta mb-0 text-fundo/75">{rotulo}</dt>
+      <dd className="font-display text-3xl font-bold text-chapa leading-none mt-1">{valor}</dd>
+    </div>
+  );
+}
+
 /**
  * Explica o produto em três passos, no fim da página.
  *
@@ -305,7 +313,7 @@ function ComoFunciona() {
   ];
 
   return (
-    <section className="bg-papel-fundo border-y-2 border-linha arcada-tinta">
+    <section className="bg-faixa border-y-2 border-linha arcada-tinta">
       <div className="max-w-6xl mx-auto px-4 py-12">
         <TituloDeSecao descricao="A plataforma aproxima e sai do caminho.">
           Como funciona
@@ -313,8 +321,8 @@ function ComoFunciona() {
 
         <div className="grid gap-6 sm:grid-cols-3">
           {passos.map((passo) => (
-            <div key={passo.numero} className="quadro carimbo-leve p-5">
-              <span className="font-display text-4xl font-bold text-terracota leading-none">
+            <div key={passo.numero} className="quadro placa-leve p-5">
+              <span className="font-display text-4xl font-bold text-selo leading-none">
                 {passo.numero}
               </span>
               <h3 className="text-xl mt-2">{passo.titulo}</h3>
@@ -323,10 +331,10 @@ function ComoFunciona() {
           ))}
         </div>
 
-        <div className="quadro carimbo p-6 mt-8 bg-selo text-papel-claro flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+        <div className="quadro placa-no-verde p-6 mt-8 bg-selo text-chapa flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
           <div>
-            <h3 className="text-2xl text-papel-claro">Você tem um negócio em Bauru?</h3>
-            <p className="text-papel/90 mt-1">
+            <h3 className="text-2xl text-chapa">Você tem um negócio em Bauru?</h3>
+            <p className="text-fundo/90 mt-1">
               O cadastro é de graça. A SEDECON confere os dados e sua loja entra na vitrine.
             </p>
           </div>

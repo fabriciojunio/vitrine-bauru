@@ -82,7 +82,7 @@ export function Indicadores() {
                       é uma barra, e uma dependência a mais pesaria mais que o
                       problema que resolve. */}
                   <span
-                    className="h-4 bg-terracota border-2 border-tinta"
+                    className="h-4 bg-sinal border-2 border-tinta"
                     style={{ width: `${Math.round((quantidade / maiorBairro) * 70)}%` }}
                     aria-hidden="true"
                   />
@@ -115,7 +115,7 @@ export function Indicadores() {
         </section>
       </div>
 
-      <section className="quadro p-5 mt-6 bg-mostarda-claro">
+      <section className="quadro p-5 mt-6 bg-sinal-claro">
         <h3 className="font-display text-xl font-bold mb-1">
           Aprovados que ainda não publicaram nada ({painel.aprovadosSemNenhumProduto})
         </h3>
@@ -166,7 +166,7 @@ function Cartao({
   destaque?: boolean;
 }) {
   return (
-    <div className={`quadro p-4 ${destaque ? 'carimbo bg-selo-claro' : 'carimbo-leve'}`}>
+    <div className={`quadro p-4 ${destaque ? 'placa bg-selo-claro' : 'placa-leve'}`}>
       <p className="font-display text-4xl font-bold">{valor}</p>
       <p className="text-sm text-tinta-suave mt-1">{titulo}</p>
       {rodape && <p className="text-xs text-concreto mt-1">{rodape}</p>}

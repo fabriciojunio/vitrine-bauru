@@ -15,7 +15,7 @@ import { Arco } from './Basicos';
 export function ApiDesligada({ aoTentarDeNovo }: { aoTentarDeNovo?: () => void }) {
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-      <Arco className="text-terracota mx-auto mb-3" />
+      <Arco className="text-selo mx-auto mb-3" />
 
       <h2 className="text-2xl sm:text-3xl">A vitrine ainda não está respondendo</h2>
 
@@ -29,7 +29,7 @@ export function ApiDesligada({ aoTentarDeNovo }: { aoTentarDeNovo?: () => void }
       <p className="text-tinta-suave mt-3">
         A outra: esta publicação do site ainda não foi ligada ao endereço da
         API. Quem cuida do projeto resolve isso configurando a variável{' '}
-        <code className="font-mono text-sm bg-papel-fundo px-1 border border-linha">
+        <code className="font-mono text-sm bg-faixa px-1 border border-linha">
           VITE_API_URL
         </code>
         .

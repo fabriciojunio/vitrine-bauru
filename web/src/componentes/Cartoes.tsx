@@ -16,10 +16,10 @@ import type { LojaNaVitrine, ProdutoNaVitrine } from '@/lib/tipos';
  */
 export function CartaoDeProduto({ produto }: { produto: ProdutoNaVitrine }) {
   return (
-    <article className="quadro carimbo overflow-hidden flex flex-col">
+    <article className="quadro overflow-hidden flex flex-col">
       <div className="relative">
         <Foto url={produto.imagemUrl} nome={produto.nome} categoria={produto.categoria} />
-        <span className="selo-categoria absolute left-2 top-2 bg-papel-claro">
+        <span className="selo-categoria absolute left-2 top-2 bg-chapa">
           {produto.categoria}
         </span>
       </div>
@@ -70,10 +70,10 @@ export function CartaoDeProdutoComContato({
   nomeDoNegocio: string;
 }) {
   return (
-    <article className="quadro carimbo overflow-hidden flex flex-col">
+    <article className="quadro overflow-hidden flex flex-col">
       <div className="relative">
         <Foto url={produto.imagemUrl} nome={produto.nome} categoria={produto.categoria} />
-        <span className="selo-categoria absolute left-2 top-2 bg-papel-claro">
+        <span className="selo-categoria absolute left-2 top-2 bg-chapa">
           {produto.categoria}
         </span>
       </div>
@@ -110,18 +110,21 @@ export function CartaoDeProdutoComContato({
 
 export function CartaoDeLoja({ loja }: { loja: LojaNaVitrine }) {
   return (
-    <article className="quadro carimbo overflow-hidden flex flex-col">
+    <article className="quadro overflow-hidden flex flex-col">
       <div className="relative">
         <Foto
           url={loja.fotoDeCapaUrl}
           nome={loja.nomeDoNegocio}
           categoria={loja.categoria}
           proporcao="aspect-[16/9]"
+          alturaSemFoto="h-20"
         />
-        <span className="selo-categoria absolute left-2 top-2 bg-papel-claro">
-          {loja.categoria}
-        </span>
-        <span className="selo-categoria absolute right-2 top-2 bg-selo-claro">{loja.bairro}</span>
+        {/* As duas etiquetas dividem a mesma linha. Soltas nos cantos, uma
+            categoria longa com um bairro longo se atropelavam. */}
+        <div className="absolute left-2 right-2 top-2 flex items-start justify-between gap-2">
+          <span className="selo-categoria bg-chapa truncate max-w-[58%]">{loja.categoria}</span>
+          <span className="selo-categoria bg-selo-claro truncate max-w-[58%]">{loja.bairro}</span>
+        </div>
       </div>
 
       <div className="p-3.5 flex flex-col gap-2 grow">

@@ -239,7 +239,7 @@ export function TituloDeSecao({
 }) {
   return (
     <div className="mb-6">
-      <div className="flex items-end gap-2 text-terracota">
+      <div className="flex items-end gap-2 text-selo">
         <Arco />
         <span className="h-[2px] grow bg-linha mb-[2px]" aria-hidden="true" />
       </div>

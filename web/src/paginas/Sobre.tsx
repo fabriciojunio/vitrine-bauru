@@ -24,7 +24,7 @@ export function Sobre() {
           pessoal alcançar quem mora a dez quadras de distância e não sabe que eles existem.
         </p>
 
-        <div className="quadro p-5 bg-papel-fundo">
+        <div className="quadro p-5 bg-faixa">
           <h3 className="font-display text-xl font-bold text-tinta">O que a plataforma faz</h3>
           <ul className="mt-2 list-disc pl-5 space-y-1">
             <li>Mostra produtos e serviços de pequenos negócios de Bauru.</li>
@@ -70,7 +70,7 @@ export function Sobre() {
 export function NaoEncontrada() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-      <p className="font-display text-6xl font-bold text-terracota">404</p>
+      <p className="font-display text-6xl font-bold text-selo">404</p>
       <h1 className="text-3xl mt-2">Esta página não existe</h1>
       <p className="text-tinta-suave mt-2">
         Pode ser um link antigo, ou uma loja que saiu da plataforma.

@@ -85,7 +85,7 @@ export function Moderacao() {
 
       <div className="flex flex-col gap-5">
         {fila?.conteudo.map((cadastro) => (
-          <article key={cadastro.id} className="quadro carimbo-leve p-5">
+          <article key={cadastro.id} className="quadro placa-leve p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h3 className="text-xl">{cadastro.nomeDoNegocio}</h3>
@@ -95,7 +95,7 @@ export function Moderacao() {
               </div>
               <p
                 className={`selo-categoria ${
-                  cadastro.diasNaFila >= 7 ? 'bg-mostarda' : 'bg-papel-fundo'
+                  cadastro.diasNaFila >= 7 ? 'bg-sinal' : 'bg-faixa'
                 }`}
               >
                 esperando {tempoDesde(cadastro.cadastradoEm)}

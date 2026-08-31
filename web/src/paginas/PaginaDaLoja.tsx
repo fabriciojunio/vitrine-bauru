@@ -57,14 +57,15 @@ export function PaginaDaLoja() {
 
   return (
     <div>
-      <section className="border-b-2 border-tinta bg-papel-fundo">
+      <section className="border-b-2 border-tinta bg-faixa">
         <div className="max-w-5xl mx-auto px-4 py-8 grid gap-6 md:grid-cols-[280px_1fr] items-start">
-          <div className="quadro carimbo overflow-hidden">
+          <div className="quadro overflow-hidden">
             <Foto
               url={loja.fotoDeCapaUrl}
               nome={loja.nomeDoNegocio}
               categoria={loja.categoria}
               proporcao="aspect-square"
+              alturaSemFoto="h-32"
             />
           </div>
 
