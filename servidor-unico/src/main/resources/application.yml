@@ -131,6 +131,19 @@ management:
       probes:
         enabled: true
       show-details: when-authorized
+  info:
+    # Publica versão e horário da construção em /actuator/info, a partir do
+    # build-info.properties que o Maven grava. É o que responde "qual versão
+    # está no ar" sem abrir o painel do Render, e é o que o fluxo de
+    # publicação usa para saber que o deploy novo subiu de verdade: só o
+    # /actuator/health não serve, porque a instância velha responde 200
+    # enquanto a nova ainda está construindo.
+    build:
+      enabled: true
+    java:
+      enabled: false
+    env:
+      enabled: false
   metrics:
     tags:
       servico: vitrine-unico

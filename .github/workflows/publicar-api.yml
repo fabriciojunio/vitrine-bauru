@@ -36,6 +36,15 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
 
     steps:
+      - name: Anotar o que está no ar antes de publicar
+        run: |
+          # Guardado para comparar depois. Sem esta marca não dá para saber se
+          # o que está respondendo é a versão nova ou a velha.
+          antes=$(curl -s --max-time 30 "${{ secrets.DEMO_URL }}/actuator/info" \
+            | sed -n 's/.*"time":"\([^"]*\)".*/\1/p')
+          echo "Construção no ar agora: ${antes:-desconhecida}"
+          echo "ANTES=$antes" >> "$GITHUB_ENV"
+
       - name: Disparar
         run: |
           if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
@@ -45,18 +54,22 @@ jobs:
           curl -sf -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" > /dev/null
           echo "Deploy disparado no Render."
 
-      - name: Esperar a API responder com a versão nova
+      - name: Esperar a versão nova entrar no ar
         run: |
+          # Esperar 200 não prova nada: a instância velha continua atendendo
+          # enquanto a nova constrói, e o passo ficaria verde em segundos.
+          # O que prova é o horário de construção publicado mudar.
+          #
           # A partida a frio levou 253 segundos na medição real, e o build da
           # imagem vem antes disso. Quinze minutos cobre os dois com folga.
           for tentativa in $(seq 1 60); do
-            codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
-              "${{ secrets.DEMO_URL }}/actuator/health" || true)
-            if [ "$codigo" = "200" ]; then
-              echo "API de pé na tentativa $tentativa."
+            agora=$(curl -s --max-time 30 "${{ secrets.DEMO_URL }}/actuator/info" \
+              | sed -n 's/.*"time":"\([^"]*\)".*/\1/p' || true)
+            if [ -n "$agora" ] && [ "$agora" != "$ANTES" ]; then
+              echo "Versão nova no ar na tentativa $tentativa, construída em $agora."
               exit 0
             fi
             sleep 15
           done
-          echo "::error::A API não voltou a responder em quinze minutos. Confira o painel do Render."
+          echo "::error::A versão nova não entrou no ar em quinze minutos. Confira o painel do Render."
           exit 1

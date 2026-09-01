@@ -64,6 +64,20 @@
           <execution>
             <goals><goal>repackage</goal></goals>
           </execution>
+          <!--
+            Grava versão e horário da construção em build-info.properties, que
+            o actuator publica em /actuator/info. Existe para responder "qual
+            versão está no ar", que antes só dava para saber olhando o painel.
+
+            Quem depende disso é o fluxo publicar-api.yml: depois de disparar
+            o deploy, ele espera o horário publicado ficar mais novo que o do
+            começo do fluxo. Sem isso o fluxo ficava verde na hora, porque a
+            instância velha continua respondendo 200 enquanto a nova constrói.
+          -->
+          <execution>
+            <id>informacao-da-construcao</id>
+            <goals><goal>build-info</goal></goals>
+          </execution>
         </executions>
       </plugin>
     </plugins>
