@@ -119,6 +119,18 @@ O repositório tem um `render.yaml`, então o Render monta o serviço sozinho:
 
 1. Entre em render.com e conecte a conta do GitHub.
 2. **New > Blueprint**, escolha o repositório `vitrine-bauru` e confirme.
+
+   **Use Blueprint mesmo, e não New > Web Service.** Criando o serviço pela
+   API ou escolhendo o tipo à mão, o `render.yaml` não é lido, e o que se
+   perde não aparece na tela: o serviço sobe e funciona. Foi o que houve aqui,
+   e o campo que ficou vazio foi o **Health Check Path**. Sem ele o Render
+   manda tráfego para a instância nova antes de a aplicação estar de pé, e a
+   partida leva 253 segundos com Flyway e semeador rodando no meio, então quem
+   abrisse durante um deploy pegava erro. Sem ele o Render também não percebe
+   aplicação travada com o processo vivo, que é o caso do pool de conexão
+   esgotado. Se o serviço já existe, confira em **Settings > Health Checks**
+   que o caminho é `/actuator/health`.
+
 3. O Render lê o `render.yaml`, cria o serviço e pede os valores que faltam.
    Preencha:
 
