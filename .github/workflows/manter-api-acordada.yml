@@ -7,6 +7,13 @@
 # Roda o dia inteiro, de propósito: a decisão foi nunca deixar dormir, para
 # quem abrir o endereço nunca esperar.
 #
+# ATENÇÃO, medido em 01/09/2026: **este fluxo sozinho não dá conta.** Pedimos
+# execução a cada dez minutos e o GitHub entregou quatro em dezenove horas,
+# espaçadas de cinco em cinco horas. Agendamento na camada gratuita é promessa,
+# não garantia, e o serviço dormiu no intervalo. Quem mantém acordado de
+# verdade é um monitor externo, e este fluxo ficou como rede de segurança para
+# quando o monitor externo falhar. Ver docs/IMPLANTACAO.md.
+#
 # A conta que isso exige: o ping consome as mesmas horas de instância que ele
 # protege. A cota gratuita é de 750 horas por mês e um mês de 31 dias tem 744,
 # então 24 horas por dia cabe, com seis horas de margem e nada mais. E a cota é
@@ -35,9 +42,9 @@ concurrency:
 jobs:
   acordar:
     runs-on: ubuntu-latest
-    # O passo inteiro não deve passar de dois minutos nem quando o serviço
-    # está frio, e sem isso um travamento seguraria um executor à toa.
-    timeout-minutes: 3
+    # Folga sobre os 240 segundos do curl, para o passo não ser cortado
+    # justamente quando o serviço está subindo depois de horas parado.
+    timeout-minutes: 6
     steps:
       - name: Acordar o serviço
         env:
@@ -53,10 +60,17 @@ jobs:
           # O caminho é o de saúde de propósito. O robots.txt não serve: com o
           # serviço dormindo, o Render responde a esse caminho sozinho e a
           # requisição nunca chega na aplicação, então não acorda nada.
+          # Duzentos e quarenta segundos, e não cento e vinte: quando o
+          # agendamento falha e o serviço dorme por horas, acordar passa
+          # dos dois minutos, e o limite curto abortava a chamada bem no
+          # meio da subida. O "|| true" substitui o echo de reserva: o
+          # próprio curl já escreve 000 quando falha, e os dois juntos
+          # faziam o log sair como "Resposta 000000".
           inicio=$(date +%s)
-          codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 \
-            "$DEMO_URL/actuator/health" || echo "000")
+          codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 240 \
+            "$DEMO_URL/actuator/health" || true)
           fim=$(date +%s)
+          codigo=${codigo:-000}
 
           echo "Resposta $codigo em $((fim - inicio))s"
 

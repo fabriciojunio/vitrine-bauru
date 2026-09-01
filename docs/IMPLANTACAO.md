@@ -57,25 +57,58 @@ o servidor está acordando e que não precisa recarregar. Antes disso não fala
 nada, porque na maioria das visitas a resposta chega antes e explicar
 hibernação para quem esperou meio segundo só cria dúvida.
 
-**Um fluxo mantém acordado o tempo todo.** O
-`.github/workflows/manter-api-acordada.yml` bate no `/actuator/health` a cada
-dez minutos, sem parar. Precisa do segredo `DEMO_URL`, que é o mesmo do
-reinício da demonstração.
+**Um monitor externo mantém acordado.** É o que funciona, e a escolha veio de
+uma medição, não de preferência. Use o [cron-job.org](https://cron-job.org) ou
+o [UptimeRobot](https://uptimerobot.com), os dois gratuitos: aponte para
+`https://vitrine-bauru-api.onrender.com/actuator/health` a cada cinco minutos,
+método GET, e pronto.
 
-**A conta que isso exige, e que precisa ser respeitada:** o ping consome as
+**Por que não bastou o GitHub Actions.** O
+`.github/workflows/manter-api-acordada.yml` pede execução a cada dez minutos.
+Em 01/09/2026 conferimos o que o GitHub entregou de fato: **quatro execuções em
+dezenove horas, espaçadas de cinco em cinco horas.** Agendamento na camada
+gratuita é ordem de chegada, não compromisso, e fluxo de alta frequência é o
+primeiro a ser descartado quando a fila aperta. Pior: dormindo há horas, o
+serviço passou a demorar mais que os 120 segundos do `curl`, e as três últimas
+execuções registraram `000` sem resposta.
+
+O fluxo continua no repositório, agora com limite de 240 segundos e como **rede
+de segurança**: se o monitor externo cair, ele ainda acorda o serviço de vez em
+quando. O que não dá é depender só dele.
+
+**A conta de horas, que vale para qualquer um dos dois:** o ping consome as
 mesmas horas de instância que ele protege. A cota gratuita é de 750 horas por
 mês e um mês de 31 dias tem 744, então 24 horas por dia cabe com seis horas de
-margem e nada mais. Como a cota é da conta inteira, **enquanto este fluxo rodar
-não dá para manter um segundo serviço web gratuito no Render**: os dois somados
-estouram o limite e ambos param até virar o mês. Se precisar de outro serviço,
-reduza a janela para o horário útil, com o cron `*/10 10-23,0-2 * * *`, que
-gasta cerca de 527 horas.
+margem e nada mais. Como a cota é da conta inteira, **enquanto o serviço ficar
+acordado o tempo todo não dá para manter um segundo serviço web gratuito no
+Render**: os dois somados estouram o limite e ambos param até virar o mês. Se
+precisar de outro serviço, limite o monitor ao horário útil.
 
-**Uma ressalva sobre o agendamento do GitHub:** fluxo agendado na camada
-gratuita costuma atrasar, e o atraso pode passar dos quinze minutos. Na maior
-parte do tempo funciona; quando não funcionar, quem cobre é o aviso na tela. Se
-quiser algo à prova disso, um monitor externo como o UptimeRobot bate de cinco
-em cinco minutos sem atraso, e a camada gratuita dele basta.
+## Por que a API não vai para a Vercel
+
+A pergunta é natural, porque o front-end já está lá e a Vercel passou a aceitar
+`Dockerfile.vercel` com Spring Boot desde junho de 2026. Só que, para este
+caso, mudar piora. Três motivos, do mais grave para o menos:
+
+**O container da Vercel escala para zero depois de cinco minutos sem tráfego**,
+contra os quinze do Render. O problema que se quer resolver ficaria três vezes
+mais frequente.
+
+**Os processos de fundo parariam.** A Vercel serve requisição HTTP e cobra CPU
+ativa; entre requisições o container não tem execução garantida. Este projeto
+depende de trabalho que roda sozinho: o publicador do outbox a cada 500 ms, a
+varredura de exclusão da LGPD a cada dez minutos, o prazo da saga, o expurgo do
+inbox de madrugada. Isso é a arquitetura do sistema, não um detalhe. A própria
+documentação da Vercel recomenda Render para carga que "não cabe no modelo
+requisição-resposta ou precisa de instância sempre ligada".
+
+**A imagem provavelmente não cabe.** O limite é de 250 MB descompactados. O
+JRE Alpine dá cerca de 180 MB e o jar do servidor único tem 88 MB, o que passa
+de 260 MB. A exceção de 5 GB existe, mas só para Node.js, Bun e Python.
+
+Se um dia a exigência for uptime sem depender de ping, os caminhos reais são o
+plano pago do Render, uns sete dólares por mês, ou uma máquina Always Free da
+Oracle Cloud, que não hiberna e roda a JVM inteira sem adaptação.
 
 Se o projeto passar a ter uso de verdade, o plano pago do Render resolve por
 uns sete dólares por mês e dispensa tudo isso.
@@ -111,10 +144,10 @@ O repositório tem um `render.yaml`, então o Render monta o serviço sozinho:
    O segundo já deve trazer dez lojas e trinta produtos: com `DEMO_ATIVO=true`,
    a demonstração é semeada na primeira subida.
 
-**A camada gratuita hiberna depois de 15 minutos sem acesso.** A primeira
-requisição depois disso demora de trinta a sessenta segundos para responder,
-porque a máquina precisa acordar e a JVM precisa subir. Não é defeito, é o
-plano. Se isso atrapalhar numa apresentação, abra a página cinco minutos antes.
+**A camada gratuita hiberna depois de 15 minutos sem acesso**, e a primeira
+requisição depois disso espera a máquina acordar e a JVM subir. Como tratar
+isso está em "Sobre a hibernação", acima. Antes de uma apresentação, abra a
+página cinco minutos antes de qualquer jeito.
 
 ## 3. Front-end na Vercel
 
