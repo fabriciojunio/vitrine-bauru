@@ -6,6 +6,13 @@ name: Reiniciar a demonstração
 # o sistema é assim mesmo.
 #
 # Roda de madrugada, no horário de Bauru, quando ninguém está avaliando.
+#
+# A ordem aqui não é livre. O semeador é um ApplicationRunner: ele roda na
+# subida da aplicação e só quando as tabelas estão vazias. Então apagar o banco
+# sem subir a aplicação de novo deixa a demonstração no ar sem esquema nenhum,
+# devolvendo 500 em toda chamada. Foi o que aconteceu em 01/09/2026, quando o
+# monitor externo passou a manter a API acordada: a versão antiga deste fluxo
+# contava com a hibernação para reiniciar o processo, e sem ela nada subia.
 on:
   schedule:
     - cron: '0 6 * * *' # 03:00 em Brasília
@@ -15,20 +22,35 @@ jobs:
   reiniciar:
     name: Apagar e semear de novo
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Um deploy do Render reconstrói a imagem antes de subir, e a partida a
+    # frio da JVM levou 253 segundos na medição real. Vinte minutos cobre isso
+    # com folga sem segurar um executor à toa quando algo trava.
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v5
 
+      - name: Conferir que dá para reiniciar antes de apagar
+        run: |
+          # Este passo existe para não destruir o que não se sabe reconstruir.
+          # Sem o gatilho de deploy, o banco seria apagado e a aplicação
+          # continuaria de pé sobre um esquema que não existe mais.
+          if [ -z "${{ secrets.DEMO_BANCO_HOST }}" ]; then
+            echo "Segredos do banco não configurados. Nada a fazer."
+            echo "PULAR=sim" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            echo "::error::Falta o segredo RENDER_DEPLOY_HOOK. Sem ele a aplicação não sobe de novo depois de apagar o banco, e a demonstração fica devolvendo 500. Pegue o endereço em Render > vitrine-bauru-api > Settings > Deploy Hook."
+            exit 1
+          fi
+          echo "PULAR=nao" >> "$GITHUB_ENV"
+
       - name: Apagar os esquemas da demonstração
+        if: env.PULAR == 'nao'
         env:
           PGPASSWORD: ${{ secrets.DEMO_BANCO_SENHA }}
         run: |
-          if [ -z "${{ secrets.DEMO_BANCO_HOST }}" ]; then
-            echo "Segredos da demonstração não configurados. Nada a fazer."
-            exit 0
-          fi
-
           # Derruba tudo e deixa o Flyway reconstruir na próxima subida. É
           # mais confiável que apagar linha por linha: qualquer tabela nova
           # entra no reinício sem alguém lembrar de acrescentar aqui.
@@ -45,13 +67,29 @@ jobs:
           drop table if exists flyway_schema_history;
           SQL
 
-      - name: Acordar a aplicação para semear de novo
+      - name: Subir a aplicação de novo, que é o que semeia
+        if: env.PULAR == 'nao'
         run: |
-          if [ -z "${{ secrets.DEMO_URL }}" ]; then
-            exit 0
-          fi
-          # A camada gratuita hiberna: a primeira chamada acorda o serviço, que
-          # roda as migrações e semeia a demonstração na subida.
-          curl -sf --max-time 120 "${{ secrets.DEMO_URL }}/actuator/health" || true
-          sleep 60
-          curl -sf --max-time 60 "${{ secrets.DEMO_URL }}/api/busca/resumo"
+          # O gatilho é um endereço secreto que só sabe disparar deploy deste
+          # serviço. É de propósito mais estreito que uma chave de API da
+          # conta, que daria acesso a tudo que existe no Render.
+          curl -sf -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" > /dev/null
+          echo "Deploy disparado. Esperando a aplicação subir e semear."
+
+      - name: Conferir que a demonstração voltou com dados
+        if: env.PULAR == 'nao'
+        run: |
+          # Só 200 não basta: depois de apagar o banco a aplicação responde
+          # 200 com a vitrine vazia enquanto o semeador ainda não rodou. O que
+          # prova o reinício é a contagem de lojas.
+          for tentativa in $(seq 1 60); do
+            corpo=$(curl -s --max-time 30 "${{ secrets.DEMO_URL }}/api/busca/resumo" || true)
+            lojas=$(printf '%s' "$corpo" | sed -n 's/.*"lojas":\([0-9]*\).*/\1/p')
+            if [ -n "$lojas" ] && [ "$lojas" -gt 0 ] 2>/dev/null; then
+              echo "Demonstração no ar com $lojas lojas, na tentativa $tentativa."
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "::error::A demonstração não voltou a ter lojas em quinze minutos. Confira o painel do Render."
+          exit 1

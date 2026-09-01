@@ -213,12 +213,26 @@ O fluxo `.github/workflows/reiniciar-demonstracao.yml` faz isso de madrugada.
 Ele precisa destes segredos no repositório:
 
 ```
-DEMO_BANCO_HOST      ep-algo-123456.us-east-2.aws.neon.tech
+DEMO_BANCO_HOST      ep-algo-123456.us-west-2.aws.neon.tech   (sem o "-pooler")
 DEMO_BANCO_NOME      neondb
 DEMO_BANCO_USUARIO   usuario
 DEMO_BANCO_SENHA     senha
 DEMO_URL             https://vitrine-bauru-api.onrender.com
+RENDER_DEPLOY_HOOK   https://api.render.com/deploy/srv-...?key=...
 ```
+
+**O `RENDER_DEPLOY_HOOK` não é opcional**, e o fluxo se recusa a apagar o banco
+sem ele. O motivo é uma armadilha que custou uma demonstração fora do ar em
+01/09/2026: o semeador é um `ApplicationRunner`, roda na subida da aplicação e
+só com as tabelas vazias. A versão antiga do fluxo apagava o banco e contava
+com a **hibernação** para o processo subir de novo. Quando o monitor externo
+passou a manter a API acordada o tempo todo, o processo deixou de reiniciar
+sozinho: o banco era apagado, a aplicação continuava de pé sobre um esquema que
+não existia mais, e toda chamada virava 500 até alguém reiniciar à mão.
+
+O endereço está em **Render > vitrine-bauru-api > Settings > Deploy Hook**. É
+um gatilho estreito de propósito: só dispara deploy desse serviço, ao contrário
+de uma chave de API, que abriria a conta inteira.
 
 ## Voltando para quatro processos
 
