@@ -1,0 +1,62 @@
+name: Publicar a API
+
+# O deploy automático do Render parou de funcionar quando o repositório foi
+# recriado em 01/09/2026. O vínculo do Render é por identificador do
+# repositório no GitHub, e apagar e criar de novo com o mesmo nome gera outro
+# identificador: a tela mostra o endereço certo, o Render clona sem problema
+# quando alguém pede, mas o evento de push nunca casa com o serviço.
+#
+# Tentamos, sem resolver: reconectar a conta do GitHub, salvar a origem de
+# novo pelo painel, conferir a permissão do app (já estava em "All
+# repositories") e regravar repo e branch pela API.
+#
+# Este fluxo faz o que o Render deixou de fazer, usando o gatilho de deploy
+# que já existe para o reinício da demonstração. É até melhor que o original
+# em dois pontos: só publica se o CI passar, e só quando muda código que vai
+# para a imagem.
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publicar:
+    name: Disparar o deploy no Render
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Publicar sobre CI vermelho é publicar defeito conhecido. O deploy manual
+    # pelo painel do Render continua existindo para quando for preciso subir
+    # assim mesmo.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Disparar
+        run: |
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            echo "::error::Falta o segredo RENDER_DEPLOY_HOOK. Pegue em Render > vitrine-bauru-api > Settings > Deploy Hook."
+            exit 1
+          fi
+          curl -sf -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" > /dev/null
+          echo "Deploy disparado no Render."
+
+      - name: Esperar a API responder com a versão nova
+        run: |
+          # A partida a frio levou 253 segundos na medição real, e o build da
+          # imagem vem antes disso. Quinze minutos cobre os dois com folga.
+          for tentativa in $(seq 1 60); do
+            codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+              "${{ secrets.DEMO_URL }}/actuator/health" || true)
+            if [ "$codigo" = "200" ]; then
+              echo "API de pé na tentativa $tentativa."
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "::error::A API não voltou a responder em quinze minutos. Confira o painel do Render."
+          exit 1
