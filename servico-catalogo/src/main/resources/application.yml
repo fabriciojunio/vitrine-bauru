@@ -26,6 +26,21 @@ spring:
 
   flyway:
     enabled: true
+    # As migrações são organizadas em faixas por serviço: 1.x é a plataforma,
+    # 2.x o cadastro, 3.x o catálogo, 4.x a busca, 5.x as notificações. O
+    # Flyway, porém, aplica e valida em ordem numérica global, e recusa por
+    # padrão uma migração cuja versão seja menor que a última já aplicada.
+    #
+    # Isso significa que acrescentar qualquer migração na faixa da plataforma
+    # depois de o banco já ter a 5.1 quebra a subida com "Detected resolved
+    # migration not applied to database". Aconteceu em 02/09/2026 com a 1.2, e
+    # derrubou o ambiente por três publicações seguidas.
+    #
+    # Ou se abandona a faixa por serviço, e aí toda migração nova precisa saber
+    # o número global mais alto, ou se aceita ordem fora de sequência. A
+    # segunda mantém os serviços independentes, que é a razão das faixas
+    # existirem.
+    out-of-order: true
     locations: classpath:db/plataforma,classpath:db/catalogo
     schemas: public
 
