@@ -138,6 +138,18 @@
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-tracing-bridge-otel</artifactId>
     </dependency>
+
+    <!--
+      Um trecho de rastro por consulta ao banco. O rastro sem isto responde
+      que o consumo do catálogo levou 800 ms, e não qual consulta dentro dele.
+      A biblioteca envolve o DataSource e avisa a cada execução, sem agente e
+      sem tocar em repositório nenhum.
+    -->
+    <dependency>
+      <groupId>net.ttddyy</groupId>
+      <artifactId>datasource-proxy</artifactId>
+      <version>1.11.0</version>
+    </dependency>
     <dependency>
       <groupId>io.opentelemetry</groupId>
       <artifactId>opentelemetry-exporter-otlp</artifactId>
