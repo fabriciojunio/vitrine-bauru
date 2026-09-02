@@ -1,4 +1,4 @@
-# 3. Transporte gerenciado com SNS e SQS
+# 7. Transporte gerenciado com SNS e SQS
 
 Data: 2026-09-02
 Situação: aceita

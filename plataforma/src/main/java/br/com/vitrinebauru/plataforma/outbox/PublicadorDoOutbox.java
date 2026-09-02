@@ -5,6 +5,9 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Limit;
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDaMensagem;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,13 +44,18 @@ public class PublicadorDoOutbox {
     private final TransporteDeEventos transporte;
     private final MeterRegistry metricas;
     private final Clock relogio;
+    private final RastroDaMensagem rastro;
+    private final Tracer tracer;
 
     public PublicadorDoOutbox(OutboxRepository repositorio, TransporteDeEventos transporte,
-                              MeterRegistry metricas, Clock relogio) {
+                              MeterRegistry metricas, Clock relogio,
+                              RastroDaMensagem rastro, Tracer tracer) {
         this.repositorio = repositorio;
         this.transporte = transporte;
         this.metricas = metricas;
         this.relogio = relogio;
+        this.rastro = rastro;
+        this.tracer = tracer;
     }
 
     @Scheduled(fixedDelayString = "${vitrine.outbox.intervalo-ms:500}")
@@ -58,17 +66,27 @@ public class PublicadorDoOutbox {
                 agora, MensagemDoOutbox.TENTATIVAS_MAXIMAS, Limit.of(TAMANHO_DO_LOTE));
 
         for (MensagemDoOutbox mensagem : pendentes) {
-            try {
+            // O trecho é aberto com o contexto que foi gravado junto com a
+            // mensagem, e não com o da thread do agendador, que não tem
+            // nenhuma relação com quem originou o evento.
+            Span trecho = rastro.retomar(mensagem.tracePai(), "outbox publicar");
+            trecho.tag("mensageria.topico", mensagem.topico());
+            trecho.tag("mensageria.tipo", mensagem.tipo());
+            trecho.tag("mensageria.transporte", transporte.descricao());
+
+            try (var escopo = tracer.withSpan(trecho)) {
                 transporte.enviar(mensagem.topico(), mensagem.chave(), mensagem.carga());
                 mensagem.marcarPublicada(relogio.instant());
                 metricas.counter("vitrine.outbox.publicadas", "topico", mensagem.topico()).increment();
 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                trecho.error(e);
                 mensagem.marcarFalha("envio interrompido", relogio.instant());
                 return;
 
             } catch (Exception e) {
+                trecho.error(e);
                 mensagem.marcarFalha(e.getMessage(), relogio.instant());
                 metricas.counter("vitrine.outbox.falhas", "topico", mensagem.topico()).increment();
 
@@ -79,6 +97,12 @@ public class PublicadorDoOutbox {
                     log.warn("Falha ao publicar {} ({}a tentativa): {}",
                             mensagem.id(), mensagem.tentativas(), e.getMessage());
                 }
+
+            } finally {
+                // Trecho não fechado nunca chega ao painel, e o rastro fica
+                // eternamente "em andamento". O fechamento vale para o caminho
+                // feliz e para os dois de erro.
+                trecho.end();
             }
         }
     }

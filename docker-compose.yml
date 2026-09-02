@@ -11,6 +11,11 @@
 # Para desenvolver um serviço na IDE, suba só a infraestrutura:
 #   docker compose up -d broker banco-cadastro banco-catálogo banco-busca banco-notificações
 #
+# Para ver o rastro distribuído numa linha do tempo:
+#   docker compose --profile rastro up -d jaeger
+#   RASTRO_ATIVO=true docker compose up -d
+#   painel em http://localhost:16686
+#
 # Para experimentar o transporte de SNS sem conta na AWS:
 #   docker compose --profile aws up -d localstack
 #   export TRANSPORTE_DE_EVENTOS=sns AWS_ENDERECO=http://localhost:4566
@@ -42,6 +47,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 12
+
+  # Só sobe com --profile rastro. Recebe os trechos por OTLP e mostra o
+  # pedido inteiro numa linha do tempo, atravessando os quatro serviços.
+  # Guarda em memória: reiniciar apaga tudo, o que é o certo para uma
+  # ferramenta de investigação local.
+  jaeger:
+    image: jaegertracing/all-in-one:1.62
+    container_name: vitrine-jaeger
+    profiles: ["rastro"]
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+      - "4318:4318"
 
   # Só sobe com --profile aws. Serve para exercitar o adaptador de SNS na
   # máquina, sem conta e sem risco de fatura. Não é a AWS: é uma imitação da

@@ -1,0 +1,15 @@
+-- Guarda o contexto de rastro junto com a mensagem.
+--
+-- O evento é gravado dentro da transação de quem atendeu a requisição, e
+-- publicado depois, por outra thread, quando aquela requisição já terminou. Sem
+-- guardar nada, o rastro morre no commit: a publicação vira um rastro novo e
+-- ninguém liga uma coisa na outra.
+--
+-- O formato é o traceparent do W3C, que é o mesmo que viaja em cabeçalho HTTP.
+-- Guardar o padrão, e não uma invenção nossa, é o que permite o rastro
+-- atravessar processo, broker e serviço de terceiro sem tradução.
+--
+-- Aceita nulo porque mensagem gravada antes desta versão não tem contexto, e
+-- porque nem todo evento nasce de uma requisição: os que saem de tarefa
+-- agendada não têm rastro anterior para herdar.
+alter table outbox add column trace_pai varchar(80);

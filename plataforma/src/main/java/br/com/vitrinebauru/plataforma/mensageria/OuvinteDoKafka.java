@@ -2,6 +2,9 @@ package br.com.vitrinebauru.plataforma.mensageria;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDaMensagem;
+import java.nio.charset.StandardCharsets;
+import org.apache.kafka.common.header.Header;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.SmartLifecycle;
@@ -35,6 +38,7 @@ public class OuvinteDoKafka implements SmartLifecycle {
     private final ConsumerFactory<String, String> fabrica;
     private final Despachante despachante;
     private final CommonErrorHandler tratadorDeErro;
+    private final RastroDaMensagem rastro;
     private final String grupo;
 
     private ConcurrentMessageListenerContainer<String, String> container;
@@ -42,10 +46,12 @@ public class OuvinteDoKafka implements SmartLifecycle {
     public OuvinteDoKafka(ConsumerFactory<String, String> fabrica,
                           Despachante despachante,
                           CommonErrorHandler tratadorDeErro,
+                          RastroDaMensagem rastro,
                           @Value("${vitrine.mensageria.grupo}") String grupo) {
         this.fabrica = fabrica;
         this.despachante = despachante;
         this.tratadorDeErro = tratadorDeErro;
+        this.rastro = rastro;
         this.grupo = grupo;
     }
 
@@ -60,7 +66,8 @@ public class OuvinteDoKafka implements SmartLifecycle {
         var propriedades = new ContainerProperties(topicos.toArray(String[]::new));
         propriedades.setGroupId(grupo);
         propriedades.setMessageListener((MessageListener<String, String>) registro ->
-                despachante.despachar(registro.topic(), registro.value()));
+                rastro.consumindo(traceparentDe(registro.headers()), registro.topic(),
+                        () -> despachante.despachar(registro.topic(), registro.value())));
 
         container = new ConcurrentMessageListenerContainer<>(fabrica, propriedades);
         container.setBeanName("ouvinte-" + grupo);
@@ -68,6 +75,18 @@ public class OuvinteDoKafka implements SmartLifecycle {
         container.start();
 
         log.info("Escutando {} no grupo {}", topicos, grupo);
+    }
+
+    /**
+     * Lê o rastro do cabeçalho, se veio.
+     *
+     * <p>Ausente é caso normal: mensagem publicada por versão anterior, ou por
+     * produtor que não é nosso. Nesse caso o consumo abre um rastro próprio em
+     * vez de ficar sem nenhum.
+     */
+    private static String traceparentDe(org.apache.kafka.common.header.Headers cabecalhos) {
+        Header cabecalho = cabecalhos.lastHeader(RastroDaMensagem.CAMPO);
+        return cabecalho == null ? null : new String(cabecalho.value(), StandardCharsets.UTF_8);
     }
 
     @Override
