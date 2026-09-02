@@ -48,6 +48,15 @@ vitrine:
   mensageria:
     transporte: ${TRANSPORTE_DE_EVENTOS:kafka}
     grupo: vitrine-busca
+  aws:
+    # Só é lido quando o transporte é o sns. Endereço em branco faz o SDK
+    # montar a URL a partir da região; preencher aponta para um servidor
+    # local. Chave em branco usa a credencial do papel da máquina, que é o
+    # que se quer em produção: sem segredo em variável de ambiente.
+    regiao: ${AWS_REGIAO:sa-east-1}
+    endereco: ${AWS_ENDERECO:}
+    chave: ${AWS_CHAVE:}
+    segredo: ${AWS_SEGREDO:}
   seguranca:
     segredo: ${VITRINE_SEGREDO_JWT:segredo-de-desenvolvimento-com-mais-de-32-bytes}
     duracao-do-acesso: 15m
