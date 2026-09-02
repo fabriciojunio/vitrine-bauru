@@ -2,6 +2,7 @@ package br.com.vitrinebauru.plataforma.outbox;
 
 import br.com.vitrinebauru.contratos.Evento;
 import br.com.vitrinebauru.plataforma.mensageria.MapeadorDeEventos;
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDaMensagem;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -26,11 +27,14 @@ public class Outbox implements RegistroDeSaida {
     private final OutboxRepository repositorio;
     private final MapeadorDeEventos mapeador;
     private final Clock relogio;
+    private final RastroDaMensagem rastro;
 
-    public Outbox(OutboxRepository repositorio, MapeadorDeEventos mapeador, Clock relogio) {
+    public Outbox(OutboxRepository repositorio, MapeadorDeEventos mapeador, Clock relogio,
+                  RastroDaMensagem rastro) {
         this.repositorio = repositorio;
         this.mapeador = mapeador;
         this.relogio = relogio;
+        this.rastro = rastro;
     }
 
     @Override
@@ -52,6 +56,10 @@ public class Outbox implements RegistroDeSaida {
                 evento.chaveDeParticao().toString(),
                 evento.tipoDoEvento(),
                 mapeador.paraJson(evento),
-                relogio.instant());
+                relogio.instant(),
+                // Capturado aqui, e não na publicação: aqui ainda existe o
+                // contexto da requisição que originou o evento. Na publicação
+                // ela já terminou.
+                rastro.capturar());
     }
 }

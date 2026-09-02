@@ -1,11 +1,13 @@
 package br.com.vitrinebauru.plataforma.mensageria;
 
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDaMensagem;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.MessageAttributeValue;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,7 +25,7 @@ import java.util.Map;
  * publicada depois da entrega confirmada. Falha volta como exceção, o outbox
  * conta a tentativa e tenta de novo.
  *
- * <p>Ver docs/adr/0003-transporte-sns.md, principalmente a parte de ordenação,
+ * <p>Ver docs/adr/0007-transporte-sns.md, principalmente a parte de ordenação,
  * que é o que se perde aqui e não se perde no Kafka.
  */
 @Component
@@ -52,20 +54,32 @@ public class TransporteSns implements TransporteDeEventos {
 
     private final SnsClient sns;
     private final ArnDosTopicos arns;
+    private final RastroDaMensagem rastro;
 
-    public TransporteSns(SnsClient sns, ArnDosTopicos arns) {
+    public TransporteSns(SnsClient sns, ArnDosTopicos arns, RastroDaMensagem rastro) {
         this.sns = sns;
         this.arns = arns;
+        this.rastro = rastro;
     }
 
     @Override
     public void enviar(String topico, String chave, String carga) {
+        Map<String, MessageAttributeValue> atributos = new HashMap<>();
+        atributos.put(ATRIBUTO_TOPICO, texto(topico));
+        atributos.put(ATRIBUTO_CHAVE, texto(chave));
+
+        // Mesmo papel do cabeçalho no Kafka. O SNS entrega atributo de
+        // mensagem para a fila junto com o corpo, então o rastro chega no
+        // consumidor sem entrar no contrato do evento.
+        String traceparent = rastro.capturar();
+        if (traceparent != null) {
+            atributos.put(RastroDaMensagem.CAMPO, texto(traceparent));
+        }
+
         sns.publish(PublishRequest.builder()
                 .topicArn(arns.de(topico))
                 .message(carga)
-                .messageAttributes(Map.of(
-                        ATRIBUTO_TOPICO, texto(topico),
-                        ATRIBUTO_CHAVE, texto(chave)))
+                .messageAttributes(atributos)
                 .build());
     }
 

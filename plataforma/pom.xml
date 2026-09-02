@@ -129,6 +129,25 @@
       <scope>runtime</scope>
     </dependency>
 
+    <!--
+      Rastro distribuído. A métrica diz que ficou lento; o rastro diz onde.
+      Num pedido que atravessa quatro serviços por evento, é a diferença entre
+      procurar em quatro logs e abrir uma linha do tempo.
+    -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-bridge-otel</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-exporter-otlp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>

@@ -1,5 +1,6 @@
 package br.com.vitrinebauru.plataforma.mensageria;
 
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDaMensagem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,6 +82,7 @@ public class OuvinteDoSqs implements SmartLifecycle {
     private final SnsClient sns;
     private final Despachante despachante;
     private final ArnDosTopicos arns;
+    private final RastroDaMensagem rastro;
     private final String grupo;
 
     private final AtomicBoolean rodando = new AtomicBoolean(false);
@@ -91,11 +93,13 @@ public class OuvinteDoSqs implements SmartLifecycle {
                         SnsClient sns,
                         Despachante despachante,
                         ArnDosTopicos arns,
+                        RastroDaMensagem rastro,
                         @Value("${vitrine.mensageria.grupo}") String grupo) {
         this.sqs = sqs;
         this.sns = sns;
         this.despachante = despachante;
         this.arns = arns;
+        this.rastro = rastro;
         this.grupo = grupo;
     }
 
@@ -229,7 +233,8 @@ public class OuvinteDoSqs implements SmartLifecycle {
                 .maxNumberOfMessages(MENSAGENS_POR_LEITURA)
                 .waitTimeSeconds(ESPERA_DA_LEITURA_S)
                 .visibilityTimeout(INVISIBILIDADE_S)
-                .messageAttributeNames(TransporteSns.ATRIBUTO_TOPICO, TransporteSns.ATRIBUTO_CHAVE)
+                .messageAttributeNames(TransporteSns.ATRIBUTO_TOPICO, TransporteSns.ATRIBUTO_CHAVE,
+                        RastroDaMensagem.CAMPO)
                 .messageSystemAttributeNames(MessageSystemAttributeName.APPROXIMATE_RECEIVE_COUNT)
                 .build()).messages();
 
@@ -254,7 +259,8 @@ public class OuvinteDoSqs implements SmartLifecycle {
         }
 
         try {
-            despachante.despachar(topico, mensagem.body());
+            rastro.consumindo(atributo(mensagem, RastroDaMensagem.CAMPO), topico,
+                    () -> despachante.despachar(topico, mensagem.body()));
         } catch (RuntimeException erro) {
             log.error("Consumo falhou em {} na tentativa {}, mensagem volta para a fila",
                     topico, tentativa(mensagem), erro);

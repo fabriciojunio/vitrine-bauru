@@ -1,5 +1,7 @@
 package br.com.vitrinebauru.plataforma.mensageria;
 
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDaMensagem;
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDeTeste;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,8 +39,11 @@ class TransporteSnsTest {
 
     private TransporteSns transporte;
 
+    private final RastroDeTeste.Montagem montagem = RastroDeTeste.montar();
+
     private TransporteSns comArn() {
-        return new TransporteSns(sns, new ArnDosTopicos(Map.of("vitrine.empreendedores", ARN)));
+        return new TransporteSns(sns, new ArnDosTopicos(Map.of("vitrine.empreendedores", ARN)),
+                montagem.rastro());
     }
 
     @Test
@@ -103,6 +108,33 @@ class TransporteSnsTest {
         assertThatThrownBy(() -> transporte.enviar("vitrine.inexistente", "1", "{}"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("vitrine.inexistente");
+    }
+
+    @Test
+    @DisplayName("leva o rastro em atributo quando há rastro em andamento")
+    void levaORastro() {
+        transporte = comArn();
+        var trecho = montagem.rastro().retomar(null, "outbox publicar");
+        var contexto = new io.micrometer.tracing.otel.bridge.OtelCurrentTraceContext();
+
+        try (var ignorado = contexto.maybeScope(trecho.context())) {
+            transporte.enviar("vitrine.empreendedores", "1", "{}");
+        }
+        trecho.end();
+
+        assertThat(atributo(capturar(), RastroDaMensagem.CAMPO))
+                .as("sem isto o consumidor do outro lado começa um rastro solto")
+                .contains(trecho.context().traceId());
+    }
+
+    @Test
+    @DisplayName("sem rastro em andamento, o atributo simplesmente não vai, e o SNS não recusa a mensagem")
+    void semRastroNaoMandaOAtributo() {
+        transporte = comArn();
+
+        transporte.enviar("vitrine.empreendedores", "1", "{}");
+
+        assertThat(capturar().messageAttributes()).doesNotContainKey(RastroDaMensagem.CAMPO);
     }
 
     @Test

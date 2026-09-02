@@ -1,5 +1,7 @@
 # Vitrine Bauru
 
+*[Read this in English](README.en.md)*
+
 Vitrine digital dos pequenos empreendedores atendidos pela SEDECON, a
 Secretaria de Desenvolvimento Econômico de Bauru. O consumidor procura por
 produto, bairro ou categoria e fala direto no WhatsApp de quem produz. Não há
@@ -133,6 +135,15 @@ build, e não quando alguém lembra de subir a infraestrutura.
 | jsdom | o navegador de mentira dos testes de componente |
 | Playwright | navegador de verdade, no computador e num Pixel 5 |
 
+### Observabilidade
+
+| O que | Para quê |
+|---|---|
+| Micrometer + Prometheus | métrica por serviço, que responde "está lento" |
+| Micrometer Tracing + OpenTelemetry | rastro distribuído, que responde "está lento onde" |
+| Jaeger | o painel onde a linha do tempo do pedido aparece, no compose |
+| Spring Boot Actuator | `/health` para o Render e para o Kubernetes |
+
 ### Infraestrutura
 
 | O que | Para quê |
@@ -178,9 +189,19 @@ Depois apareceu o terceiro. Eu tinha escrito naquele documento que mensageria
 gerenciada gratuita não existia, e estava errado: eu havia procurado por Kafka
 gerenciado, não pelo problema. SNS e SQS estão na camada permanentemente
 gratuita da AWS, e o
-[adaptador de SNS](docs/adr/0003-transporte-sns.md) entrou sem tocar em uma
+[adaptador de SNS](docs/adr/0007-transporte-sns.md) entrou sem tocar em uma
 linha de domínio. O que se perde é a ordenação por chave, e o documento explica
 por que aqui isso não custa caro.
+
+**5. O outbox corta o rastro no meio.** O evento é gravado na transação de
+quem atendeu a requisição e publicado depois, por outra thread, quando aquela
+requisição já acabou. O contexto de rastro vive na thread, então no commit ele
+morre, e o painel mostra dois rastros desligados em vez de um pedido inteiro.
+A solução é a mesma ideia do outbox aplicada à observabilidade: o que atravessa
+transação precisa ser gravado. O `traceparent` do W3C vai numa coluna, e depois
+em cabeçalho do Kafka ou atributo do SNS.
+[O documento](docs/adr/0008-rastro-distribuido.md) explica por que trecho
+filho e não continuação, e por que o rastreamento vem desligado por padrão.
 
 ## Rodando
 

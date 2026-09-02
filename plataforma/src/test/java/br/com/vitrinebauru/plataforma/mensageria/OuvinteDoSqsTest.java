@@ -1,5 +1,6 @@
 package br.com.vitrinebauru.plataforma.mensageria;
 
+import br.com.vitrinebauru.plataforma.observabilidade.RastroDeTeste;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,7 @@ class OuvinteDoSqsTest {
     void montar() {
         ouvinte = new OuvinteDoSqs(sqs, sns, despachante,
                 new ArnDosTopicos(Map.of("vitrine.catalogo", "arn:aws:sns:sa-east-1:0:vitrine-catalogo")),
+                RastroDeTeste.semColetor(),
                 "busca");
         ouvinte.definirUrlDaFilaParaTeste(FILA);
     }
