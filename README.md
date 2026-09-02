@@ -86,6 +86,7 @@ por catálogo: cada linha resolve um problema que aparece no projeto.
 | PostgreSQL (driver JDBC) | do Boot | o banco de todos os serviços |
 | Flyway | core + postgresql | migração versionada, uma faixa de versões por serviço |
 | Apache Kafka | via Spring Kafka | tópico por assunto, partição por empreendedor |
+| AWS SDK v2 (SNS e SQS) | 2.46.7 | o adaptador gerenciado: tópico por assunto, fila por serviço |
 | jjwt | 0.12.6 | emissão e conferência do token de acesso |
 | Bucket4j | `bucket4j_jdk17-core` | limite de requisições por endereço, em balde de fichas |
 | jsoup | 1.21.1 | sanitização do texto que o empreendedor escreve |
@@ -166,11 +167,20 @@ na busca e o histórico de e-mail está em notificações, cada um no seu banco.
 quem não respondeu e alerta quando o prazo legal estoura. Não há compensação,
 e isso é assumido: exclusão não se desfaz.
 
-**4. Não existe Kafka gerenciado de graça em 2026.** O projeto precisa ficar no
-ar sem custo. A resposta foi transformar o transporte numa
-[interface com dois adaptadores](docs/adr/0002-transporte-de-eventos.md): Kafka
-onde há broker, entrega dentro do processo onde não há. O outbox, o inbox, a
-transação e os consumidores são exatamente os mesmos nos dois casos.
+**4. O projeto precisa ficar no ar sem custo, e o transporte virou uma
+interface por causa disso.** Não há Kafka gerenciado com camada gratuita
+permanente, então o transporte ganhou
+[adaptadores intercambiáveis](docs/adr/0002-transporte-de-eventos.md): Kafka
+onde há corretor, entrega dentro do processo onde não há. O outbox, o inbox, a
+transação e os consumidores são idênticos nos dois casos.
+
+Depois apareceu o terceiro. Eu tinha escrito naquele documento que mensageria
+gerenciada gratuita não existia, e estava errado: eu havia procurado por Kafka
+gerenciado, não pelo problema. SNS e SQS estão na camada permanentemente
+gratuita da AWS, e o
+[adaptador de SNS](docs/adr/0003-transporte-sns.md) entrou sem tocar em uma
+linha de domínio. O que se perde é a ordenação por chave, e o documento explica
+por que aqui isso não custa caro.
 
 ## Rodando
 
