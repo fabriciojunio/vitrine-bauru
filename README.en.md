@@ -10,7 +10,11 @@ sides and gets out of the way.
 Built as a university extension project at Unisagrado, and built to actually stay up rather than
 be demoed once and switched off.
 
-**Live:** [vitrine-bauru.vercel.app](https://vitrine-bauru.vercel.app)
+**Live:** [vitrine-bauru.vercel.app](https://vitrine-bauru.vercel.app) · the API answers at
+[vitrine-bauru-api.onrender.com](https://vitrine-bauru-api.onrender.com/swagger-ui.html)
+
+Both run on free tiers that sleep after fifteen idle minutes, so the first request can take a
+minute to come back.
 
 `Java 21` · `Spring Boot 3.5` · `Kafka` · `Amazon SNS/SQS` · `PostgreSQL` · `React 19` ·
 `Docker` · `Kubernetes`

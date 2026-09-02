@@ -12,6 +12,12 @@ Nasceu como projeto de extensão universitária do Unisagrado, na disciplina de
 Sociologia da Responsabilidade Social, e foi construído para funcionar de
 verdade, e não para ser demonstrado uma vez e desligado.
 
+**No ar:** [vitrine-bauru.vercel.app](https://vitrine-bauru.vercel.app) · a API
+responde em [vitrine-bauru-api.onrender.com](https://vitrine-bauru-api.onrender.com/swagger-ui.html)
+
+A instância é da camada gratuita e dorme depois de quinze minutos sem acesso: a
+primeira abertura pode levar um minuto para responder.
+
 ## O problema
 
 A SEDECON já atende esse público pela Casa do Empreendedor, pelo Banco do Povo
