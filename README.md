@@ -204,6 +204,14 @@ em cabeçalho do Kafka ou atributo do SNS.
 [O documento](docs/adr/0008-rastro-distribuido.md) explica por que trecho
 filho e não continuação, e por que o rastreamento vem desligado por padrão.
 
+**6. Migração de esquema pode derrubar a versão anterior do código.** A atualização é gradual e
+duas réplicas rodam ao mesmo tempo, então uma migração que apaga coluna que a versão antiga ainda
+lê quebra quem estiver usando o sistema naquele instante. A resposta é expandir, migrar e só
+depois contrair, em três implantações. E o que segura isso não é o documento, é uma regra no
+build: `MigracaoSemQuebraTest` reprova comando destrutivo que não venha com a linha
+`-- contrair:` e o motivo escrito.
+[O documento](docs/adr/0009-migracao-sem-parada.md) explica os três passos e o que fica de fora.
+
 ## Rodando
 
 Precisa de Java 21, Node 22 e Docker.
