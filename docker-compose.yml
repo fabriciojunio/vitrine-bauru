@@ -10,6 +10,12 @@
 #
 # Para desenvolver um serviço na IDE, suba só a infraestrutura:
 #   docker compose up -d broker banco-cadastro banco-catálogo banco-busca banco-notificações
+#
+# Para experimentar o transporte de SNS sem conta na AWS:
+#   docker compose --profile aws up -d localstack
+#   export TRANSPORTE_DE_EVENTOS=sns AWS_ENDERECO=http://localhost:4566
+#   export AWS_CHAVE=teste AWS_SEGREDO=teste
+#   mvn -pl servidor-unico spring-boot:run
 
 name: vitrine-bauru
 
@@ -33,6 +39,25 @@ services:
       - "9092:9092"
     healthcheck:
       test: ["CMD-SHELL", "rpk cluster health | grep -q 'Healthy:.*true'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  # Só sobe com --profile aws. Serve para exercitar o adaptador de SNS na
+  # máquina, sem conta e sem risco de fatura. Não é a AWS: é uma imitação da
+  # API dela, boa o bastante para conferir que tópico, fila, assinatura e
+  # política estão coerentes entre si.
+  localstack:
+    image: localstack/localstack:3.8
+    container_name: vitrine-localstack
+    profiles: ["aws"]
+    environment:
+      SERVICES: sns,sqs
+      DEBUG: "0"
+    ports:
+      - "4566:4566"
+    healthcheck:
+      test: ["CMD-SHELL", "awslocal sqs list-queues || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 12
