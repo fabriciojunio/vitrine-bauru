@@ -141,6 +141,7 @@ build, e não quando alguém lembra de subir a infraestrutura.
 |---|---|
 | Micrometer + Prometheus | métrica por serviço, que responde "está lento" |
 | Micrometer Tracing + OpenTelemetry | rastro distribuído, que responde "está lento onde" |
+| datasource-proxy | um trecho por consulta ao banco, que é onde o N mais um aparece |
 | Jaeger | o painel onde a linha do tempo do pedido aparece, no compose |
 | Spring Boot Actuator | `/health` para o Render e para o Kubernetes |
 

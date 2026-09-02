@@ -66,8 +66,8 @@ public final class RastroDeTeste {
         }
     }
 
-    /** O rastro e a memória onde os trechos caem. */
-    public record Montagem(RastroDaMensagem rastro, Memoria memoria) {
+    /** O rastro, o tracer por baixo dele e a memória onde os trechos caem. */
+    public record Montagem(RastroDaMensagem rastro, io.micrometer.tracing.Tracer tracer, Memoria memoria) {
     }
 
     public static Montagem montar() {
@@ -90,7 +90,7 @@ public final class RastroDeTeste {
         });
         Propagator propagador = new OtelPropagator(otel.getPropagators(), otel.getTracer("teste"));
 
-        return new Montagem(new RastroDaMensagem(tracer, propagador), memoria);
+        return new Montagem(new RastroDaMensagem(tracer, propagador), tracer, memoria);
     }
 
     /** Atalho para quem só precisa de um rastro que funcione. */
