@@ -26,7 +26,7 @@ jobs:
   publicar:
     name: Disparar o deploy no Render
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 35
 
     # Publicar sobre CI vermelho é publicar defeito conhecido. O deploy manual
     # pelo painel do Render continua existindo para quando for preciso subir
@@ -61,8 +61,15 @@ jobs:
           # O que prova é o horário de construção publicado mudar.
           #
           # A partida a frio levou 253 segundos na medição real, e o build da
-          # imagem vem antes disso. Quinze minutos cobre os dois com folga.
-          for tentativa in $(seq 1 60); do
+          # imagem vem antes disso.
+          #
+          # Eram quinze minutos, e passou a não bastar: o JAR do servidor único
+          # tem cerca de 100 MB de bibliotecas, e o build da imagem na máquina
+          # da camada gratuita, com fila, passa disso. Em 02/09/2026 três
+          # publicações seguidas foram canceladas por tempo esgotado tendo
+          # disparado o deploy corretamente, o que é pior que não avisar: alerta
+          # que erra vira alerta que ninguém lê.
+          for tentativa in $(seq 1 120); do
             agora=$(curl -s --max-time 30 "${{ secrets.DEMO_URL }}/actuator/info" \
               | sed -n 's/.*"time":"\([^"]*\)".*/\1/p' || true)
             if [ -n "$agora" ] && [ "$agora" != "$ANTES" ]; then
@@ -71,5 +78,5 @@ jobs:
             fi
             sleep 15
           done
-          echo "::error::A versão nova não entrou no ar em quinze minutos. Confira o painel do Render."
+          echo "::error::A versão nova não entrou no ar em trinta minutos. O deploy foi disparado; confira o build no painel do Render."
           exit 1
