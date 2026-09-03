@@ -279,8 +279,8 @@ export function Cadastrar() {
 }
 
 function semAcento(texto: string): string {
-  // A faixa vai escapada, e nao com os caracteres combinantes escritos
-  // direto: eles sao invisiveis no editor e somem em qualquer copia.
+  // A faixa vai escapada, e não com os caracteres combinantes escritos
+  // direto: eles são invisíveis no editor e somem em qualquer cópia.
   return texto
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
