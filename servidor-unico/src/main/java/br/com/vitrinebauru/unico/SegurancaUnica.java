@@ -56,6 +56,9 @@ public class SegurancaUnica {
                 // contato, que é disparado por quem não tem conta.
                 .requestMatchers("/api/busca/**").permitAll()
 
+                // O endereço que o fluxo de manter acordado usa. Não toca no
+                // banco de propósito: ver a nota na classe Vivo.
+                .requestMatchers("/api/vivo").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**", "/actuator/info").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 

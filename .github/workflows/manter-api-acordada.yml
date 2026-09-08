@@ -21,6 +21,12 @@
 # serviço web gratuito no Render**, porque os dois somados estouram o limite e
 # ambos param até virar o mês.
 #
+# CORREÇÃO de 08/09/2026: o caminho deste ping era /actuator/health, e o health
+# do Spring inclui o indicador do banco. Cada chamada acordava o Postgres, e o
+# projeto queimou 175 das 192 horas de computação do Neon em oito dias. A cota
+# do Neon também é da conta inteira. Agora o ping vai em /api/vivo, que responde
+# da memória e não abre conexão: o serviço fica acordado e o banco dorme.
+#
 # Se um dia precisar de outro serviço gratuito, reduza a janela aqui para o
 # horário útil (cron "*/10 10-23,0-2 * * *" dá 527 horas) ou assine o plano
 # pago, que custa cerca de sete dólares por mês e dispensa este fluxo.
@@ -57,9 +63,16 @@ jobs:
             exit 0
           fi
 
-          # O caminho é o de saúde de propósito. O robots.txt não serve: com o
-          # serviço dormindo, o Render responde a esse caminho sozinho e a
-          # requisição nunca chega na aplicação, então não acorda nada.
+          # O caminho é /api/vivo, e NÃO o de saúde. Medido em 08/09/2026: o
+          # health do Spring inclui o indicador do banco, então cada ping abria
+          # conexão e acordava o Postgres. Isso consumiu 175 das 192 horas
+          # gratuitas do mês em oito dias, com o banco acordado 22 horas por dia
+          # sem nenhuma visita real — e a cota do Neon é da conta inteira, então
+          # levava junto os outros projetos.
+          #
+          # O /api/vivo responde da memória e acorda só o serviço. O robots.txt
+          # não serviria: com o serviço dormindo, o Render responde a esse
+          # caminho sozinho e a requisição nunca chega na aplicação.
           # Duzentos e quarenta segundos, e não cento e vinte: quando o
           # agendamento falha e o serviço dorme por horas, acordar passa
           # dos dois minutos, e o limite curto abortava a chamada bem no
@@ -68,7 +81,7 @@ jobs:
           # faziam o log sair como "Resposta 000000".
           inicio=$(date +%s)
           codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 240 \
-            "$DEMO_URL/actuator/health" || true)
+            "$DEMO_URL/api/vivo" || true)
           fim=$(date +%s)
           codigo=${codigo:-000}
 
