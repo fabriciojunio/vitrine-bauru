@@ -52,6 +52,8 @@ spring:
       enabled: true
 
 server:
+  # Tomcat verifica os proxies confiáveis e percorre X-Forwarded-For da direita.
+  forward-headers-strategy: native
   port: ${PORTA:8081}
   shutdown: graceful
   error:

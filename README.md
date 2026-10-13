@@ -248,12 +248,19 @@ BANCO_URL=jdbc:postgresql://localhost:5432/vitrine DEMO_ATIVO=true \
 ## Testes
 
 ```bash
-mvn verify                    # 813 testes de back-end
-cd web && npm test            # 193 testes de front-end
-cd web && npm run e2e         # 36 testes com navegador de verdade
+mvn verify                    # testes de back-end
+cd web && npm test            # testes de front-end
+cd web && npm run e2e:sistema # testes com navegador e API reais
 node web/scripts/auditoria-de-celular.mjs   # varredura de tela estreita
 python k8s/conferir-manifestos.py           # coerência dos manifestos
 ```
+
+Para `e2e:sistema`, empacote antes com `mvn -pl servidor-unico -am package -DskipTests`,
+crie um banco PostgreSQL local chamado `vitrine_e2e` e configure
+`BANCO_URL=jdbc:postgresql://127.0.0.1:5432/vitrine_e2e`, `BANCO_USUARIO` e
+`BANCO_SENHA` conforme essa instância. O comando inicia a API e o Vite em
+portas livres, roda o Playwright com um worker e encerra os dois processos.
+Use um banco descartável: os cenários criam e moderam cadastros.
 
 A varredura de celular abre as sete telas em 320px e 393px e reporta o que
 costuma quebrar no dedo: rolagem horizontal, alvo de toque menor que o mínimo,

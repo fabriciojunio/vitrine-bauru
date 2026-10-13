@@ -90,15 +90,11 @@ public class FiltroDeLimite extends OncePerRequestFilter {
     }
 
     /**
-     * Atrás do proxy da hospedagem, {@code getRemoteAddr} devolve o IP do
-     * próprio proxy e todo mundo compartilharia o mesmo balde. O primeiro
-     * endereço do X-Forwarded-For é o do cliente.
+     * O contêiner resolve a cadeia de proxies confiáveis antes dos filtros.
+     * Ler X-Forwarded-For aqui permitiria ao cliente trocar de balde enviando
+     * um cabeçalho diferente em cada tentativa.
      */
     private String origem(HttpServletRequest requisicao) {
-        String encaminhado = requisicao.getHeader("X-Forwarded-For");
-        if (encaminhado != null && !encaminhado.isBlank()) {
-            return encaminhado.split(",")[0].trim();
-        }
         return requisicao.getRemoteAddr();
     }
 
