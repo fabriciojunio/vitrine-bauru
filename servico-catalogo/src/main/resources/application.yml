@@ -59,6 +59,8 @@ spring:
       max-request-size: 6MB
 
 server:
+  # Tomcat verifica os proxies confiáveis e percorre X-Forwarded-For da direita.
+  forward-headers-strategy: native
   port: ${PORTA:8082}
   shutdown: graceful
   error:

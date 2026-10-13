@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:sistema": "node ../scripts/testar-e2e.mjs",
     "e2e:instalar": "playwright install chromium"
   },
   "dependencies": {

@@ -32,6 +32,8 @@ spring:
                 - Path=/api/notificacoes/**
 
 server:
+  # Tomcat verifica os proxies confiáveis e percorre X-Forwarded-For da direita.
+  forward-headers-strategy: native
   port: ${PORTA:8080}
   shutdown: graceful
 
