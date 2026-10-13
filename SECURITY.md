@@ -36,9 +36,13 @@ a senha contra um hash de mentira, para o tempo de resposta não entregar o que
 a mensagem esconde.
 
 **Limite de requisição.** Por endereço de origem, com regras por caminho. O
-endereço real é lido do `X-Forwarded-For`, porque atrás do proxy da hospedagem
-o `getRemoteAddr` devolve o IP do próprio proxy e todo mundo dividiria o mesmo
-balde.
+filtro usa `getRemoteAddr`, depois que o Tomcat resolve os proxies confiáveis
+com `server.forward-headers-strategy=native`. A cadeia é percorrida da direita
+para a esquerda: prefixar um IP inventado no `X-Forwarded-For` não cria outro
+balde. A implantação deve restringir `server.tomcat.remoteip.internal-proxies`
+e `server.tomcat.remoteip.trusted-proxies` aos proxies da sua rede; nunca
+configure uma expressão que confie em qualquer origem. No acesso direto por
+IP público, o cabeçalho informado pelo cliente é ignorado.
 
 **Upload.** O tipo é descoberto pelos primeiros bytes do arquivo, nunca pela
 extensão nem pelo cabeçalho enviado. Um arquivo chamado `foto.jpg`, anunciado

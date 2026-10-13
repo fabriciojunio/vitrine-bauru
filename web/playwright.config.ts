@@ -14,9 +14,12 @@ import { defineConfig, devices } from '@playwright/test';
  *
  * <p>O servidor não é iniciado por aqui de propósito: subir a aplicação Java
  * leva mais de meio minuto e depende do banco preparado. O script
- * `scripts/subir-ambiente-e2e.sh` cuida disso, e o Playwright só reaproveita
- * o que já estiver no ar.
+ * `npm run e2e:sistema` inicia o servidor com um PostgreSQL local descartável
+ * indicado por BANCO_URL.
  */
+const baseURL = process.env.E2E_URL ?? 'http://localhost:5173';
+const porta = Number(new URL(baseURL).port || 5173);
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: false,
@@ -26,7 +29,7 @@ export default defineConfig({
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
 
   use: {
-    baseURL: process.env.E2E_URL ?? 'http://localhost:5173',
+    baseURL,
     locale: 'pt-BR',
     timezoneId: 'America/Sao_Paulo',
     trace: 'retain-on-failure',
@@ -52,9 +55,9 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173',
-    reuseExistingServer: true,
+    command: `npm run dev -- --host 127.0.0.1 --port ${porta} --strictPort`,
+    url: baseURL,
+    reuseExistingServer: process.env.E2E_REUTILIZAR !== 'false',
     timeout: 120_000,
   },
 });
