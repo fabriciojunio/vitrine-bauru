@@ -80,18 +80,18 @@ class FiltroDeLimiteTest {
     }
 
     @Test
-    @DisplayName("usa o endereço real de tras do proxy da hospedagem")
+    @DisplayName("usa o endereço do cliente já resolvido pelo contêiner")
     void usaEnderecoDeTrasDoProxy() throws Exception {
         var filtro = filtroCom(true, 1);
 
         var primeira = new MockHttpServletRequest("POST", LOGIN);
-        primeira.setRemoteAddr("10.0.0.1");
+        primeira.setRemoteAddr("177.20.30.40");
         primeira.addHeader("X-Forwarded-For", "177.20.30.40, 10.0.0.1");
         var respostaUm = new MockHttpServletResponse();
         filtro.doFilter(primeira, respostaUm, mock(FilterChain.class));
 
         var segunda = new MockHttpServletRequest("POST", LOGIN);
-        segunda.setRemoteAddr("10.0.0.1");
+        segunda.setRemoteAddr("177.20.30.99");
         segunda.addHeader("X-Forwarded-For", "177.20.30.99, 10.0.0.1");
         var respostaDois = new MockHttpServletResponse();
         filtro.doFilter(segunda, respostaDois, mock(FilterChain.class));
@@ -100,6 +100,20 @@ class FiltroDeLimiteTest {
         assertThat(respostaDois.getStatus())
                 .as("dois clientes diferentes atrás do mesmo proxy não dividem o balde")
                 .isEqualTo(200);
+    }
+
+    @Test
+    @DisplayName("trocar X-Forwarded-For não contorna o limite da origem")
+    void cabecalhoForjadoNaoTrocaDeBalde() throws Exception {
+        var filtro = filtroCom(true, 1);
+        for (int tentativa = 0; tentativa < 3; tentativa++) {
+            var requisicao = new MockHttpServletRequest("POST", LOGIN);
+            requisicao.setRemoteAddr("177.20.30.40");
+            requisicao.addHeader("X-Forwarded-For", "198.51.100." + tentativa);
+            var resposta = new MockHttpServletResponse();
+            filtro.doFilter(requisicao, resposta, mock(FilterChain.class));
+            assertThat(resposta.getStatus()).isEqualTo(tentativa == 0 ? 200 : 429);
+        }
     }
 
     @Test
