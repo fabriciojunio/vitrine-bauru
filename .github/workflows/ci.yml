@@ -5,7 +5,7 @@ name: CI
 # com banco e broker de verdade.
 on:
   push:
-    branches: [main]
+    branches: ["produção", "homologação"]
   pull_request:
 
 concurrency:
