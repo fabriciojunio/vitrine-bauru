@@ -19,7 +19,7 @@ on:
   workflow_run:
     workflows: ["CI"]
     types: [completed]
-    branches: [main]
+    branches: ["produção"]
   workflow_dispatch:
 
 jobs:
