@@ -1,5 +1,7 @@
 # Segurança
 
+*[Read this in English](SECURITY.en.md)*
+
 A plataforma guarda CPF, CNPJ, telefone e e-mail de pequenos empreendedores de
 verdade, e leva o nome da SEDECON. Este documento diz o que foi feito, o que
 não foi, e como avisar de um problema.
@@ -81,6 +83,12 @@ que carrega nome e motivo de recusa.
 **Auditoria.** Quem aprovou, recusou ou suspendeu fica registrado com data e
 correlação, e o registro sobrevive à exclusão de dados do titular: quem
 responde pelo ato é quem o praticou.
+
+**Demonstração pública.** Com `DEMO_ATIVO`, a loja em que o botão de
+empreendedora entra recusa exclusão e suspensão, para um visitante não tirar a
+entrada do ar para os outros, e a entrada em um clique é limitada a dez por
+minuto por endereço. Fora do modo demonstração, o endereço de entrada responde
+404.
 
 **Dependência e pipeline.** Desde 28/10/2026, todo push e todo PR passam por
 CodeQL (`security-extended`, Java e TypeScript), gitleaks no histórico inteiro e

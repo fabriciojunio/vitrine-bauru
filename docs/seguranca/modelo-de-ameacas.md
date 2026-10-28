@@ -1,5 +1,7 @@
 # Modelo de ameaças
 
+*[Read this in English](modelo-de-ameacas.en.md)*
+
 Revisado em 28/10/2026, sobre o branch `homologação`. Método STRIDE aplicado ao que roda hoje:
 o servidor único no Render, o front na Vercel e o banco no Neon. A versão em quatro serviços com
 borda e Kubernetes tem os mesmos fluxos; o que muda nela está no fim.
