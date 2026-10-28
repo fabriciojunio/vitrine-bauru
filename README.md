@@ -158,7 +158,7 @@ build, e não quando alguém lembra de subir a infraestrutura.
 | Docker | imagem de duas etapas: compila numa, e a que sobe leva só o JRE |
 | Docker Compose | os quatro serviços separados, com Redpanda e quatro bancos |
 | Kubernetes | os cinco serviços com Service, PDB, Ingress e HPA, conferidos no CI |
-| GitHub Actions | três jobs: back-end, front-end e ponta a ponta |
+| GitHub Actions | CI com back-end, front-end e ponta a ponta; fluxo de segurança com CodeQL, gitleaks e OSV-Scanner sobre o SBOM |
 | Neon | o PostgreSQL da implantação gratuita |
 | Render | o back-end, em contêiner |
 | Vercel | o front-end |
@@ -283,7 +283,10 @@ O que os testes cobrem, além do caminho feliz:
 - upload de arquivo que se diz JPEG e é HTML com script dentro;
 - injeção de SQL no campo de busca, CORS de origem desconhecida e força bruta
   no login;
-- a saga de exclusão inteira, com um serviço confirmando duas vezes.
+- a saga de exclusão inteira, com um serviço confirmando duas vezes;
+- a demonstração pública recusando excluir ou suspender a loja em que o
+  próximo visitante vai entrar, e limitando a entrada em um clique;
+- quebra de linha no caminho da requisição sem virar linha falsa no log.
 
 ## Documentação
 
@@ -295,6 +298,8 @@ O que os testes cobrem, além do caminho feliz:
 | [Demonstração](docs/DEMONSTRACAO.md) | Como funciona o modo de demonstração e como reiniciá-lo |
 | [Identidade visual](docs/IDENTIDADE_VISUAL.md) | De onde vem o visual e como mexer nele sem quebrar o conjunto |
 | [Segurança](SECURITY.md) | O que foi feito, o que não foi, e como avisar de uma falha |
+| [Modelo de ameaças](docs/seguranca/modelo-de-ameacas.md) | STRIDE sobre os fluxos que rodam hoje, com a prova de cada controle |
+| [Checklist ASVS](docs/seguranca/asvs.md) | OWASP ASVS 5.0 capítulo a capítulo, com o que falta |
 | [Contribuindo](CONTRIBUTING.md) | Padrão de branch, commit e revisão do grupo |
 
 ## O que este projeto não faz
