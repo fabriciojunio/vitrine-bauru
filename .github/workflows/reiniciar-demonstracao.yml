@@ -46,14 +46,31 @@ jobs:
           fi
           echo "PULAR=nao" >> "$GITHUB_ENV"
 
+      - name: Disparar o deploy antes de apagar
+        if: env.PULAR == 'nao'
+        run: |
+          # O gatilho é um endereço secreto que só sabe disparar deploy deste
+          # serviço. É de propósito mais estreito que uma chave de API da
+          # conta, que daria acesso a tudo que existe no Render.
+          #
+          # Ele vem antes do apagão desde 28/10/2026. Na ordem antiga o banco
+          # era apagado primeiro, e de 21/10 em diante o gatilho passou a
+          # responder erro: todo dia o banco sumia e a aplicação seguia de pé
+          # devolvendo 500 até o Render hibernar o serviço. Disparado primeiro,
+          # gatilho quebrado para o fluxo aqui e a demonstração fica como está.
+          # Não há corrida com a subida nova: o Render ainda constrói a imagem
+          # por minutos, e o apagão abaixo leva segundos.
+          curl -sf -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" > /dev/null
+          echo "Deploy disparado. Apagando o banco enquanto a imagem constrói."
+
       - name: Apagar os esquemas da demonstração
         if: env.PULAR == 'nao'
         env:
           PGPASSWORD: ${{ secrets.DEMO_BANCO_SENHA }}
         run: |
-          # Derruba tudo e deixa o Flyway reconstruir na próxima subida. É
-          # mais confiável que apagar linha por linha: qualquer tabela nova
-          # entra no reinício sem alguém lembrar de acrescentar aqui.
+          # Derruba tudo e deixa o Flyway reconstruir na subida que acabou de
+          # ser disparada. É mais confiável que apagar linha por linha: qualquer
+          # tabela nova entra no reinício sem alguém lembrar de acrescentar aqui.
           psql "host=${{ secrets.DEMO_BANCO_HOST }} \
                 dbname=${{ secrets.DEMO_BANCO_NOME }} \
                 user=${{ secrets.DEMO_BANCO_USUARIO }} \
@@ -66,15 +83,6 @@ jobs:
           drop table if exists inbox;
           drop table if exists flyway_schema_history;
           SQL
-
-      - name: Subir a aplicação de novo, que é o que semeia
-        if: env.PULAR == 'nao'
-        run: |
-          # O gatilho é um endereço secreto que só sabe disparar deploy deste
-          # serviço. É de propósito mais estreito que uma chave de API da
-          # conta, que daria acesso a tudo que existe no Render.
-          curl -sf -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" > /dev/null
-          echo "Deploy disparado. Esperando a aplicação subir e semear."
 
       - name: Conferir que a demonstração voltou com dados
         if: env.PULAR == 'nao'
