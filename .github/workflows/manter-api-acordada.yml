@@ -67,7 +67,7 @@ jobs:
           # health do Spring inclui o indicador do banco, então cada ping abria
           # conexão e acordava o Postgres. Isso consumiu 175 das 192 horas
           # gratuitas do mês em oito dias, com o banco acordado 22 horas por dia
-          # sem nenhuma visita real — e a cota do Neon é da conta inteira, então
+          # sem nenhuma visita real, e a cota do Neon é da conta inteira, então
           # levava junto os outros projetos.
           #
           # O /api/vivo responde da memória e acorda só o serviço. O robots.txt
