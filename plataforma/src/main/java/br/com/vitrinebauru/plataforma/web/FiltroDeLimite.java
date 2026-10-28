@@ -70,7 +70,8 @@ public class FiltroDeLimite extends OncePerRequestFilter {
         }
 
         metricas.counter("vitrine.limite.bloqueios", "padrao", regra.get().padrao()).increment();
-        log.warn("Limite atingido em {} pela origem {}", requisicao.getRequestURI(), origem(requisicao));
+        log.warn("Limite atingido em {} pela origem {}",
+                semQuebraDeLinha(requisicao.getRequestURI()), semQuebraDeLinha(origem(requisicao)));
         recusar(resposta, regra.get());
     }
 
@@ -96,6 +97,15 @@ public class FiltroDeLimite extends OncePerRequestFilter {
      */
     private String origem(HttpServletRequest requisicao) {
         return requisicao.getRemoteAddr();
+    }
+
+    /**
+     * O caminho vem do cliente e a origem pode vir do X-Forwarded-For. Uma
+     * quebra de linha ali escreveria uma linha falsa no log, de autoria
+     * inventada, e quem investiga um ataque lê justamente essas linhas.
+     */
+    private static String semQuebraDeLinha(String texto) {
+        return texto == null ? null : texto.replaceAll("[\r\n]", "_");
     }
 
     private void recusar(HttpServletResponse resposta, PropriedadesDeLimite.Regra regra) throws IOException {
