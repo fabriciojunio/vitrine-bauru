@@ -17,6 +17,9 @@ pela prefeitura à parte; falha nela vai para `desenvolvimento@bauru.sp.gov.br`.
 
 ## O que está feito
 
+O detalhe por ameaça está no [modelo de ameaças](docs/seguranca/modelo-de-ameacas.md), e a leitura
+capítulo a capítulo do OWASP ASVS 5.0 no [checklist](docs/seguranca/asvs.md).
+
 **Senha.** Bcrypt com custo 12. O custo fica gravado no hash, então subi-lo no
 futuro não invalida as senhas já cadastradas. A política exige oito caracteres
 e barra as senhas mais óbvias, sem exigir símbolo e maiúscula: quem usa esta
@@ -81,7 +84,13 @@ responde pelo ato é quem o praticou.
 
 **Dependência e pipeline.** Desde 28/10/2026, todo push e todo PR passam por
 CodeQL (`security-extended`, Java e TypeScript), gitleaks no histórico inteiro e
-OSV-Scanner nos `pom.xml` e no lockfile do npm. Achado sem aceite registrado em
+OSV-Scanner no SBOM CycloneDX gerado pelo Maven e no lockfile do npm. O
+Spring Boot 3.5 saiu do suporte gratuito em junho de 2026; as bibliotecas que
+ele traz com falha conhecida (Tomcat, Jackson, driver do Postgres, log4j-api,
+httpcomponents, lz4, snappy, OpenTelemetry, commons-lang3, BouncyCastle) estão
+fixadas em versão corrigida no `pom.xml` raiz. As duas falhas do Spring MVC que
+só o Spring 7 corrige não se aplicam aqui e estão aceitas com prazo em
+`osv-scanner.toml`. Achado sem aceite registrado em
 `.github/codeql-accepted.json` reprova o fluxo, e aceite vencido também. O
 Dependabot propõe atualização semanal com espera de sete dias, as actions são
 fixadas por SHA e cada fluxo declara só a permissão que usa.
