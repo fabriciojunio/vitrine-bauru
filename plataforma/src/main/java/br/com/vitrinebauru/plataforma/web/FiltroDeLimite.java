@@ -105,7 +105,7 @@ public class FiltroDeLimite extends OncePerRequestFilter {
      * inventada, e quem investiga um ataque lê justamente essas linhas.
      */
     private static String semQuebraDeLinha(String texto) {
-        return texto == null ? null : texto.replaceAll("[\r\n]", "_");
+        return texto == null ? null : texto.replaceAll("[\\r\\n]", "_");
     }
 
     private void recusar(HttpServletResponse resposta, PropriedadesDeLimite.Regra regra) throws IOException {
