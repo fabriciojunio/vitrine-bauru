@@ -41,16 +41,18 @@ public class ModerarCadastro {
     private final Sanitizador sanitizador;
     private final Auditor auditor;
     private final Clock relogio;
+    private final ProtecaoDaDemonstracao demonstracao;
 
     public ModerarCadastro(EmpreendedorRepository empreendedores, UsuarioRepository usuarios,
                            RegistroDeSaida outbox, Sanitizador sanitizador,
-                           Auditor auditor, Clock relogio) {
+                           Auditor auditor, Clock relogio, ProtecaoDaDemonstracao demonstracao) {
         this.empreendedores = empreendedores;
         this.usuarios = usuarios;
         this.outbox = outbox;
         this.sanitizador = sanitizador;
         this.auditor = auditor;
         this.relogio = relogio;
+        this.demonstracao = demonstracao;
     }
 
     @Transactional
@@ -91,6 +93,7 @@ public class ModerarCadastro {
     @Transactional
     public void suspender(UUID empreendedorId, UUID moderador, String motivo) {
         var empreendedor = carregar(empreendedorId);
+        demonstracao.exigirQueNaoSejaALojaDeEntrada(empreendedor.usuarioId());
         var dono = donoDe(empreendedor);
         var agora = relogio.instant();
         String motivoLimpo = sanitizador.limpar(motivo);

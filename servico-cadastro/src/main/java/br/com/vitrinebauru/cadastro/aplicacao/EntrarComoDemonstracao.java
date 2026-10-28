@@ -1,5 +1,6 @@
 package br.com.vitrinebauru.cadastro.aplicacao;
 
+import br.com.vitrinebauru.cadastro.dominio.Usuario;
 import br.com.vitrinebauru.cadastro.infraestrutura.config.PropriedadesDaDemonstracao;
 import br.com.vitrinebauru.cadastro.infraestrutura.persistencia.EmpreendedorRepository;
 import br.com.vitrinebauru.cadastro.infraestrutura.persistencia.UsuarioRepository;
@@ -44,6 +45,11 @@ public class EntrarComoDemonstracao {
         this.propriedades = propriedades;
     }
 
+    /** A loja em que o botão de empreendedor entra. {@link ProtecaoDaDemonstracao} usa a mesma. */
+    public static String emailDaLojaDeEntrada() {
+        return Usuario.normalizarEmail(DadosDaDemonstracao.lojas().getFirst().email());
+    }
+
     public boolean ativa() {
         return propriedades.ativo();
     }
@@ -56,7 +62,7 @@ public class EntrarComoDemonstracao {
 
         String email = switch (papel == null ? "" : papel.toLowerCase()) {
             case PAPEL_SEDECON -> DadosDaDemonstracao.ADMIN_EMAIL;
-            case PAPEL_EMPREENDEDOR -> DadosDaDemonstracao.lojas().getFirst().email();
+            case PAPEL_EMPREENDEDOR -> emailDaLojaDeEntrada();
             default -> throw new ErrosDeNegocio.RegraDeNegocio(
                     "Escolha entre entrar como empreendedor ou como SEDECON.");
         };
