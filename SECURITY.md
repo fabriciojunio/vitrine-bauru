@@ -1,18 +1,26 @@
 # Segurança
 
+*[Read this in English](SECURITY.en.md)*
+
 A plataforma guarda CPF, CNPJ, telefone e e-mail de pequenos empreendedores de
 verdade, e leva o nome da SEDECON. Este documento diz o que foi feito, o que
 não foi, e como avisar de um problema.
 
 ## Como avisar de uma falha
 
-Escreva para `desenvolvimento@bauru.sp.gov.br` com o assunto "Vitrine Bauru:
-falha de segurança", ou procure a Casa do Empreendedor, na Av. Duque de Caxias,
-16-55, Vila Cardia. Descreva o que encontrou e como reproduzir.
+Use o aviso privado do GitHub: aba **Security**, botão **Report a
+vulnerability**. Descreva o que encontrou e como reproduzir. A resposta inicial
+sai em até sete dias.
 
 Não abra issue pública com detalhe de falha explorável.
 
+Este repositório é a versão de portfólio. A instalação da SEDECON é mantida
+pela prefeitura à parte; falha nela vai para `desenvolvimento@bauru.sp.gov.br`.
+
 ## O que está feito
+
+O detalhe por ameaça está no [modelo de ameaças](docs/seguranca/modelo-de-ameacas.md), e a leitura
+capítulo a capítulo do OWASP ASVS 5.0 no [checklist](docs/seguranca/asvs.md).
 
 **Senha.** Bcrypt com custo 12. O custo fica gravado no hash, então subi-lo no
 futuro não invalida as senhas já cadastradas. A política exige oito caracteres
@@ -76,6 +84,25 @@ que carrega nome e motivo de recusa.
 correlação, e o registro sobrevive à exclusão de dados do titular: quem
 responde pelo ato é quem o praticou.
 
+**Demonstração pública.** Com `DEMO_ATIVO`, a loja em que o botão de
+empreendedora entra recusa exclusão e suspensão, para um visitante não tirar a
+entrada do ar para os outros, e a entrada em um clique é limitada a dez por
+minuto por endereço. Fora do modo demonstração, o endereço de entrada responde
+404.
+
+**Dependência e pipeline.** Desde 28/10/2026, todo push e todo PR passam por
+CodeQL (`security-extended`, Java e TypeScript), gitleaks no histórico inteiro e
+OSV-Scanner no SBOM CycloneDX gerado pelo Maven e no lockfile do npm. O
+Spring Boot 3.5 saiu do suporte gratuito em junho de 2026; as bibliotecas que
+ele traz com falha conhecida (Tomcat, Jackson, driver do Postgres, log4j-api,
+httpcomponents, lz4, snappy, OpenTelemetry, commons-lang3, BouncyCastle) estão
+fixadas em versão corrigida no `pom.xml` raiz. As duas falhas do Spring MVC que
+só o Spring 7 corrige não se aplicam aqui e estão aceitas com prazo em
+`osv-scanner.toml`. Achado sem aceite registrado em
+`.github/codeql-accepted.json` reprova o fluxo, e aceite vencido também. O
+Dependabot propõe atualização semanal com espera de sete dias, as actions são
+fixadas por SHA e cada fluxo declara só a permissão que usa.
+
 ## O que não está feito, e por quê
 
 **CSRF está desligado.** A autenticação vai no cabeçalho `Authorization`, e não
@@ -103,10 +130,6 @@ pendente para aprovado.
 **Não há proteção contra robô no cadastro.** O Cloudflare Turnstile está
 previsto para a fase seguinte. Hoje o que existe é o limite de dez cadastros
 por hora por endereço e a moderação humana antes de qualquer coisa aparecer.
-
-**Não há varredura de dependência automatizada.** O projeto é novo e as
-dependências são todas de versão atual. Numa continuação, entra Dependabot e
-`mvn dependency-check`.
 
 ## LGPD
 

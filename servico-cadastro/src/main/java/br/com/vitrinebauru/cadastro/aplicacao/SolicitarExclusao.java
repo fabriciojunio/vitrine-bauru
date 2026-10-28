@@ -44,22 +44,25 @@ public class SolicitarExclusao {
     private final RegistroDeSaida outbox;
     private final Auditor auditor;
     private final Clock relogio;
+    private final ProtecaoDaDemonstracao demonstracao;
 
     public SolicitarExclusao(EmpreendedorRepository empreendedores, PedidoDeExclusaoRepository pedidos,
                              EncerrarSessao encerrarSessao, RegistroDeSaida outbox,
-                             Auditor auditor, Clock relogio) {
+                             Auditor auditor, Clock relogio, ProtecaoDaDemonstracao demonstracao) {
         this.empreendedores = empreendedores;
         this.pedidos = pedidos;
         this.encerrarSessao = encerrarSessao;
         this.outbox = outbox;
         this.auditor = auditor;
         this.relogio = relogio;
+        this.demonstracao = demonstracao;
     }
 
     @Transactional
     public Recibo executar(UUID empreendedorId, UUID autor) {
         var empreendedor = empreendedores.findById(empreendedorId).orElseThrow(() ->
                 new ErrosDeNegocio.NaoEncontrado("Cadastro não encontrado."));
+        demonstracao.exigirQueNaoSejaALojaDeEntrada(empreendedor.usuarioId());
 
         if (pedidos.existsByEmpreendedorIdAndConcluidoEmIsNull(empreendedorId)) {
             throw new ErrosDeNegocio.Conflito(

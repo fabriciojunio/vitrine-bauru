@@ -94,11 +94,11 @@ Playwright end to end.
 for distributed traces, Jaeger as the local dashboard, Actuator for health checks.
 
 **Infrastructure.** Docker with a two-stage image, Docker Compose, Kubernetes manifests with
-Service, PDB, Ingress and HPA, GitHub Actions in three jobs, Neon, Render and Vercel.
+Service, PDB, Ingress and HPA, GitHub Actions, Neon, Render and Vercel.
 
 ## Tests
 
-**1,042 automated tests, and none of them needs Docker installed.** Embedded PostgreSQL and
+**1,116 automated tests (885 back end, 195 front end, 36 end to end), and none of them needs Docker installed.** Embedded PostgreSQL and
 embedded Kafka start inside the test process itself, which is what keeps the suite runnable on a
 laptop and in CI without a container runtime.
 
@@ -134,6 +134,18 @@ RASTRO_ATIVO=true docker compose up -d
 # Exercise the SNS transport with no AWS account
 docker compose --profile aws up -d localstack
 ```
+
+## Security
+
+Every push runs CodeQL (`security-extended`, Java and TypeScript), gitleaks over the whole history
+and OSV-Scanner over a CycloneDX SBOM built by Maven plus the npm lockfile. Actions are pinned by
+SHA and each workflow gets only the token permissions it uses. Spring Boot 3.5 reached the end of
+free support in June 2026, so the libraries it brings with published flaws are pinned to fixed
+versions in the root `pom.xml`; moving to Boot 4 is the next step.
+
+The threat model (STRIDE) and the OWASP ASVS 5.0 checklist are in
+[docs/seguranca](docs/seguranca), in English and Portuguese, and [SECURITY.en.md](SECURITY.en.md)
+explains how to report a vulnerability privately.
 
 ## Decision records
 

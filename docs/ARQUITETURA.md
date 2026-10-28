@@ -7,8 +7,8 @@ porquê de cada uma estão nos [registros de decisão](adr/); aqui está o mapa.
 
 | Módulo | O que é dele | Porta |
 |---|---|---|
-| `contratos` | Eventos, tópicos e tipos de valor compartilhados. Não depende de nada | — |
-| `plataforma` | Outbox, inbox, despachante, segurança, tratamento de erro, limite de requisição | — |
+| `contratos` | Eventos, tópicos e tipos de valor compartilhados. Não depende de nada | nenhuma |
+| `plataforma` | Outbox, inbox, despachante, segurança, tratamento de erro, limite de requisição | nenhuma |
 | `servico-cadastro` | Contas, perfil do empreendedor, moderação da SEDECON, indicadores, LGPD | 8081 |
 | `servico-catalogo` | Produtos, categorias, fotos | 8082 |
 | `servico-busca` | Projeção pública: a vitrine e o registro de contato | 8083 |

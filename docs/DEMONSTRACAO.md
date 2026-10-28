@@ -75,8 +75,17 @@ o que ainda não aconteceu no instante em que a aplicação está subindo.
 ## Reiniciando
 
 A demonstração é pública e qualquer pessoa aprova cadastro e publica produto
-nela. O fluxo `reiniciar-demonstracao.yml` apaga os esquemas de madrugada e
-deixa o Flyway reconstruir na subida seguinte, o que semeia tudo de novo.
+nela. O fluxo `reiniciar-demonstracao.yml` roda de madrugada: dispara o deploy
+no Render, apaga os esquemas enquanto a imagem constrói e deixa o Flyway
+reconstruir na subida, o que semeia tudo de novo. A ordem importa. Se o gatilho
+de deploy falhar, nada é apagado; até 28/10/2026 o banco era apagado primeiro,
+e com o gatilho quebrado a demonstração ficava devolvendo 500.
+
+Duas coisas o visitante não consegue fazer, para não estragar a visita de
+quem vem depois: excluir ou suspender a loja Doces da Lourdes, que é onde o
+botão de empreendedora entra. As outras lojas semeadas e qualquer loja
+cadastrada na hora servem para testar exclusão e suspensão. A entrada em um
+clique também é limitada a dez por minuto por endereço.
 
 Para reiniciar à mão, apague os esquemas e reinicie o serviço:
 
