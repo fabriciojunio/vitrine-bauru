@@ -144,8 +144,8 @@ free support in June 2026, so the libraries it brings with published flaws are p
 versions in the root `pom.xml`; moving to Boot 4 is the next step.
 
 The threat model (STRIDE) and the OWASP ASVS 5.0 checklist are in
-[docs/seguranca](docs/seguranca), in Portuguese, and [SECURITY.md](SECURITY.md) explains how to
-report a vulnerability privately.
+[docs/seguranca](docs/seguranca), in English and Portuguese, and [SECURITY.en.md](SECURITY.en.md)
+explains how to report a vulnerability privately.
 
 ## Decision records
 

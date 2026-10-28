@@ -1,5 +1,7 @@
 # Checklist OWASP ASVS 5.0
 
+*[Read this in English](asvs.en.md)*
+
 Avaliação feita em 28/10/2026 por capítulo, com o nível 2 como alvo. Não é certificação: é a leitura
 do código contra o padrão, com o arquivo ou o teste que sustenta cada resposta. "Parcial" quer dizer
 que uma parte do capítulo está coberta e a parte que falta está escrita.
