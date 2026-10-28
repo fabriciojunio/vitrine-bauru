@@ -60,8 +60,9 @@ hibernação para quem esperou meio segundo só cria dúvida.
 **Um monitor externo mantém acordado.** É o que funciona, e a escolha veio de
 uma medição, não de preferência. Use o [cron-job.org](https://cron-job.org) ou
 o [UptimeRobot](https://uptimerobot.com), os dois gratuitos: aponte para
-`https://vitrine-bauru-api.onrender.com/actuator/health` a cada cinco minutos,
-método GET, e pronto.
+`https://vitrine-bauru-api.onrender.com/api/vivo` a cada cinco minutos, método
+GET, e pronto. Não use `/actuator/health`: ele consulta o banco e mantém o
+Postgres do Neon acordado o dia inteiro, o que queimou a cota em 08/09/2026.
 
 **Por que não bastou o GitHub Actions.** O
 `.github/workflows/manter-api-acordada.yml` pede execução a cada dez minutos.
