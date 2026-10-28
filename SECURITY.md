@@ -6,11 +6,14 @@ não foi, e como avisar de um problema.
 
 ## Como avisar de uma falha
 
-Escreva para `desenvolvimento@bauru.sp.gov.br` com o assunto "Vitrine Bauru:
-falha de segurança", ou procure a Casa do Empreendedor, na Av. Duque de Caxias,
-16-55, Vila Cardia. Descreva o que encontrou e como reproduzir.
+Use o aviso privado do GitHub: aba **Security**, botão **Report a
+vulnerability**. Descreva o que encontrou e como reproduzir. A resposta inicial
+sai em até sete dias.
 
 Não abra issue pública com detalhe de falha explorável.
+
+Este repositório é a versão de portfólio. A instalação da SEDECON é mantida
+pela prefeitura à parte; falha nela vai para `desenvolvimento@bauru.sp.gov.br`.
 
 ## O que está feito
 
@@ -76,6 +79,13 @@ que carrega nome e motivo de recusa.
 correlação, e o registro sobrevive à exclusão de dados do titular: quem
 responde pelo ato é quem o praticou.
 
+**Dependência e pipeline.** Desde 28/10/2026, todo push e todo PR passam por
+CodeQL (`security-extended`, Java e TypeScript), gitleaks no histórico inteiro e
+OSV-Scanner nos `pom.xml` e no lockfile do npm. Achado sem aceite registrado em
+`.github/codeql-accepted.json` reprova o fluxo, e aceite vencido também. O
+Dependabot propõe atualização semanal com espera de sete dias, as actions são
+fixadas por SHA e cada fluxo declara só a permissão que usa.
+
 ## O que não está feito, e por quê
 
 **CSRF está desligado.** A autenticação vai no cabeçalho `Authorization`, e não
@@ -103,10 +113,6 @@ pendente para aprovado.
 **Não há proteção contra robô no cadastro.** O Cloudflare Turnstile está
 previsto para a fase seguinte. Hoje o que existe é o limite de dez cadastros
 por hora por endereço e a moderação humana antes de qualquer coisa aparecer.
-
-**Não há varredura de dependência automatizada.** O projeto é novo e as
-dependências são todas de versão atual. Numa continuação, entra Dependabot e
-`mvn dependency-check`.
 
 ## LGPD
 
