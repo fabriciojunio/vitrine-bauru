@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "rule": "java/spring-disabled-csrf-protection",
+    "path": "plataforma/src/main/java/br/com/vitrinebauru/plataforma/seguranca/PadraoDeSeguranca.java",
+    "reason": "A API é stateless e autentica só pelo cabeçalho Authorization: Bearer. Nenhum cookie de sessão é emitido, então o navegador não anexa credencial sozinho em requisição de outro site, que é o que o CSRF explora.",
+    "mitigation": "SessionCreationPolicy.STATELESS e CORS com lista explícita em PadraoDeSeguranca.java; SegurancaHttpTest confere origem recusada. Se a sessão virar cookie, a proteção volta (comentário na própria linha).",
+    "owner": "Fabrício Júnio",
+    "accepted": "2026-10-28",
+    "review": "2027-04-28"
+  }
+]
