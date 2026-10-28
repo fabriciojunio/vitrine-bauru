@@ -96,23 +96,23 @@ topo do arquivo e o token.
 Ficam em `@layer components`, no mesmo arquivo. Use estas antes de inventar
 combinação de utilitário solta:
 
-- `.arcada`, `.arcada-faixa`, `.arcada-tinta` — a arcada do calçadão. A primeira
+- `.arcada`, `.arcada-faixa`, `.arcada-tinta`: a arcada do calçadão. A primeira
   é a faixa alta do herói, a segunda a versão baixa do rodapé, a terceira o
   contorno escuro para fundo claro.
-- `.quadro` — painel de contorno fino, o recipiente padrão de tudo.
-- `.placa`, `.placa-leve`, `.placa-no-verde` — o filete interno da placa
+- `.quadro`: painel de contorno fino, o recipiente padrão de tudo.
+- `.placa`, `.placa-leve`, `.placa-no-verde`: o filete interno da placa
   esmaltada, desenhado por um `::before` inset. **Só em painel de texto**: em
   cartão com foto encostada na borda o filete atravessa a imagem.
 - `.botao` mais `.botao-principal` (amarelo), `.botao-selo` (verde),
   `.botao-neutro` (branco com contorno) e `.botao-texto`.
-- `.campo`, `.etiqueta` — entrada de formulário, com estado de erro por
+- `.campo`, `.etiqueta`: entrada de formulário, com estado de erro por
   `aria-invalid`. A etiqueta é maiúscula estreita, no registro da placa.
-- `.preco`, `.preco-sob-consulta` — o preço tem peso próprio na grade.
-- `.selo-categoria`, `.selo-no-verde` — a etiqueta de categoria, na versão
+- `.preco`, `.preco-sob-consulta`: o preço tem peso próprio na grade.
+- `.selo-categoria`, `.selo-no-verde`: a etiqueta de categoria, na versão
   normal e na que vai sobre o verde.
 - `.aviso` mais `.aviso-erro`, `.aviso-certo`, `.aviso-atencao`.
-- `.sem-foto`, `.iniciais-da-foto` — o lugar da foto que ainda não existe.
-- `.duas-linhas`, `.tres-linhas` — corte de texto por número de linhas.
+- `.sem-foto`, `.iniciais-da-foto`: o lugar da foto que ainda não existe.
+- `.duas-linhas`, `.tres-linhas`: corte de texto por número de linhas.
 
 ## O lugar da foto que não existe
 
