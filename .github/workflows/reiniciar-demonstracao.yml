@@ -18,6 +18,8 @@ on:
     - cron: '0 6 * * *' # 03:00 em Brasília
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   reiniciar:
     name: Apagar e semear de novo
@@ -28,8 +30,6 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v5
-
       - name: Conferir que dá para reiniciar antes de apagar
         run: |
           # Este passo existe para não destruir o que não se sabe reconstruir.

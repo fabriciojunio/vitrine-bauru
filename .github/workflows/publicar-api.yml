@@ -22,6 +22,9 @@ on:
     branches: ["produção"]
   workflow_dispatch:
 
+# Só fala com o Render por HTTP; o token do GitHub não serve para nada aqui.
+permissions: {}
+
 jobs:
   publicar:
     name: Disparar o deploy no Render
