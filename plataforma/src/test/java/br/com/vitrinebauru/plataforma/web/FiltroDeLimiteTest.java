@@ -1,9 +1,13 @@
 package br.com.vitrinebauru.plataforma.web;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import jakarta.servlet.FilterChain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -148,5 +152,27 @@ class FiltroDeLimiteTest {
         var filtro = new FiltroDeLimite(new PropriedadesDeLimite(true, null), new SimpleMeterRegistry());
 
         assertThat(tentar(filtro, LOGIN, "200.100.50.1")).isEqualTo(200);
+    }
+
+    @Test
+    @DisplayName("quebra de linha vinda do cliente não cria linha falsa no log")
+    void logSemQuebraDeLinha() throws Exception {
+        var logger = (Logger) LoggerFactory.getLogger(FiltroDeLimite.class);
+        var registros = new ListAppender<ILoggingEvent>();
+        registros.start();
+        logger.addAppender(registros);
+        try {
+            var filtro = filtroCom(true, 1);
+            String forjado = "/api/cadastro/auth/x\nINFO login aprovado para admin";
+            tentar(filtro, forjado, "200.100.50.1");
+            tentar(filtro, forjado, "200.100.50.1");
+
+            assertThat(registros.list).hasSize(1);
+            assertThat(registros.list.getFirst().getFormattedMessage())
+                    .doesNotContain("\n")
+                    .contains("x_INFO login aprovado");
+        } finally {
+            logger.detachAppender(registros);
+        }
     }
 }
