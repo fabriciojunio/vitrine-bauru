@@ -248,6 +248,31 @@ class SegurancaHttpTest {
         }
 
         @Test
+        @DisplayName("segura quem chama a entrada da demonstração em laço")
+        void seguraEntradaDaDemonstracaoEmLaco() throws Exception {
+            String corpo = "{\"papel\":\"empreendedor\"}";
+
+            for (int tentativa = 0; tentativa < 10; tentativa++) {
+                mockMvc.perform(post("/api/cadastro/auth/demonstracao")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(corpo)
+                        .with(requisicao -> {
+                            requisicao.setRemoteAddr("203.0.113.20");
+                            return requisicao;
+                        }));
+            }
+
+            mockMvc.perform(post("/api/cadastro/auth/demonstracao")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(corpo)
+                            .with(requisicao -> {
+                                requisicao.setRemoteAddr("203.0.113.20");
+                                return requisicao;
+                            }))
+                    .andExpect(status().isTooManyRequests());
+        }
+
+        @Test
         @DisplayName("a vitrine pública não é limitada junto com o login")
         void vitrineNaoEhLimitadaJunto() throws Exception {
             for (int consulta = 0; consulta < 20; consulta++) {

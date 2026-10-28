@@ -114,6 +114,11 @@ vitrine:
       - padrao: /api/cadastro/auth/renovar
         capacidade: 30
         janela: 1m
+      # Entrada em um clique: cada chamada grava uma sessão no banco. Dez por
+      # minuto sobra para quem avalia e barra quem quer encher a tabela.
+      - padrao: /api/cadastro/auth/demonstracao
+        capacidade: 10
+        janela: 1m
       - padrao: /api/catalogo/meus-produtos/*/imagem
         capacidade: 20
         janela: 1h
