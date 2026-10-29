@@ -143,9 +143,14 @@ SHA and each workflow gets only the token permissions it uses. Spring Boot 3.5 r
 free support in June 2026, so the libraries it brings with published flaws are pinned to fixed
 versions in the root `pom.xml`; moving to Boot 4 is the next step.
 
-The threat model (STRIDE) and the OWASP ASVS 5.0 checklist are in
-[docs/seguranca](docs/seguranca), in English and Portuguese, and [SECURITY.en.md](SECURITY.en.md)
-explains how to report a vulnerability privately.
+The security programme lives in [docs/seguranca](docs/seguranca), in English and Portuguese: the
+STRIDE threat model, the OWASP ASVS 5.0 checklist, a [threat analysis](docs/seguranca/analise-de-ameacas.en.md)
+with data flow, attack tree, PASTA and DREAD, the [risk register](docs/seguranca/riscos.en.md) with the
+release decision, an [OWASP SAMM assessment](docs/seguranca/samm.en.md), an [ATT&CK map](docs/seguranca/attack.en.md),
+[compliance](docs/seguranca/conformidade.en.md) (LGPD, plus a PCI DSS and BACEN exercise), the
+[disclosure policy](docs/seguranca/divulgacao.en.md) and the [Security Champions kit](docs/seguranca/champions/).
+A monthly workflow collects SOC 2 and ISO 27001 evidence. [SECURITY.en.md](SECURITY.en.md) explains how
+to report a vulnerability privately.
 
 ## Decision records
 

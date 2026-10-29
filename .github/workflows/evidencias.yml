@@ -1,0 +1,51 @@
+name: Evidências de controles
+
+# Junta, todo mês e a cada entrada em produção, a evidência que um auditor de SOC 2 ou ISO 27001
+# pediria: mudanças por PR, checks obrigatórios, alertas do CodeQL e tempo de correção, actions
+# fixadas, espera do Dependabot e SBOM. O relatório fica como artefato por 90 dias.
+
+on:
+  push:
+    branches: ["produção"]
+  schedule:
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  evidencias:
+    name: Relatório de evidências
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+      - name: Gerar o SBOM do back-end
+        run: mvn -B -q org.cyclonedx:cyclonedx-maven-plugin:2.9.3:makeAggregateBom -DoutputFormat=json -DoutputName=bom.cdx
+      - name: Montar o relatório
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p evidencias
+          cp target/bom.cdx.json evidencias/
+          python3 scripts/evidencias.py "${{ github.repository }}" target/bom.cdx.json evidencias/relatorio.md
+          cat evidencias/relatorio.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: evidencias-${{ github.run_number }}
+          path: evidencias/
+          retention-days: 90

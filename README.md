@@ -300,6 +300,13 @@ O que os testes cobrem, além do caminho feliz:
 | [Segurança](SECURITY.md) | O que foi feito, o que não foi, e como avisar de uma falha |
 | [Modelo de ameaças](docs/seguranca/modelo-de-ameacas.md) | STRIDE sobre os fluxos que rodam hoje, com a prova de cada controle |
 | [Checklist ASVS](docs/seguranca/asvs.md) | OWASP ASVS 5.0 capítulo a capítulo, com o que falta |
+| [Análise de ameaças](docs/seguranca/analise-de-ameacas.md) | Fluxo de dados, árvore de ataque, PASTA, DREAD e os requisitos que saem deles |
+| [Registro de riscos](docs/seguranca/riscos.md) | Riscos aceitos com dono e prazo, e o critério de decisão de release |
+| [SAMM](docs/seguranca/samm.md) | Maturidade do programa de segurança, nota atual e plano |
+| [ATT&CK](docs/seguranca/attack.md) | Técnicas que se aplicam, com prevenção e detecção |
+| [Conformidade](docs/seguranca/conformidade.md) | LGPD na Vitrine e um exercício de PCI DSS e BACEN |
+| [Divulgação de falhas](docs/seguranca/divulgacao.md) | Escopo, prazos e safe harbor para quem reporta |
+| [Security Champions](docs/seguranca/champions/) | Checklist de PR, treinamento de 30 minutos e triagem de SAST |
 | [Contribuindo](CONTRIBUTING.md) | Padrão de branch, commit e revisão do grupo |
 
 ## O que este projeto não faz
