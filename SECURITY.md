@@ -14,6 +14,9 @@ sai em até sete dias.
 
 Não abra issue pública com detalhe de falha explorável.
 
+Escopo, prazos e safe harbor estão na [política de divulgação](docs/seguranca/divulgacao.md),
+também publicada em `/.well-known/security.txt` no formato da RFC 9116.
+
 Este repositório é a versão de portfólio. A instalação da SEDECON é mantida
 pela prefeitura à parte; falha nela vai para `desenvolvimento@bauru.sp.gov.br`.
 

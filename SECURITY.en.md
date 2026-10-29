@@ -13,6 +13,9 @@ found and how to reproduce it. The first reply comes within seven days.
 
 Do not open a public issue with details of an exploitable flaw.
 
+Scope, deadlines and safe harbour are in the [disclosure policy](docs/seguranca/divulgacao.en.md),
+also published at `/.well-known/security.txt` in the RFC 9116 format.
+
 This repository is the portfolio version. The SEDECON installation is maintained separately by the
 city; flaws in it go to `desenvolvimento@bauru.sp.gov.br`.
 
