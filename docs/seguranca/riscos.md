@@ -15,7 +15,6 @@ Probabilidade e impacto de 1 a 3; o nível é o produto (1-2 baixo, 3-4 médio, 
 | R-02 | Token de renovação no `localStorage`, legível por XSS | 1 | 3 | médio (3) | aceitar, [ADR 0010](../adr/0010-token-de-renovacao-no-armazenamento-local.md); depende da CSP | Fabrício | revisão a cada 6 meses | 29/04/2027 |
 | R-03 | Log da aplicação só no Render: quem tem a conta apaga o rastro | 2 | 2 | médio (4) | reduzir: cópia para destino separado e somente anexação | Fabrício | 31/03/2027 | 31/12/2026 |
 | R-04 | Limite de requisição em memória: com mais de uma instância, multiplica | 1 | 2 | baixo (2) | aceitar enquanto houver uma instância; reduzir antes de escalar | Fabrício | antes da segunda instância | 29/04/2027 |
-| R-05 | `style-src 'unsafe-inline'` no front: `<style>` injetado vaza campo da tela por seletor | 1 | 2 | baixo (2) | reduzir: estilos do React em atributo, `style-src` com hash | Fabrício | 31/03/2027 | 31/12/2026 |
 | R-06 | E-mail do usuário dentro do token de acesso, legível por quem tiver o token | 1 | 1 | baixo (1) | aceitar: o token já dá acesso à conta inteira | Fabrício | revisão a cada 6 meses | 29/04/2027 |
 
 ## Exceções de ferramenta

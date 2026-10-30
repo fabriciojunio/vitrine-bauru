@@ -109,7 +109,7 @@ some companies still use it; for decisions, CVSS and the risk register are bette
 | RS-04 | Moderation actions recorded with author, date and correlation, and the record survives the data subject's erasure | repudiation | met | `FluxoDoCadastroTest.auditoriaRegistra`, `JornadaCompletaTest` (account anonymised, audit kept) |
 | RS-05 | Audit log copied to a destination the application account cannot delete | moderator erases traces | pending (R-03) | |
 | RS-06 | Rate limit shared across instances | mass harvesting, DoS | pending (R-04) | |
-| RS-07 | CSP without `unsafe-inline` for scripts, restricted to the API host | 2.1 | met | `web/vercel.json`, ZAP |
+| RS-07 | CSP without `unsafe-inline` for scripts or styles, restricted to the API host | 2.1 | met | `web/vercel.json`, ZAP |
 | RS-08 | New dependencies only after 7 days and without known flaws | 2.1.1 | met | OSV-Scanner, Dependabot |
 | RS-09 | Pipeline secrets with minimal scope, actions pinned by SHA | 4.1 | met | workflow review |
 | RS-10 | Database queries only parameterised | 4.2 | met | `SegurancaHttpTest` (injection payload) |

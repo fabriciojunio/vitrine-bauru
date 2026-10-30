@@ -109,7 +109,7 @@ decidir, o CVSS e o registro de riscos são melhores.
 | RS-04 | Ação de moderação registrada com autor, data e correlação, e o registro sobrevive à exclusão do titular | repúdio | atendido | `FluxoDoCadastroTest.auditoriaRegistra`, `JornadaCompletaTest` (conta anonimizada, auditoria mantida) |
 | RS-05 | Log de auditoria copiado para destino que a conta da aplicação não apaga | moderador apaga rastro | pendente (R-03) | |
 | RS-06 | Limite de requisição compartilhado entre instâncias | coleta em massa, DoS | pendente (R-04) | |
-| RS-07 | CSP sem `unsafe-inline` em script, restrita ao host da API | 2.1 | atendido | `web/vercel.json`, ZAP |
+| RS-07 | CSP sem `unsafe-inline` em script nem em estilo, restrita ao host da API | 2.1 | atendido | `web/vercel.json`, ZAP |
 | RS-08 | Dependência nova só após 7 dias e sem falha conhecida | 2.1.1 | atendido | OSV-Scanner, Dependabot |
 | RS-09 | Segredo do pipeline com escopo mínimo, actions por SHA | 4.1 | atendido | revisão dos workflows |
 | RS-10 | Consulta ao banco só parametrizada | 4.2 | atendido | `SegurancaHttpTest` (carga de injeção) |
