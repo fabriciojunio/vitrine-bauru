@@ -10,7 +10,7 @@ que uma parte do capítulo está coberta e a parte que falta está escrita.
 |---|---|---|
 | V1 Codificação e sanitização | Atende | Bean Validation em todo corpo; jsoup no texto livre; JPA com parâmetro; quebra de linha removida antes do log (`SanitizadorTest`, `FiltroDeLimiteTest`). |
 | V2 Validação e lógica de negócio | Atende | Moderação como máquina de estados no domínio (`EmpreendedorTest`); a loja de entrada da demonstração não pode ser excluída nem suspensa (`DemonstracaoTest`). |
-| V3 Segurança do front | Parcial | CSP na API e na Vercel restrita ao host da API, HSTS, `nosniff`, `frame-ancestors 'none'`. Falta: o token de renovação fica no `localStorage`, e a CSP da Vercel ainda aceita `style-src 'unsafe-inline'`. |
+| V3 Segurança do front | Parcial | CSP na API e na Vercel restrita ao host da API, HSTS, `nosniff`, `frame-ancestors 'none'`. Falta: o token de renovação fica no `localStorage` (ADR 0010). |
 | V4 API e serviços web | Atende | CORS com lista explícita, API sem cookie (CSRF não se aplica, aceite em `.github/codeql-accepted.json`), limite por endereço nas rotas sensíveis. |
 | V5 Arquivos | Atende | Tipo pelos bytes, 5 MB por arquivo e 50 MB por loja, imagem no banco com nome sorteado e `nosniff` na entrega (`TipoDeImagemTest`). |
 | V6 Autenticação | Parcial | bcrypt 12, bloqueio após 5 erros, mesma resposta e mesmo tempo para conta inexistente. Falta: 2FA para a SEDECON e checagem contra senhas vazadas. |
