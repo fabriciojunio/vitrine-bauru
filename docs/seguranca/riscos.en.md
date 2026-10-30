@@ -15,7 +15,6 @@ Likelihood and impact from 1 to 3; the level is the product (1-2 low, 3-4 medium
 | R-02 | Refresh token in `localStorage`, readable by XSS | 1 | 3 | medium (3) | accept, [ADR 0010](../adr/0010-token-de-renovacao-no-armazenamento-local.md); relies on the CSP | Fabrício | review every 6 months | 29/04/2027 |
 | R-03 | Application log only on Render: whoever holds the account can erase traces | 2 | 2 | medium (4) | reduce: copy to a separate, append-only destination | Fabrício | 31/03/2027 | 31/12/2026 |
 | R-04 | In-memory rate limit: with more than one instance, it multiplies | 1 | 2 | low (2) | accept while there is one instance; reduce before scaling | Fabrício | before the second instance | 29/04/2027 |
-| R-05 | `style-src 'unsafe-inline'` in the front: an injected `<style>` leaks on-screen fields through selectors | 1 | 2 | low (2) | reduce: React styles as attributes, `style-src` with hashes | Fabrício | 31/03/2027 | 31/12/2026 |
 | R-06 | User email inside the access token, readable by whoever holds the token | 1 | 1 | low (1) | accept: the token already gives access to the whole account | Fabrício | review every 6 months | 29/04/2027 |
 
 ## Tool exceptions
