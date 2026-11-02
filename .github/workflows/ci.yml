@@ -127,6 +127,10 @@ jobs:
           BANCO_USUARIO: vitrine
           BANCO_SENHA: vitrine
           DEMO_ATIVO: 'true'
+          # Igual ao scripts/testar-e2e.mjs: a suíte entra doze vezes em poucos
+          # segundos da mesma origem e esbarrava no limite de dez por minuto.
+          # O limitador é testado no Maven (FiltroDeLimiteTest).
+          LIMITE_ATIVO: 'false'
           VITRINE_SEGREDO_JWT: segredo-de-integracao-com-mais-de-32-bytes
           ORIGENS_PERMITIDAS: http://localhost:5173
         run: |

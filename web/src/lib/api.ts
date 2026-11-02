@@ -16,12 +16,14 @@
  * original. Sem esse retry, o painel deslogaria sozinho a cada quinze minutos.
  */
 
+import type { Sessao } from './tipos';
+
 export const BASE_DA_API = import.meta.env.VITE_API_URL ?? '';
 
 const CHAVE_DA_RENOVACAO = 'vitrine.renovacao';
 
 let tokenDeAcesso: string | null = null;
-let renovacaoEmAndamento: Promise<boolean> | null = null;
+let renovacaoEmAndamento: Promise<Sessao | null> | null = null;
 
 export type CamposComErro = Record<string, string>;
 
@@ -111,15 +113,20 @@ async function lerErro(resposta: Response): Promise<ErroDaApi> {
   return new ErroDaApi(resposta.status, detalhe, campos, correlacao);
 }
 
-async function renovarSessao(): Promise<boolean> {
+/**
+ * Troca o par de tokens e devolve a sessão nova, ou null se não deu.
+ *
+ * Uma renovação por vez, para a aplicação inteira: a chamada que levou 401 e a
+ * reconstrução da sessão ao abrir a página usam esta mesma função. Duas trocas
+ * do mesmo token chegariam ao servidor como reuso, e ele derrubaria todas as
+ * sessões da conta por suspeita de roubo.
+ */
+export async function renovarSessao(): Promise<Sessao | null> {
   const renovacao = sessaoGuardada.renovacao();
   if (!renovacao) {
-    return false;
+    return null;
   }
 
-  // Uma renovação por vez: várias chamadas falhando juntas não podem virar
-  // várias trocas de token, porque a segunda queimaria o token da primeira e
-  // o servidor derrubaria a sessão por suspeita de reuso.
   if (!renovacaoEmAndamento) {
     renovacaoEmAndamento = (async () => {
       try {
@@ -131,15 +138,15 @@ async function renovarSessao(): Promise<boolean> {
 
         if (!resposta.ok) {
           sessaoGuardada.limpar();
-          return false;
+          return null;
         }
 
-        const sessao = await resposta.json();
+        const sessao: Sessao = await resposta.json();
         sessaoGuardada.guardarAcesso(sessao.tokenDeAcesso);
         sessaoGuardada.guardarRenovacao(sessao.tokenDeRenovacao);
-        return true;
+        return sessao;
       } catch {
-        return false;
+        return null;
       } finally {
         renovacaoEmAndamento = null;
       }

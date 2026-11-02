@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { chamar, sessaoGuardada } from './api';
+import { chamar, renovarSessao, sessaoGuardada } from './api';
 import type { Sessao, UsuarioLogado } from './tipos';
 
 /**
@@ -34,21 +34,10 @@ export function ProvedorDaSessao({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const renovacao = sessaoGuardada.renovacao();
-    if (!renovacao) {
-      setCarregando(false);
-      return;
-    }
-
-    chamar<Sessao>('/api/cadastro/auth/renovar', {
-      metodo: 'POST',
-      corpo: { tokenDeRenovacao: renovacao },
-      semAutenticacao: true,
-    })
-      .then(guardar)
-      .catch(() => sessaoGuardada.limpar())
+    renovarSessao()
+      .then((sessao) => setUsuario(sessao?.usuario ?? null))
       .finally(() => setCarregando(false));
-  }, [guardar]);
+  }, []);
 
   const entrar = useCallback(
     async (email: string, senha: string) => {
