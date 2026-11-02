@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Base do Kustomize: os mesmos manifestos que já estavam nesta pasta. Os
+# overlays em overlays/ mudam só o que difere entre ambientes (versão da imagem,
+# réplicas e a configuração de demonstração), sem copiar o manifesto inteiro.
+resources:
+  - 00-base.yaml
+  - 10-servico-cadastro.yaml
+  - 11-servico-catalogo.yaml
+  - 12-servico-busca.yaml
+  - 13-servico-notificacoes.yaml
+  - 14-borda.yaml

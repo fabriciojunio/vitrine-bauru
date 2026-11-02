@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Homologação: liga os dados de demonstração, aponta a origem permitida para o
+# ambiente de teste e sobe uma réplica só da borda, para gastar menos. A versão
+# da imagem é a mesma da base.
+resources:
+  - ../../base
+
+replicas:
+  - name: borda
+    count: 1
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: vitrine-configuracao
+    patch: |-
+      - op: replace
+        path: /data/DEMO_ATIVO
+        value: "true"
+      - op: replace
+        path: /data/ORIGENS_PERMITIDAS
+        value: "https://vitrine-homologacao.vercel.app"

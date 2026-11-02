@@ -22,7 +22,7 @@ except ImportError:
     print('pyyaml não está instalado: pip install pyyaml')
     sys.exit(2)
 
-PASTA = os.path.dirname(os.path.abspath(__file__))
+PASTA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base')
 
 documentos = []
 for caminho in sorted(glob.glob(os.path.join(PASTA, '*.yaml'))):
