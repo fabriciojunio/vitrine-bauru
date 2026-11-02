@@ -1,0 +1,13 @@
+# Prova de que a política recusa o que deve. A política vem do chart renderizado
+# pelo CI em render/politicas.yaml (helm template com acao=Enforce).
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: politicas-da-vitrine
+policies:
+  - ../../../render/politicas.yaml
+resources:
+  - recursos.yaml
+results:
+  - {policy: vitrine-postura-de-pods, kind: Pod, resources: [correto, digest-fixo], result: pass}
+  - {policy: vitrine-postura-de-pods, kind: Pod, resources: [como-root, escala-privilegio, raiz-gravavel, tag-latest, sem-tag, sem-limite], result: fail}
