@@ -5,7 +5,7 @@ kind: Kustomization
 # ambiente de teste e sobe uma réplica só da borda, para gastar menos. A versão
 # da imagem é a mesma da base.
 resources:
-  - ../../
+  - ../../base
 
 replicas:
   - name: borda

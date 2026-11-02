@@ -262,8 +262,8 @@ e subir os quatro serviços com o `docker-compose.yml` ou com os manifestos em
 
 ### Kustomize por ambiente
 
-A pasta [`k8s/`](../k8s/) é a base do Kustomize. O que muda entre ambientes fica
-nos overlays, sem copiar o manifesto todo:
+A base do Kustomize fica em [`k8s/base/`](../k8s/base/). O que muda entre
+ambientes fica nos overlays, sem copiar o manifesto todo:
 
 ```
 kubectl kustomize k8s/overlays/producao      # produção

@@ -4,7 +4,7 @@ kind: Kustomization
 # Produção: a base com a versão da imagem fixada aqui. Este é o ponto único em
 # que o GitOps troca a versão que está no ar; o resto vem da base.
 resources:
-  - ../../
+  - ../../base
 
 images:
   - name: ghcr.io/fabriciojunio/vitrine-bauru/borda
