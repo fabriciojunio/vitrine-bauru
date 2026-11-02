@@ -247,6 +247,15 @@ O endereço está em **Render > vitrine-bauru-api > Settings > Deploy Hook**. É
 um gatilho estreito de propósito: só dispara deploy desse serviço, ao contrário
 de uma chave de API, que abriria a conta inteira.
 
+**O banco precisa aceitar conexão externa.** O fluxo roda num executor do
+GitHub, que não tem IP fixo, e entra pelo endereço externo do banco. No Render,
+banco criado pelo painel já vem com `0.0.0.0/0` na lista de acesso; criado pela
+API sem a lista, vem vazio, e lista vazia desliga o acesso externo. Foi o que
+aconteceu com o banco recriado em 30/10/2026: o reinício falhou todo dia com
+`SSL connection has been closed unexpectedly` até 02/11, quando a lista voltou
+para `0.0.0.0/0`. A aplicação não sentiu nada, porque fala com o banco pela rede
+interna. O dado é fictício e a conexão exige TLS e a senha gerada pelo Render.
+
 ## Voltando para quatro processos
 
 Nada do que está aqui impede a topologia de verdade. Com um broker e quatro
