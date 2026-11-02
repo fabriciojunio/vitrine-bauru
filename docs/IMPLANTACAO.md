@@ -275,3 +275,20 @@ versão no ar. Homologação liga o `DEMO_ATIVO`, aponta a origem permitida para
 endereço de teste e reduz a borda a uma réplica. O CI de segurança renderiza os
 dois e varre a configuração com o Trivy; a integridade referencial continua no
 [`conferir-manifestos.py`](../k8s/conferir-manifestos.py).
+
+### Políticas com Kyverno
+
+[`k8s/politicas/`](../k8s/politicas/) é um chart Helm com as políticas Kyverno
+que impõem a postura dos pods no cluster: não-root, sem escalar privilégio, raiz
+somente leitura, imagem sem `latest` e teto de memória. O chart começa em
+`Audit` e vira `Enforce` quando o cluster está limpo. O CI renderiza o chart em
+`Enforce` e roda `kyverno apply` contra o manifesto de produção, provando que a
+postura que as políticas exigem é a que o manifesto já tem.
+
+### GitOps com Flux
+
+[`gitops/clusters/producao/`](../gitops/clusters/producao/) descreve o estado do
+cluster para o Flux reconciliar: a `GitRepository` observa a branch de produção,
+a `Kustomization` aplica o overlay de produção com `prune`, e a `HelmRelease`
+instala o chart de políticas em `Enforce`. É declarativo; o Flux e o Kyverno
+ficam no cluster, instalados pelo operador da plataforma.

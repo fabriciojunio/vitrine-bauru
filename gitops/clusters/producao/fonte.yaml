@@ -1,0 +1,13 @@
+---
+# A fonte: o Flux observa a branch de produção deste repositório e reconcilia o
+# cluster com o que está aqui. Nada é aplicado à mão.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: vitrine-bauru
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: https://github.com/fabriciojunio/vitrine-bauru
+  ref:
+    branch: produção

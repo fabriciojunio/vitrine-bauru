@@ -1,0 +1,6 @@
+apiVersion: v2
+name: vitrine-politicas
+description: Políticas Kyverno que impõem a postura de segurança dos pods da Vitrine Bauru
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
