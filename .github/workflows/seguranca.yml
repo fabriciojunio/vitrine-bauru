@@ -130,3 +130,19 @@ jobs:
           scan-ref: render/producao.yaml
           severity: HIGH,CRITICAL
           exit-code: "1"
+      - name: Helm
+        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
+      - name: Chart das políticas Kyverno
+        run: |
+          set -euo pipefail
+          helm lint k8s/politicas
+          helm template vitrine-politicas k8s/politicas --set acao=Enforce > render/politicas.yaml
+      - name: Kyverno CLI
+        uses: kyverno/action-install-cli@fcee92fca5c883169ef9927acf543e0b5fc58289 # v0.2.0
+        with:
+          release: v1.19.2
+      # Em Enforce, o kyverno apply sai com erro se o manifesto violar qualquer
+      # regra. É a prova de que a postura que as políticas exigem é a que o
+      # manifesto de produção realmente tem.
+      - name: As políticas valem para o manifesto de produção
+        run: kyverno apply render/politicas.yaml --resource render/producao.yaml

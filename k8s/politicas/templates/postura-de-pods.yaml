@@ -1,0 +1,78 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: vitrine-postura-de-pods
+  annotations:
+    policies.kyverno.io/title: Postura de segurança dos pods
+    policies.kyverno.io/category: Pod Security
+    policies.kyverno.io/description: >-
+      Impõe nos pods da Vitrine o mesmo que os manifestos já trazem: não-root,
+      sem escalar privilégio, raiz somente leitura, imagem com tag fixa e teto
+      de memória. O Kyverno estende a regra de Pod para Deployment sozinho.
+spec:
+  background: true
+  rules:
+    - name: nao-root
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      validate:
+        failureAction: {{ .Values.acao }}
+        message: "O pod precisa declarar runAsNonRoot."
+        pattern:
+          spec:
+            securityContext:
+              runAsNonRoot: true
+    - name: sem-escalar-privilegio
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      validate:
+        failureAction: {{ .Values.acao }}
+        message: "allowPrivilegeEscalation precisa ser false em todo contêiner."
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  allowPrivilegeEscalation: false
+    - name: raiz-somente-leitura
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      validate:
+        failureAction: {{ .Values.acao }}
+        message: "readOnlyRootFilesystem precisa ser true em todo contêiner."
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  readOnlyRootFilesystem: true
+    - name: imagem-sem-latest
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      validate:
+        failureAction: {{ .Values.acao }}
+        message: "A imagem não pode usar latest, que não dá para reverter."
+        pattern:
+          spec:
+            containers:
+              - image: "!*:latest"
+    - name: teto-de-memoria
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      validate:
+        failureAction: {{ .Values.acao }}
+        message: "O contêiner precisa de teto de memória."
+        pattern:
+          spec:
+            containers:
+              - resources:
+                  limits:
+                    memory: "?*"

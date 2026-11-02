@@ -1,0 +1,18 @@
+---
+# A aplicação: o Flux aplica o overlay de produção do Kustomize e remove o que
+# sair do repositório (prune). Espera os recursos ficarem prontos antes de dar
+# a reconciliação por concluída.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: vitrine-bauru
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: vitrine-bauru
+  path: ./k8s/overlays/producao
+  prune: true
+  wait: true
+  timeout: 5m

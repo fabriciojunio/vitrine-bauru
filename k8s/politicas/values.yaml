@@ -1,0 +1,5 @@
+# "Audit" só registra a violação; "Enforce" recusa a criação do recurso. Começa
+# em Audit para não travar o que já roda num cluster, e vira Enforce quando ele
+# estiver limpo. O CI roda estas políticas em Enforce contra o manifesto
+# renderizado, que é onde elas precisam valer de verdade.
+acao: Audit
