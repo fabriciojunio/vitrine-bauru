@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Produção: a base com a versão da imagem fixada aqui. Este é o ponto único em
+# que o GitOps troca a versão que está no ar; o resto vem da base.
+resources:
+  - ../../
+
+images:
+  - name: ghcr.io/fabriciojunio/vitrine-bauru/borda
+    newTag: "1.0.0"
+  - name: ghcr.io/fabriciojunio/vitrine-bauru/servico-cadastro
+    newTag: "1.0.0"
+  - name: ghcr.io/fabriciojunio/vitrine-bauru/servico-catalogo
+    newTag: "1.0.0"
+  - name: ghcr.io/fabriciojunio/vitrine-bauru/servico-busca
+    newTag: "1.0.0"
+  - name: ghcr.io/fabriciojunio/vitrine-bauru/servico-notificacoes
+    newTag: "1.0.0"

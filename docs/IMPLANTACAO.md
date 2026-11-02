@@ -259,3 +259,19 @@ KAFKA_SERVIDORES=seu-broker:9092
 
 e subir os quatro serviços com o `docker-compose.yml` ou com os manifestos em
 [`k8s/`](../k8s/). O código é o mesmo.
+
+### Kustomize por ambiente
+
+A pasta [`k8s/`](../k8s/) é a base do Kustomize. O que muda entre ambientes fica
+nos overlays, sem copiar o manifesto todo:
+
+```
+kubectl kustomize k8s/overlays/producao      # produção
+kubectl kustomize k8s/overlays/homologacao   # dados de demonstração e uma réplica da borda
+```
+
+Produção fixa a versão da imagem no próprio overlay, que é onde o deploy troca a
+versão no ar. Homologação liga o `DEMO_ATIVO`, aponta a origem permitida para o
+endereço de teste e reduz a borda a uma réplica. O CI de segurança renderiza os
+dois e varre a configuração com o Trivy; a integridade referencial continua no
+[`conferir-manifestos.py`](../k8s/conferir-manifestos.py).

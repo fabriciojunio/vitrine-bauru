@@ -103,3 +103,30 @@ jobs:
           open=$(while IFS='|' read -r rule path line; do grep -qxF "$rule|$path" accepted.txt || echo "$rule: $path:$line"; done < findings.txt)
           echo "CodeQL: $(wc -l < findings.txt) resultado(s), $(echo -n "$open" | grep -c . || true) sem aceite"
           if [ -n "$open" ]; then echo "$open"; exit 1; fi
+
+  manifestos:
+    name: Manifestos do Kubernetes (Kustomize e Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # kubectl já vem no runner e traz o Kustomize embutido. Renderiza os dois
+      # ambientes: se um overlay estiver quebrado, para aqui.
+      - name: Renderizar os overlays
+        run: |
+          set -euo pipefail
+          mkdir -p render
+          kubectl kustomize k8s/overlays/homologacao > render/homologacao.yaml
+          kubectl kustomize k8s/overlays/producao   > render/producao.yaml
+          echo "produção: $(grep -c '^kind:' render/producao.yaml) objetos"
+      # Varre a configuração do manifesto já renderizado de produção. A
+      # integridade referencial e a postura do contêiner ficam no
+      # conferir-manifestos.py, dentro do CI; o Trivy pega o resto.
+      - name: Varredura de configuração (Trivy)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: config
+          scan-ref: render/producao.yaml
+          severity: HIGH,CRITICAL
+          exit-code: "1"
