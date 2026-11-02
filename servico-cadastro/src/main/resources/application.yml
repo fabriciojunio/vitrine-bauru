@@ -93,9 +93,12 @@ vitrine:
       - padrao: /api/cadastro/auth/renovar
         capacidade: 30
         janela: 1m
-      # Entrada em um clique: cada chamada grava uma sessão no banco. Dez por
-      # minuto sobra para quem avalia e barra quem quer encher a tabela.
+      # Entrada em um clique: cada POST grava uma sessão no banco. Dez por
+      # minuto sobra para quem avalia e barra quem quer encher a tabela. O GET
+      # do mesmo caminho só diz se a demonstração está ligada e roda em toda
+      # página; contado junto, esgotava o balde e a tela escondia a entrada.
       - padrao: /api/cadastro/auth/demonstracao
+        metodo: POST
         capacidade: 10
         janela: 1m
   demo:

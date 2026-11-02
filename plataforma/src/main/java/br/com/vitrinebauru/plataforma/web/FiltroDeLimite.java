@@ -79,7 +79,12 @@ public class FiltroDeLimite extends OncePerRequestFilter {
         String caminho = requisicao.getRequestURI();
         return propriedades.regras().stream()
                 .filter(regra -> comparador.match(regra.padrao(), caminho))
+                .filter(regra -> valeParaOMetodo(regra, requisicao.getMethod()))
                 .findFirst();
+    }
+
+    private static boolean valeParaOMetodo(PropriedadesDeLimite.Regra regra, String metodo) {
+        return regra.metodo() == null || regra.metodo().isBlank() || regra.metodo().equalsIgnoreCase(metodo);
     }
 
     private Bucket criar(PropriedadesDeLimite.Regra regra) {

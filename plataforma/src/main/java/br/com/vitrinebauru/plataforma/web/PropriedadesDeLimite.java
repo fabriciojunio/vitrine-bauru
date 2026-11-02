@@ -26,10 +26,13 @@ public record PropriedadesDeLimite(boolean ativo, List<Regra> regras) {
 
     /**
      * @param padrão     caminho no formato do Spring, por exemplo /api/cadastro/auth/**
+     * @param metodo     só esse método HTTP gasta o balde; vazio vale para todos.
+     *                   Existe porque o mesmo caminho pode ter uma leitura barata
+     *                   e uma escrita que precisa de limite
      * @param capacidade quantas requisições cabem na janela
      * @param janela     tempo para o balde encher de novo
      */
-    public record Regra(String padrao, int capacidade, Duration janela) {
+    public record Regra(String padrao, String metodo, int capacidade, Duration janela) {
 
         public Regra {
             if (capacidade <= 0) {

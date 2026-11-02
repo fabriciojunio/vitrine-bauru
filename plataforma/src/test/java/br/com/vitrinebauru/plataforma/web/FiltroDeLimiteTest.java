@@ -25,12 +25,16 @@ class FiltroDeLimiteTest {
 
     private FiltroDeLimite filtroCom(boolean ativo, int capacidade) {
         var propriedades = new PropriedadesDeLimite(ativo, List.of(
-                new PropriedadesDeLimite.Regra("/api/cadastro/auth/**", capacidade, Duration.ofMinutes(1))));
+                new PropriedadesDeLimite.Regra("/api/cadastro/auth/**", null, capacidade, Duration.ofMinutes(1))));
         return new FiltroDeLimite(propriedades, new SimpleMeterRegistry());
     }
 
     private int tentar(FiltroDeLimite filtro, String caminho, String ip) throws Exception {
-        var requisicao = new MockHttpServletRequest("POST", caminho);
+        return tentar(filtro, "POST", caminho, ip);
+    }
+
+    private int tentar(FiltroDeLimite filtro, String metodo, String caminho, String ip) throws Exception {
+        var requisicao = new MockHttpServletRequest(metodo, caminho);
         requisicao.setRemoteAddr(ip);
         var resposta = new MockHttpServletResponse();
         filtro.doFilter(requisicao, resposta, mock(FilterChain.class));
@@ -71,6 +75,25 @@ class FiltroDeLimiteTest {
         for (int tentativa = 0; tentativa < 20; tentativa++) {
             assertThat(tentar(filtro, "/api/busca/produtos", "200.100.50.1")).isEqualTo(200);
         }
+    }
+
+    @Test
+    @DisplayName("regra com método só gasta o balde naquele método")
+    void regraComMetodoNaoContaOutroMetodo() throws Exception {
+        String demonstracao = "/api/cadastro/auth/demonstracao";
+        var filtro = new FiltroDeLimite(new PropriedadesDeLimite(true, List.of(
+                new PropriedadesDeLimite.Regra(demonstracao, "POST", 2, Duration.ofMinutes(1)))),
+                new SimpleMeterRegistry());
+
+        // Cada página consulta se a demonstração está ativa. Essa leitura não
+        // grava nada e não pode esgotar a entrada de quem vai clicar depois.
+        for (int consulta = 0; consulta < 20; consulta++) {
+            assertThat(tentar(filtro, "GET", demonstracao, "200.100.50.1")).isEqualTo(200);
+        }
+
+        assertThat(tentar(filtro, "POST", demonstracao, "200.100.50.1")).isEqualTo(200);
+        assertThat(tentar(filtro, "post", demonstracao, "200.100.50.1")).isEqualTo(200);
+        assertThat(tentar(filtro, "POST", demonstracao, "200.100.50.1")).isEqualTo(429);
     }
 
     @Test
@@ -140,9 +163,9 @@ class FiltroDeLimiteTest {
     @Test
     @DisplayName("regra sem capacidade não e aceita na configuração")
     void recusaRegraSemCapacidade() {
-        assertThatThrownBy(() -> new PropriedadesDeLimite.Regra("/api/**", 0, Duration.ofMinutes(1)))
+        assertThatThrownBy(() -> new PropriedadesDeLimite.Regra("/api/**", null, 0, Duration.ofMinutes(1)))
                 .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> new PropriedadesDeLimite.Regra("/api/**", 5, Duration.ZERO))
+        assertThatThrownBy(() -> new PropriedadesDeLimite.Regra("/api/**", null, 5, Duration.ZERO))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
