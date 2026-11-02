@@ -141,8 +141,17 @@ jobs:
         uses: kyverno/action-install-cli@fcee92fca5c883169ef9927acf543e0b5fc58289 # v0.2.0
         with:
           release: v1.19.2
-      # Em Enforce, o kyverno apply sai com erro se o manifesto violar qualquer
-      # regra. É a prova de que a postura que as políticas exigem é a que o
-      # manifesto de produção realmente tem.
+      # A política tem de recusar o que deve: cada caso de teste quebra uma regra
+      # e o kyverno test reprova se algum passar.
+      - name: As políticas recusam o que devem (kyverno test)
+        run: kyverno test k8s/politicas/testes
+      # E tem de aceitar o manifesto de produção. Em Enforce, o apply sai com erro
+      # se o manifesto violar alguma regra. Saída sem nenhum "pass" quer dizer que
+      # a política não casou recurso nenhum, e aí o verde não provaria nada.
       - name: As políticas valem para o manifesto de produção
-        run: kyverno apply render/politicas.yaml --resource render/producao.yaml
+        run: |
+          set -euo pipefail
+          kyverno apply render/politicas.yaml --resource render/producao.yaml | tee render/apply.txt
+          passou=$(grep -oE 'pass: [0-9]+' render/apply.txt | grep -oE '[0-9]+' | head -1)
+          echo "avaliações que passaram: ${passou:-0}"
+          [ "${passou:-0}" -gt 0 ]

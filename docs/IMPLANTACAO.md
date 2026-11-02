@@ -278,12 +278,18 @@ dois e varre a configuração com o Trivy; a integridade referencial continua no
 
 ### Políticas com Kyverno
 
-[`k8s/politicas/`](../k8s/politicas/) é um chart Helm com as políticas Kyverno
-que impõem a postura dos pods no cluster: não-root, sem escalar privilégio, raiz
-somente leitura, imagem sem `latest` e teto de memória. O chart começa em
-`Audit` e vira `Enforce` quando o cluster está limpo. O CI renderiza o chart em
-`Enforce` e roda `kyverno apply` contra o manifesto de produção, provando que a
-postura que as políticas exigem é a que o manifesto já tem.
+[`k8s/politicas/`](../k8s/politicas/) é um chart Helm com a política Kyverno
+(`ValidatingPolicy` em CEL, o formato atual; a `ClusterPolicy` antiga está
+depreciada no Kyverno 1.19) que impõe a postura dos pods no namespace da
+Vitrine: não-root, sem escalar privilégio, raiz somente leitura, imagem com tag
+fixa ou digest e teto de memória. O chart começa em `Audit` e vira `Enforce`
+quando o cluster está limpo.
+
+O CI prova as duas direções: o `kyverno test` roda os casos de
+[`k8s/politicas/testes/`](../k8s/politicas/testes/), em que cada pod ruim quebra
+uma regra e tem de ser recusado; e o `kyverno apply` contra o manifesto de
+produção tem de passar, com pelo menos uma avaliação registrada, para o verde
+não sair de uma política que não casou recurso nenhum.
 
 ### GitOps com Flux
 

@@ -1,0 +1,87 @@
+# Casos de teste da política de postura. Os dois primeiros têm de passar; cada
+# um dos outros quebra exatamente uma regra e tem de ser recusado.
+apiVersion: v1
+kind: Pod
+metadata: {name: correto, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda:1.0.0
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: digest-fixo, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda@sha256:0000000000000000000000000000000000000000000000000000000000000000
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: como-root, namespace: vitrine-bauru}
+spec:
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda:1.0.0
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: escala-privilegio, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda:1.0.0
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: true, readOnlyRootFilesystem: true}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: raiz-gravavel, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda:1.0.0
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: false}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: tag-latest, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda:latest
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: sem-tag, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda
+      resources: {limits: {memory: 256Mi}}
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}
+---
+apiVersion: v1
+kind: Pod
+metadata: {name: sem-limite, namespace: vitrine-bauru}
+spec:
+  securityContext: {runAsNonRoot: true, runAsUser: 10001}
+  containers:
+    - name: app
+      image: ghcr.io/fabriciojunio/vitrine-bauru/borda:1.0.0
+      securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}
