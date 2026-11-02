@@ -25,6 +25,10 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
+  // O retry existe para o relatório mostrar as duas tentativas, não para
+  // passar. Até 02/11/2026 quinze testes falhavam na primeira em toda execução
+  // e a CI seguia verde; um deles escondia a sessão derrubada por reuso.
+  failOnFlakyTests: !!process.env.CI,
   workers: 1,
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
 

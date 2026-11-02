@@ -81,9 +81,15 @@ test.describe('lado do empreendedor', () => {
     await page.goto('/painel/produtos');
 
     const cartao = page.getByRole('article').filter({ hasText: 'Pudim de leite' });
+    // A tela troca o estado antes da resposta, de propósito. Navegar logo em
+    // seguida cancelaria a gravação, então o teste espera o servidor confirmar.
+    const gravou = page.waitForResponse(
+      (resposta) => resposta.url().includes('/disponibilidade') && resposta.request().method() === 'PUT',
+    );
     await cartao.getByRole('button', { name: 'Marcar esgotado' }).click();
 
     await expect(cartao.getByText(/não aparece na busca/)).toBeVisible();
+    expect((await gravou).ok()).toBe(true);
 
     await expect(async () => {
       await page.goto('/?termo=pudim');
@@ -176,7 +182,11 @@ test.describe('lado da SEDECON', () => {
     const primeiro = page.getByRole('article').first();
     const nomeDaLoja = await primeiro.getByRole('heading').first().textContent();
 
+    const aprovou = page.waitForResponse(
+      (resposta) => resposta.url().includes('/aprovar') && resposta.request().method() === 'POST',
+    );
     await primeiro.getByRole('button', { name: /Aprovar e colocar no ar/ }).click();
+    expect((await aprovou).ok()).toBe(true);
 
     await expect(async () => {
       await page.goto('/lojas');
