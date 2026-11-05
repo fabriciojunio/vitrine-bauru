@@ -9,7 +9,7 @@
 # repositório do Maven, que é o que faria uma imagem de 800 MB virar a norma.
 
 # ---------------------------------------------------------------- construção
-FROM maven:3.9-eclipse-temurin-21 AS construcao
+FROM maven:3.9-eclipse-temurin-26 AS construcao
 
 WORKDIR /construcao
 
