@@ -52,7 +52,7 @@
     <tomcat-corrigido.version>10.1.59</tomcat-corrigido.version>
     <postgresql-corrigido.version>42.7.12</postgresql-corrigido.version>
     <httpclient5-corrigido.version>5.6.3</httpclient5-corrigido.version>
-    <httpcore5-corrigido.version>5.4.3</httpcore5-corrigido.version>
+    <httpcore5-corrigido.version>5.4.4</httpcore5-corrigido.version>
     <lz4-corrigido.version>1.11.4</lz4-corrigido.version>
     <snappy-corrigido.version>1.1.10.9</snappy-corrigido.version>
     <commons-lang3-corrigido.version>3.21.0</commons-lang3-corrigido.version>
