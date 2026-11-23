@@ -36,7 +36,7 @@ RUN mvn -B -q -pl ${MODULO} -am package -DskipTests
 RUN cp $(ls ${MODULO}/target/*.jar | grep -v sources | head -n 1) /construcao/aplicacao.jar
 
 # -------------------------------------------------------------------- imagem
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:24-jre-alpine
 
 # Usuário sem privilégio: um processo que não precisa de root não roda como
 # root, e container Java é justamente o caso em que isso nunca é necessário.
