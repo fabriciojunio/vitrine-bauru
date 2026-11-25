@@ -11,6 +11,10 @@ updates:
     groups:
       menores-e-correcoes:
         update-types: ["minor", "patch"]
+    ignore:
+      # A linha 2025.1 do Spring Cloud é do Spring Boot 4; sobe junto com ele.
+      - dependency-name: "org.springframework.cloud:spring-cloud-dependencies"
+        versions: [">=2025.1"]
     cooldown:
       default-days: 7
     commit-message:
