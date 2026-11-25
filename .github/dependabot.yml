@@ -11,6 +11,14 @@ updates:
     groups:
       menores-e-correcoes:
         update-types: ["minor", "patch"]
+    ignore:
+      # Versão principal muda API e entra como migração planejada e testada. Correção de
+      # segurança não passa por aqui e continua vindo.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+      # A linha 2025.1 do Spring Cloud é do Spring Boot 4; sobe junto com ele.
+      - dependency-name: "org.springframework.cloud:spring-cloud-dependencies"
+        versions: [">=2025.1"]
     cooldown:
       default-days: 7
     commit-message:
@@ -28,6 +36,11 @@ updates:
       default-days: 7
     commit-message:
       prefix: "build(deps)"
+    ignore:
+      # Versão principal muda API e entra como migração planejada e testada. Correção de
+      # segurança não passa por aqui e continua vindo.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
@@ -41,6 +54,14 @@ updates:
       default-days: 7
     commit-message:
       prefix: "build(deps)"
+    ignore:
+      # Versão principal muda API e entra como migração planejada e testada. Correção de
+      # segurança não passa por aqui e continua vindo.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+      # A etiqueta traz o JDK junto, e a troca para um JDK que não é LTS vinha como menor.
+      - dependency-name: "maven"
+        update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
