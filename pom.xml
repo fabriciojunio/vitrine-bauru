@@ -147,6 +147,14 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <!-- Antes do Spring Cloud, que traria peças de outra versão do Resilience4j. -->
+      <dependency>
+        <groupId>io.github.resilience4j</groupId>
+        <artifactId>resilience4j-bom</artifactId>
+        <version>${resilience4j.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
